@@ -1,0 +1,40 @@
+{
+  "train_epochs": 30,
+  "seed": 14,
+  "embeddings_lr": 0.0002,
+  "encoder_lr": 0.0005,
+  "learning_rate": 0.0005,
+  "mymodel_save_dir": "checkpoint/relation/element_eb/",
+  "embedding_name": "eb_embedding.bin",
+  "model_name": "eb_model.bin",
+  "weight_decay": 0,
+  "train_batch_size": 4,
+  "max_sent_len": 128,
+  "num_attention_heads": 4,
+  "test_size": 0.2,
+  "all_data_dir": "data/RRC_data/all/",
+  "mymodel_config_dir": "config/relation_base_config.json",
+  "pretrained_model_dir": "checkpoint/event_element/",
+  "vocab_dir": "pretrained_model/pytorch_electra_180g_large/vocab.txt",
+  "rel2label": {
+    "Causal": 0,
+    "Follow": 1,
+    "Accompany": 2,
+    "Concurrency": 3
+  },
+  "tag_to_score": {
+    "0": 6,
+    "1": 6,
+    "2": 6,
+    "3": 6
+  },
+  "do_train": true,
+  "do_eval": true,
+  "no_gpu": false,
+  "gradient_accumulation_steps": 1,
+  "optimize_on_cpu": false,
+  "fp16": false,
+  "loss_scale": 128,
+  "local_rank": -1,
+  "no_cuda": false
+}

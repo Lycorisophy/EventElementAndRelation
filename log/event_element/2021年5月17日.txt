@@ -1,0 +1,2430 @@
+C:\Anaconda3\python.exe D:/事件要素识别和事件关系识别流水线或联合模型/event_element_train.py
+05/17/2021 21:37:13 - INFO - utils.file_utils -   PyTorch version 1.5.0+cu101 available.
+2021-05-17 21:37:13.933840: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found
+2021-05-17 21:37:13.933966: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+Arguments:
+    train_epochs:                  30
+    seed:                          8
+    embeddings_lr:                 5e-05
+    encoder_lr:                    5e-05
+    learning_rate:                 5e-05
+    mymodel_save_dir:              checkpoint/event_element/
+    model_name:                    element_model.bin
+    role_lr:                       0.0
+    weight_decay:                  0.0
+    train_batch_size:              16
+    max_sent_len:                  128
+    num_attention_heads:           4
+    test_size:                     0.2
+    all_data_dir:                  data/bio_data/
+    train_data_dir:                data/bio_data/
+    test_data_dir:                 data/bio_data/
+    mymodel_config_dir:            config/event_element_config.json
+    pretrained_model_dir:          pretrained_model/pytorch_electra_180g_large/
+    vocab_dir:                     pretrained_model/pytorch_electra_180g_large/vocab.txt
+    START_TAG:                     [CLS]
+    STOP_TAG:                      [SEP]
+    MASK_TAG:                      [MASK]
+    tag_to_ix:                     {'o': 0, 'B-Time': 1, 'I-Time': 2, 'B-Location': 3, 'I-Location': 4, 'B-Object': 5, 'I-Object': 6, 'B-Participant': 7, 'I-Participant': 8, 'B-Means': 9, 'I-Means': 10, 'B-Denoter': 11, 'I-Denoter': 12, '[CLS]': 13, '[SEP]': 14, '[MASK]': 15}
+    ix_to_tag:                     {0: 'o', 1: 'B-Time', 2: 'I-Time', 3: 'B-Location', 4: 'I-Location', 5: 'B-Object', 6: 'I-Object', 7: 'B-Participant', 8: 'I-Participant', 9: 'B-Means', 10: 'I-Means', 11: 'B-Denoter', 12: 'I-Denoter', 13: '[CLS]', 14: '[SEP]', 15: '[MASK]'}
+    tag_to_tag:                    {'B-Time': 'Time', 'I-Time': 'Time', 'B-Location': 'Location', 'I-Location': 'Location', 'B-Object': 'Object', 'I-Object': 'Object', 'B-Participant': 'Participant', 'I-Participant': 'Participant', 'B-Means': 'Means', 'I-Means': 'Means', 'B-Denoter': 'Denoter', 'I-Denoter': 'Denoter', 'o': 'Other', '[CLS]': 'Other', '[SEP]': 'Other', '[MASK]': 'Other'}
+    tag_to_idx:                    {'Other': 0, 'Time': 1, 'Location': 2, 'Object': 3, 'Participant': 4, 'Means': 5, 'Denoter': 6}
+    rel2label:                     {'Causal': 0, 'Follow': 1, 'Accompany': 2, 'Concurrency': 3, 'Other': 4}
+    ix_to_idx:                     {0: 1, 1: 1, 2: 2, 3: 2, 4: 3, 5: 3, 6: 4, 7: 4, 8: 5, 9: 5, 10: 6, 11: 6, 12: 0, 13: 0, 14: 0, 15: 0}
+    tag_to_score:                  {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 10, 10: 10, 11: 10, 12: 10, 13: 10, 14: 10, 15: 10}
+    max_role_size:                 13
+    do_train:                      True
+    do_eval:                       True
+    no_gpu:                        False
+    gradient_accumulation_steps:   1
+    optimize_on_cpu:               False
+    fp16:                          False
+    loss_scale:                    128
+    local_rank:                    -1
+    no_cuda:                       False
+
+05/17/2021 21:37:16 - INFO - utils.process_control -   device: cuda n_gpu: 1, distributed training: False, 16-bits training: False
+Calling ElectraTokenizer.from_pretrained() with the path to a single file or url is deprecated
+05/17/2021 21:37:18 - INFO - utils.configuration_utils -   loading configuration file config/event_element_config.json
+05/17/2021 21:37:18 - INFO - utils.configuration_utils -   Model config ElectraConfig {
+  "attention_probs_dropout_prob": 0.1,
+  "embedding_size": 1024,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "electra",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 4,
+  "pad_token_id": 0,
+  "rnn_num_layers": 2,
+  "summary_activation": "gelu",
+  "summary_last_dropout": 0.1,
+  "summary_type": "first",
+  "summary_use_proj": true,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+{'return_dict': False, 'output_hidden_states': False, 'output_attentions': False, 'use_cache': True, 'torchscript': False, 'use_bfloat16': False, 'pruned_heads': {}, 'tie_word_embeddings': True, 'is_encoder_decoder': False, 'is_decoder': False, 'add_cross_attention': False, 'tie_encoder_decoder': False, 'max_length': 20, 'min_length': 0, 'do_sample': False, 'early_stopping': False, 'num_beams': 1, 'temperature': 1.0, 'top_k': 50, 'top_p': 1.0, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'no_repeat_ngram_size': 0, 'bad_words_ids': None, 'num_return_sequences': 1, 'chunk_size_feed_forward': 0, 'architectures': None, 'finetuning_task': None, 'id2label': {0: 'LABEL_0', 1: 'LABEL_1'}, 'label2id': {'LABEL_0': 0, 'LABEL_1': 1}, 'tokenizer_class': None, 'prefix': None, 'bos_token_id': None, 'pad_token_id': 0, 'eos_token_id': None, 'sep_token_id': None, 'decoder_start_token_id': None, 'task_specific_params': None, 'xla_device': None, '_name_or_path': '', 'rnn_num_layers': 2, 'model_type': 'electra', 'vocab_size': 21128, 'embedding_size': 1024, 'hidden_size': 1024, 'num_hidden_layers': 4, 'num_attention_heads': 16, 'intermediate_size': 4096, 'hidden_act': 'gelu', 'hidden_dropout_prob': 0.1, 'attention_probs_dropout_prob': 0.1, 'max_position_embeddings': 512, 'type_vocab_size': 2, 'initializer_range': 0.02, 'layer_norm_eps': 1e-12, 'summary_type': 'first', 'summary_use_proj': True, 'summary_activation': 'gelu', 'summary_last_dropout': 0.1}
+05/17/2021 21:37:19 - INFO - utils.modeling_utils -   loading weights file pretrained_model/pytorch_electra_180g_large/pytorch_model.bin
+05/17/2021 21:37:20 - WARNING - utils.modeling_utils -   Some weights of the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin were not used when initializing MyElectraModel: ['electra.encoder.layer.0.attention.self.query.weight', 'electra.encoder.layer.0.attention.self.query.bias', 'electra.encoder.layer.0.attention.self.key.weight', 'electra.encoder.layer.0.attention.self.key.bias', 'electra.encoder.layer.0.attention.self.value.weight', 'electra.encoder.layer.0.attention.self.value.bias', 'electra.encoder.layer.0.attention.output.dense.weight', 'electra.encoder.layer.0.attention.output.dense.bias', 'electra.encoder.layer.0.attention.output.LayerNorm.weight', 'electra.encoder.layer.0.attention.output.LayerNorm.bias', 'electra.encoder.layer.0.intermediate.dense.weight', 'electra.encoder.layer.0.intermediate.dense.bias', 'electra.encoder.layer.0.output.dense.weight', 'electra.encoder.layer.0.output.dense.bias', 'electra.encoder.layer.0.output.LayerNorm.weight', 'electra.encoder.layer.0.output.LayerNorm.bias', 'electra.encoder.layer.1.attention.self.query.weight', 'electra.encoder.layer.1.attention.self.query.bias', 'electra.encoder.layer.1.attention.self.key.weight', 'electra.encoder.layer.1.attention.self.key.bias', 'electra.encoder.layer.1.attention.self.value.weight', 'electra.encoder.layer.1.attention.self.value.bias', 'electra.encoder.layer.1.attention.output.dense.weight', 'electra.encoder.layer.1.attention.output.dense.bias', 'electra.encoder.layer.1.attention.output.LayerNorm.weight', 'electra.encoder.layer.1.attention.output.LayerNorm.bias', 'electra.encoder.layer.1.intermediate.dense.weight', 'electra.encoder.layer.1.intermediate.dense.bias', 'electra.encoder.layer.1.output.dense.weight', 'electra.encoder.layer.1.output.dense.bias', 'electra.encoder.layer.1.output.LayerNorm.weight', 'electra.encoder.layer.1.output.LayerNorm.bias', 'electra.encoder.layer.2.attention.self.query.weight', 'electra.encoder.layer.2.attention.self.query.bias', 'electra.encoder.layer.2.attention.self.key.weight', 'electra.encoder.layer.2.attention.self.key.bias', 'electra.encoder.layer.2.attention.self.value.weight', 'electra.encoder.layer.2.attention.self.value.bias', 'electra.encoder.layer.2.attention.output.dense.weight', 'electra.encoder.layer.2.attention.output.dense.bias', 'electra.encoder.layer.2.attention.output.LayerNorm.weight', 'electra.encoder.layer.2.attention.output.LayerNorm.bias', 'electra.encoder.layer.2.intermediate.dense.weight', 'electra.encoder.layer.2.intermediate.dense.bias', 'electra.encoder.layer.2.output.dense.weight', 'electra.encoder.layer.2.output.dense.bias', 'electra.encoder.layer.2.output.LayerNorm.weight', 'electra.encoder.layer.2.output.LayerNorm.bias', 'electra.encoder.layer.3.attention.self.query.weight', 'electra.encoder.layer.3.attention.self.query.bias', 'electra.encoder.layer.3.attention.self.key.weight', 'electra.encoder.layer.3.attention.self.key.bias', 'electra.encoder.layer.3.attention.self.value.weight', 'electra.encoder.layer.3.attention.self.value.bias', 'electra.encoder.layer.3.attention.output.dense.weight', 'electra.encoder.layer.3.attention.output.dense.bias', 'electra.encoder.layer.3.attention.output.LayerNorm.weight', 'electra.encoder.layer.3.attention.output.LayerNorm.bias', 'electra.encoder.layer.3.intermediate.dense.weight', 'electra.encoder.layer.3.intermediate.dense.bias', 'electra.encoder.layer.3.output.dense.weight', 'electra.encoder.layer.3.output.dense.bias', 'electra.encoder.layer.3.output.LayerNorm.weight', 'electra.encoder.layer.3.output.LayerNorm.bias', 'electra.encoder.layer.4.attention.self.query.weight', 'electra.encoder.layer.4.attention.self.query.bias', 'electra.encoder.layer.4.attention.self.key.weight', 'electra.encoder.layer.4.attention.self.key.bias', 'electra.encoder.layer.4.attention.self.value.weight', 'electra.encoder.layer.4.attention.self.value.bias', 'electra.encoder.layer.4.attention.output.dense.weight', 'electra.encoder.layer.4.attention.output.dense.bias', 'electra.encoder.layer.4.attention.output.LayerNorm.weight', 'electra.encoder.layer.4.attention.output.LayerNorm.bias', 'electra.encoder.layer.4.intermediate.dense.weight', 'electra.encoder.layer.4.intermediate.dense.bias', 'electra.encoder.layer.4.output.dense.weight', 'electra.encoder.layer.4.output.dense.bias', 'electra.encoder.layer.4.output.LayerNorm.weight', 'electra.encoder.layer.4.output.LayerNorm.bias', 'electra.encoder.layer.5.attention.self.query.weight', 'electra.encoder.layer.5.attention.self.query.bias', 'electra.encoder.layer.5.attention.self.key.weight', 'electra.encoder.layer.5.attention.self.key.bias', 'electra.encoder.layer.5.attention.self.value.weight', 'electra.encoder.layer.5.attention.self.value.bias', 'electra.encoder.layer.5.attention.output.dense.weight', 'electra.encoder.layer.5.attention.output.dense.bias', 'electra.encoder.layer.5.attention.output.LayerNorm.weight', 'electra.encoder.layer.5.attention.output.LayerNorm.bias', 'electra.encoder.layer.5.intermediate.dense.weight', 'electra.encoder.layer.5.intermediate.dense.bias', 'electra.encoder.layer.5.output.dense.weight', 'electra.encoder.layer.5.output.dense.bias', 'electra.encoder.layer.5.output.LayerNorm.weight', 'electra.encoder.layer.5.output.LayerNorm.bias', 'electra.encoder.layer.6.attention.self.query.weight', 'electra.encoder.layer.6.attention.self.query.bias', 'electra.encoder.layer.6.attention.self.key.weight', 'electra.encoder.layer.6.attention.self.key.bias', 'electra.encoder.layer.6.attention.self.value.weight', 'electra.encoder.layer.6.attention.self.value.bias', 'electra.encoder.layer.6.attention.output.dense.weight', 'electra.encoder.layer.6.attention.output.dense.bias', 'electra.encoder.layer.6.attention.output.LayerNorm.weight', 'electra.encoder.layer.6.attention.output.LayerNorm.bias', 'electra.encoder.layer.6.intermediate.dense.weight', 'electra.encoder.layer.6.intermediate.dense.bias', 'electra.encoder.layer.6.output.dense.weight', 'electra.encoder.layer.6.output.dense.bias', 'electra.encoder.layer.6.output.LayerNorm.weight', 'electra.encoder.layer.6.output.LayerNorm.bias', 'electra.encoder.layer.7.attention.self.query.weight', 'electra.encoder.layer.7.attention.self.query.bias', 'electra.encoder.layer.7.attention.self.key.weight', 'electra.encoder.layer.7.attention.self.key.bias', 'electra.encoder.layer.7.attention.self.value.weight', 'electra.encoder.layer.7.attention.self.value.bias', 'electra.encoder.layer.7.attention.output.dense.weight', 'electra.encoder.layer.7.attention.output.dense.bias', 'electra.encoder.layer.7.attention.output.LayerNorm.weight', 'electra.encoder.layer.7.attention.output.LayerNorm.bias', 'electra.encoder.layer.7.intermediate.dense.weight', 'electra.encoder.layer.7.intermediate.dense.bias', 'electra.encoder.layer.7.output.dense.weight', 'electra.encoder.layer.7.output.dense.bias', 'electra.encoder.layer.7.output.LayerNorm.weight', 'electra.encoder.layer.7.output.LayerNorm.bias', 'electra.encoder.layer.8.attention.self.query.weight', 'electra.encoder.layer.8.attention.self.query.bias', 'electra.encoder.layer.8.attention.self.key.weight', 'electra.encoder.layer.8.attention.self.key.bias', 'electra.encoder.layer.8.attention.self.value.weight', 'electra.encoder.layer.8.attention.self.value.bias', 'electra.encoder.layer.8.attention.output.dense.weight', 'electra.encoder.layer.8.attention.output.dense.bias', 'electra.encoder.layer.8.attention.output.LayerNorm.weight', 'electra.encoder.layer.8.attention.output.LayerNorm.bias', 'electra.encoder.layer.8.intermediate.dense.weight', 'electra.encoder.layer.8.intermediate.dense.bias', 'electra.encoder.layer.8.output.dense.weight', 'electra.encoder.layer.8.output.dense.bias', 'electra.encoder.layer.8.output.LayerNorm.weight', 'electra.encoder.layer.8.output.LayerNorm.bias', 'electra.encoder.layer.9.attention.self.query.weight', 'electra.encoder.layer.9.attention.self.query.bias', 'electra.encoder.layer.9.attention.self.key.weight', 'electra.encoder.layer.9.attention.self.key.bias', 'electra.encoder.layer.9.attention.self.value.weight', 'electra.encoder.layer.9.attention.self.value.bias', 'electra.encoder.layer.9.attention.output.dense.weight', 'electra.encoder.layer.9.attention.output.dense.bias', 'electra.encoder.layer.9.attention.output.LayerNorm.weight', 'electra.encoder.layer.9.attention.output.LayerNorm.bias', 'electra.encoder.layer.9.intermediate.dense.weight', 'electra.encoder.layer.9.intermediate.dense.bias', 'electra.encoder.layer.9.output.dense.weight', 'electra.encoder.layer.9.output.dense.bias', 'electra.encoder.layer.9.output.LayerNorm.weight', 'electra.encoder.layer.9.output.LayerNorm.bias', 'electra.encoder.layer.10.attention.self.query.weight', 'electra.encoder.layer.10.attention.self.query.bias', 'electra.encoder.layer.10.attention.self.key.weight', 'electra.encoder.layer.10.attention.self.key.bias', 'electra.encoder.layer.10.attention.self.value.weight', 'electra.encoder.layer.10.attention.self.value.bias', 'electra.encoder.layer.10.attention.output.dense.weight', 'electra.encoder.layer.10.attention.output.dense.bias', 'electra.encoder.layer.10.attention.output.LayerNorm.weight', 'electra.encoder.layer.10.attention.output.LayerNorm.bias', 'electra.encoder.layer.10.intermediate.dense.weight', 'electra.encoder.layer.10.intermediate.dense.bias', 'electra.encoder.layer.10.output.dense.weight', 'electra.encoder.layer.10.output.dense.bias', 'electra.encoder.layer.10.output.LayerNorm.weight', 'electra.encoder.layer.10.output.LayerNorm.bias', 'electra.encoder.layer.11.attention.self.query.weight', 'electra.encoder.layer.11.attention.self.query.bias', 'electra.encoder.layer.11.attention.self.key.weight', 'electra.encoder.layer.11.attention.self.key.bias', 'electra.encoder.layer.11.attention.self.value.weight', 'electra.encoder.layer.11.attention.self.value.bias', 'electra.encoder.layer.11.attention.output.dense.weight', 'electra.encoder.layer.11.attention.output.dense.bias', 'electra.encoder.layer.11.attention.output.LayerNorm.weight', 'electra.encoder.layer.11.attention.output.LayerNorm.bias', 'electra.encoder.layer.11.intermediate.dense.weight', 'electra.encoder.layer.11.intermediate.dense.bias', 'electra.encoder.layer.11.output.dense.weight', 'electra.encoder.layer.11.output.dense.bias', 'electra.encoder.layer.11.output.LayerNorm.weight', 'electra.encoder.layer.11.output.LayerNorm.bias', 'electra.encoder.layer.12.attention.self.query.weight', 'electra.encoder.layer.12.attention.self.query.bias', 'electra.encoder.layer.12.attention.self.key.weight', 'electra.encoder.layer.12.attention.self.key.bias', 'electra.encoder.layer.12.attention.self.value.weight', 'electra.encoder.layer.12.attention.self.value.bias', 'electra.encoder.layer.12.attention.output.dense.weight', 'electra.encoder.layer.12.attention.output.dense.bias', 'electra.encoder.layer.12.attention.output.LayerNorm.weight', 'electra.encoder.layer.12.attention.output.LayerNorm.bias', 'electra.encoder.layer.12.intermediate.dense.weight', 'electra.encoder.layer.12.intermediate.dense.bias', 'electra.encoder.layer.12.output.dense.weight', 'electra.encoder.layer.12.output.dense.bias', 'electra.encoder.layer.12.output.LayerNorm.weight', 'electra.encoder.layer.12.output.LayerNorm.bias', 'electra.encoder.layer.13.attention.self.query.weight', 'electra.encoder.layer.13.attention.self.query.bias', 'electra.encoder.layer.13.attention.self.key.weight', 'electra.encoder.layer.13.attention.self.key.bias', 'electra.encoder.layer.13.attention.self.value.weight', 'electra.encoder.layer.13.attention.self.value.bias', 'electra.encoder.layer.13.attention.output.dense.weight', 'electra.encoder.layer.13.attention.output.dense.bias', 'electra.encoder.layer.13.attention.output.LayerNorm.weight', 'electra.encoder.layer.13.attention.output.LayerNorm.bias', 'electra.encoder.layer.13.intermediate.dense.weight', 'electra.encoder.layer.13.intermediate.dense.bias', 'electra.encoder.layer.13.output.dense.weight', 'electra.encoder.layer.13.output.dense.bias', 'electra.encoder.layer.13.output.LayerNorm.weight', 'electra.encoder.layer.13.output.LayerNorm.bias', 'electra.encoder.layer.14.attention.self.query.weight', 'electra.encoder.layer.14.attention.self.query.bias', 'electra.encoder.layer.14.attention.self.key.weight', 'electra.encoder.layer.14.attention.self.key.bias', 'electra.encoder.layer.14.attention.self.value.weight', 'electra.encoder.layer.14.attention.self.value.bias', 'electra.encoder.layer.14.attention.output.dense.weight', 'electra.encoder.layer.14.attention.output.dense.bias', 'electra.encoder.layer.14.attention.output.LayerNorm.weight', 'electra.encoder.layer.14.attention.output.LayerNorm.bias', 'electra.encoder.layer.14.intermediate.dense.weight', 'electra.encoder.layer.14.intermediate.dense.bias', 'electra.encoder.layer.14.output.dense.weight', 'electra.encoder.layer.14.output.dense.bias', 'electra.encoder.layer.14.output.LayerNorm.weight', 'electra.encoder.layer.14.output.LayerNorm.bias', 'electra.encoder.layer.15.attention.self.query.weight', 'electra.encoder.layer.15.attention.self.query.bias', 'electra.encoder.layer.15.attention.self.key.weight', 'electra.encoder.layer.15.attention.self.key.bias', 'electra.encoder.layer.15.attention.self.value.weight', 'electra.encoder.layer.15.attention.self.value.bias', 'electra.encoder.layer.15.attention.output.dense.weight', 'electra.encoder.layer.15.attention.output.dense.bias', 'electra.encoder.layer.15.attention.output.LayerNorm.weight', 'electra.encoder.layer.15.attention.output.LayerNorm.bias', 'electra.encoder.layer.15.intermediate.dense.weight', 'electra.encoder.layer.15.intermediate.dense.bias', 'electra.encoder.layer.15.output.dense.weight', 'electra.encoder.layer.15.output.dense.bias', 'electra.encoder.layer.15.output.LayerNorm.weight', 'electra.encoder.layer.15.output.LayerNorm.bias', 'electra.encoder.layer.16.attention.self.query.weight', 'electra.encoder.layer.16.attention.self.query.bias', 'electra.encoder.layer.16.attention.self.key.weight', 'electra.encoder.layer.16.attention.self.key.bias', 'electra.encoder.layer.16.attention.self.value.weight', 'electra.encoder.layer.16.attention.self.value.bias', 'electra.encoder.layer.16.attention.output.dense.weight', 'electra.encoder.layer.16.attention.output.dense.bias', 'electra.encoder.layer.16.attention.output.LayerNorm.weight', 'electra.encoder.layer.16.attention.output.LayerNorm.bias', 'electra.encoder.layer.16.intermediate.dense.weight', 'electra.encoder.layer.16.intermediate.dense.bias', 'electra.encoder.layer.16.output.dense.weight', 'electra.encoder.layer.16.output.dense.bias', 'electra.encoder.layer.16.output.LayerNorm.weight', 'electra.encoder.layer.16.output.LayerNorm.bias', 'electra.encoder.layer.17.attention.self.query.weight', 'electra.encoder.layer.17.attention.self.query.bias', 'electra.encoder.layer.17.attention.self.key.weight', 'electra.encoder.layer.17.attention.self.key.bias', 'electra.encoder.layer.17.attention.self.value.weight', 'electra.encoder.layer.17.attention.self.value.bias', 'electra.encoder.layer.17.attention.output.dense.weight', 'electra.encoder.layer.17.attention.output.dense.bias', 'electra.encoder.layer.17.attention.output.LayerNorm.weight', 'electra.encoder.layer.17.attention.output.LayerNorm.bias', 'electra.encoder.layer.17.intermediate.dense.weight', 'electra.encoder.layer.17.intermediate.dense.bias', 'electra.encoder.layer.17.output.dense.weight', 'electra.encoder.layer.17.output.dense.bias', 'electra.encoder.layer.17.output.LayerNorm.weight', 'electra.encoder.layer.17.output.LayerNorm.bias', 'electra.encoder.layer.18.attention.self.query.weight', 'electra.encoder.layer.18.attention.self.query.bias', 'electra.encoder.layer.18.attention.self.key.weight', 'electra.encoder.layer.18.attention.self.key.bias', 'electra.encoder.layer.18.attention.self.value.weight', 'electra.encoder.layer.18.attention.self.value.bias', 'electra.encoder.layer.18.attention.output.dense.weight', 'electra.encoder.layer.18.attention.output.dense.bias', 'electra.encoder.layer.18.attention.output.LayerNorm.weight', 'electra.encoder.layer.18.attention.output.LayerNorm.bias', 'electra.encoder.layer.18.intermediate.dense.weight', 'electra.encoder.layer.18.intermediate.dense.bias', 'electra.encoder.layer.18.output.dense.weight', 'electra.encoder.layer.18.output.dense.bias', 'electra.encoder.layer.18.output.LayerNorm.weight', 'electra.encoder.layer.18.output.LayerNorm.bias', 'electra.encoder.layer.19.attention.self.query.weight', 'electra.encoder.layer.19.attention.self.query.bias', 'electra.encoder.layer.19.attention.self.key.weight', 'electra.encoder.layer.19.attention.self.key.bias', 'electra.encoder.layer.19.attention.self.value.weight', 'electra.encoder.layer.19.attention.self.value.bias', 'electra.encoder.layer.19.attention.output.dense.weight', 'electra.encoder.layer.19.attention.output.dense.bias', 'electra.encoder.layer.19.attention.output.LayerNorm.weight', 'electra.encoder.layer.19.attention.output.LayerNorm.bias', 'electra.encoder.layer.19.intermediate.dense.weight', 'electra.encoder.layer.19.intermediate.dense.bias', 'electra.encoder.layer.19.output.dense.weight', 'electra.encoder.layer.19.output.dense.bias', 'electra.encoder.layer.19.output.LayerNorm.weight', 'electra.encoder.layer.19.output.LayerNorm.bias', 'electra.encoder.layer.20.attention.self.query.weight', 'electra.encoder.layer.20.attention.self.query.bias', 'electra.encoder.layer.20.attention.self.key.weight', 'electra.encoder.layer.20.attention.self.key.bias', 'electra.encoder.layer.20.attention.self.value.weight', 'electra.encoder.layer.20.attention.self.value.bias', 'electra.encoder.layer.20.attention.output.dense.weight', 'electra.encoder.layer.20.attention.output.dense.bias', 'electra.encoder.layer.20.attention.output.LayerNorm.weight', 'electra.encoder.layer.20.attention.output.LayerNorm.bias', 'electra.encoder.layer.20.intermediate.dense.weight', 'electra.encoder.layer.20.intermediate.dense.bias', 'electra.encoder.layer.20.output.dense.weight', 'electra.encoder.layer.20.output.dense.bias', 'electra.encoder.layer.20.output.LayerNorm.weight', 'electra.encoder.layer.20.output.LayerNorm.bias', 'electra.encoder.layer.21.attention.self.query.weight', 'electra.encoder.layer.21.attention.self.query.bias', 'electra.encoder.layer.21.attention.self.key.weight', 'electra.encoder.layer.21.attention.self.key.bias', 'electra.encoder.layer.21.attention.self.value.weight', 'electra.encoder.layer.21.attention.self.value.bias', 'electra.encoder.layer.21.attention.output.dense.weight', 'electra.encoder.layer.21.attention.output.dense.bias', 'electra.encoder.layer.21.attention.output.LayerNorm.weight', 'electra.encoder.layer.21.attention.output.LayerNorm.bias', 'electra.encoder.layer.21.intermediate.dense.weight', 'electra.encoder.layer.21.intermediate.dense.bias', 'electra.encoder.layer.21.output.dense.weight', 'electra.encoder.layer.21.output.dense.bias', 'electra.encoder.layer.21.output.LayerNorm.weight', 'electra.encoder.layer.21.output.LayerNorm.bias', 'electra.encoder.layer.22.attention.self.query.weight', 'electra.encoder.layer.22.attention.self.query.bias', 'electra.encoder.layer.22.attention.self.key.weight', 'electra.encoder.layer.22.attention.self.key.bias', 'electra.encoder.layer.22.attention.self.value.weight', 'electra.encoder.layer.22.attention.self.value.bias', 'electra.encoder.layer.22.attention.output.dense.weight', 'electra.encoder.layer.22.attention.output.dense.bias', 'electra.encoder.layer.22.attention.output.LayerNorm.weight', 'electra.encoder.layer.22.attention.output.LayerNorm.bias', 'electra.encoder.layer.22.intermediate.dense.weight', 'electra.encoder.layer.22.intermediate.dense.bias', 'electra.encoder.layer.22.output.dense.weight', 'electra.encoder.layer.22.output.dense.bias', 'electra.encoder.layer.22.output.LayerNorm.weight', 'electra.encoder.layer.22.output.LayerNorm.bias', 'electra.encoder.layer.23.attention.self.query.weight', 'electra.encoder.layer.23.attention.self.query.bias', 'electra.encoder.layer.23.attention.self.key.weight', 'electra.encoder.layer.23.attention.self.key.bias', 'electra.encoder.layer.23.attention.self.value.weight', 'electra.encoder.layer.23.attention.self.value.bias', 'electra.encoder.layer.23.attention.output.dense.weight', 'electra.encoder.layer.23.attention.output.dense.bias', 'electra.encoder.layer.23.attention.output.LayerNorm.weight', 'electra.encoder.layer.23.attention.output.LayerNorm.bias', 'electra.encoder.layer.23.intermediate.dense.weight', 'electra.encoder.layer.23.intermediate.dense.bias', 'electra.encoder.layer.23.output.dense.weight', 'electra.encoder.layer.23.output.dense.bias', 'electra.encoder.layer.23.output.LayerNorm.weight', 'electra.encoder.layer.23.output.LayerNorm.bias', 'electra.embeddings.position_ids', 'electra.embeddings.LayerNorm.weight', 'electra.embeddings.LayerNorm.bias']
+- This IS expected if you are initializing MyElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing MyElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+05/17/2021 21:37:20 - WARNING - utils.modeling_utils -   Some weights of MyElectraModel were not initialized from the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin and are newly initialized: ['electra.LayerNorm.weight', 'electra.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Epochs:   0%|          | 0/30 [00:00<?, ?it/s]..\torch\csrc\utils\python_arg_parser.cpp:756: UserWarning: This overload of addcmul_ is deprecated:
+	addcmul_(Number value, Tensor tensor1, Tensor tensor2)
+Consider using one of the following signatures instead:
+	addcmul_(Tensor tensor1, Tensor tensor2, *, Number value)
+05/17/2021 21:41:06 - INFO - utils.process_control -   mymodel训练损失:7111.9106,准确率为：7.99%,测试集准确率为：27.05%,测试集f1为：16.02%
+[[1.37328e+05 5.60000e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [2.53000e+02 1.03000e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [4.64000e+02 1.31100e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [4.31000e+02 1.02700e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [6.26000e+02 1.94000e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [1.40000e+01 2.70000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [9.23000e+02 1.47400e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]]
+
+
+P
+0.9608	0.8028	0.0	0.0	0.0	0.0	0.0
+
+R
+0.9806	0.083	-	-	-	-	-
+
+F1
+Epochs:   3%|▎         | 1/30 [03:46<1:49:25, 226.38s/it]05/17/2021 21:44:51 - INFO - utils.process_control -   mymodel训练损失:2416.5551,准确率为：35.48%,测试集准确率为：36.52%,测试集f1为：15.82%
+0.9706	0.1505	-	-	-	-	-	[[1.34874e+05 8.05400e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.28300e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.77500e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.45800e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 2.56600e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 4.10000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 2.39700e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]]
+
+
+P
+0.9436	1.0	0.0	0.0	0.0	0.0	0.0
+
+R
+1.0	0.073	-	-	-	-	-
+
+F1
+Epochs:   7%|▋         | 2/30 [07:30<1:45:22, 225.82s/it]05/17/2021 21:48:35 - INFO - utils.process_control -   mymodel训练损失:2357.3645,准确率为：36.11%,测试集准确率为：36.59%,测试集f1为：16.22%
+0.971	0.1361	-	-	-	-	-	[[1.37237e+05 5.69100e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.28300e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.77500e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.45800e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 2.56600e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 4.10000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 2.39700e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]]
+
+
+P
+0.9602	1.0	0.0	0.0	0.0	0.0	0.0
+
+R
+1.0	0.0843	-	-	-	-	-
+
+F1
+Epochs:  10%|█         | 3/30 [11:15<1:41:30, 225.56s/it]05/17/2021 21:52:20 - INFO - utils.process_control -   mymodel训练损失:2307.6287,准确率为：37.77%,测试集准确率为：41.48%,测试集f1为：17.43%
+0.9797	0.1556	-	-	-	-	-	[[1.37238e+05 5.63600e+03 1.60000e+01 0.00000e+00 2.00000e+00 2.90000e+01
+  7.00000e+00]
+ [0.00000e+00 9.85000e+02 2.87000e+02 0.00000e+00 6.00000e+00 5.00000e+00
+  0.00000e+00]
+ [1.00000e+00 1.75100e+03 3.00000e+00 0.00000e+00 2.00000e+00 1.70000e+01
+  1.00000e+00]
+ [2.00000e+00 1.43100e+03 0.00000e+00 0.00000e+00 3.00000e+00 2.10000e+01
+  1.00000e+00]
+ [1.00000e+00 2.23400e+03 3.00000e+00 0.00000e+00 4.00000e+01 2.71000e+02
+  1.70000e+01]
+ [0.00000e+00 4.10000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [8.80000e+01 2.16600e+03 0.00000e+00 0.00000e+00 2.00000e+00 3.90000e+01
+  1.02000e+02]]
+
+
+P
+0.9602	0.7677	0.0017	0.0	0.0156	0.0	0.0426
+
+R
+0.9993	0.0692	0.0097	-	0.7273	0.0	0.7969
+
+F1
+Epochs:  13%|█▎        | 4/30 [15:00<1:37:39, 225.36s/it]05/17/2021 21:56:05 - INFO - utils.process_control -   mymodel训练损失:2272.6399,准确率为：46.32%,测试集准确率为：53.84%,测试集f1为：22.51%
+0.9794	0.1269	0.0029	-	0.0305	-	0.0808	[[1.37356e+05 4.82100e+03 1.16000e+02 2.60000e+02 6.10000e+01 2.35000e+02
+  7.90000e+01]
+ [2.00000e+00 3.18000e+02 8.31000e+02 4.10000e+01 6.00000e+01 2.30000e+01
+  8.00000e+00]
+ [4.40000e+01 1.02700e+03 3.10000e+01 5.41000e+02 3.50000e+01 6.50000e+01
+  3.20000e+01]
+ [9.20000e+01 9.90000e+02 2.30000e+01 6.20000e+01 1.03000e+02 1.03000e+02
+  8.50000e+01]
+ [6.80000e+01 1.23700e+03 3.40000e+01 1.01000e+02 1.81000e+02 8.70000e+02
+  7.50000e+01]
+ [2.00000e+00 3.60000e+01 0.00000e+00 0.00000e+00 2.00000e+00 0.00000e+00
+  1.00000e+00]
+ [5.70000e+02 1.13700e+03 1.50000e+01 4.20000e+01 2.20000e+01 4.50000e+01
+  5.66000e+02]]
+
+
+P
+0.961	0.2479	0.0175	0.0425	0.0705	0.0	0.2361
+
+R
+0.9944	0.0332	0.0295	0.0592	0.3901	0.0	0.669
+
+F1
+Epochs:  17%|█▋        | 5/30 [18:45<1:33:50, 225.21s/it]05/17/2021 21:59:50 - INFO - utils.process_control -   mymodel训练损失:2237.5730,准确率为：54.80%,测试集准确率为：58.02%,测试集f1为：24.32%
+0.9774	0.0586	0.0219	0.0495	0.1195	-	0.3491	[[1.37454e+05 4.39600e+03 1.45000e+02 2.97000e+02 9.60000e+01 3.96000e+02
+  1.44000e+02]
+ [0.00000e+00 2.81000e+02 9.02000e+02 4.10000e+01 3.00000e+01 2.50000e+01
+  4.00000e+00]
+ [7.70000e+01 7.59000e+02 3.90000e+01 7.23000e+02 4.00000e+01 1.13000e+02
+  2.40000e+01]
+ [1.61000e+02 7.48000e+02 3.20000e+01 8.10000e+01 1.85000e+02 1.38000e+02
+  1.13000e+02]
+ [6.30000e+01 8.37000e+02 5.30000e+01 1.18000e+02 2.24000e+02 1.20800e+03
+  6.30000e+01]
+ [3.00000e+00 2.80000e+01 0.00000e+00 0.00000e+00 1.00000e+00 3.00000e+00
+  6.00000e+00]
+ [8.49000e+02 6.48000e+02 2.00000e+01 3.00000e+01 2.60000e+01 6.30000e+01
+  7.61000e+02]]
+
+
+P
+0.9617	0.219	0.022	0.0556	0.0873	0.0732	0.3175
+
+R
+0.9917	0.0365	0.0327	0.0628	0.3721	0.0015	0.6825
+
+F1
+Epochs:  20%|██        | 6/30 [22:30<1:30:01, 225.06s/it]05/17/2021 22:03:35 - INFO - utils.process_control -   mymodel训练损失:2216.2399,准确率为：59.09%,测试集准确率为：59.38%,测试集f1为：24.59%
+0.9765	0.0626	0.0263	0.059	0.1414	0.003	0.4334	[[1.37556e+05 4.29300e+03 1.26000e+02 3.78000e+02 1.03000e+02 3.13000e+02
+  1.59000e+02]
+ [4.00000e+00 2.90000e+02 9.12000e+02 3.90000e+01 1.70000e+01 1.40000e+01
+  7.00000e+00]
+ [9.60000e+01 5.96000e+02 3.20000e+01 9.29000e+02 3.80000e+01 5.50000e+01
+  2.90000e+01]
+ [2.22000e+02 6.85000e+02 2.60000e+01 1.12000e+02 2.27000e+02 7.00000e+01
+  1.16000e+02]
+ [9.10000e+01 8.46000e+02 4.80000e+01 1.65000e+02 2.31000e+02 1.10900e+03
+  7.60000e+01]
+ [5.00000e+00 2.60000e+01 0.00000e+00 0.00000e+00 1.00000e+00 2.00000e+00
+  7.00000e+00]
+ [9.97000e+02 5.29000e+02 1.40000e+01 3.50000e+01 1.40000e+01 2.80000e+01
+  7.80000e+02]]
+
+
+P
+0.9624	0.226	0.018	0.0768	0.09	0.0488	0.3254
+
+R
+0.9898	0.0399	0.0276	0.0676	0.3661	0.0013	0.6644
+
+F1
+Epochs:  23%|██▎       | 7/30 [26:15<1:26:13, 224.95s/it]05/17/2021 22:07:20 - INFO - utils.process_control -   mymodel训练损失:2203.2261,准确率为：61.55%,测试集准确率为：61.56%,测试集f1为：25.84%
+0.9759	0.0679	0.0218	0.0719	0.1445	0.0025	0.4369	[[1.37392e+05 4.28600e+03 1.68000e+02 4.80000e+02 1.25000e+02 3.42000e+02
+  1.35000e+02]
+ [1.00000e+00 2.88000e+02 9.38000e+02 3.60000e+01 8.00000e+00 9.00000e+00
+  3.00000e+00]
+ [4.00000e+01 4.88000e+02 6.10000e+01 1.06600e+03 3.60000e+01 6.40000e+01
+  2.00000e+01]
+ [1.14000e+02 6.54000e+02 3.40000e+01 1.85000e+02 3.06000e+02 8.40000e+01
+  8.10000e+01]
+ [3.60000e+01 7.56000e+02 5.70000e+01 1.75000e+02 2.55000e+02 1.23600e+03
+  5.10000e+01]
+ [3.00000e+00 2.70000e+01 0.00000e+00 1.00000e+00 2.00000e+00 2.00000e+00
+  6.00000e+00]
+ [8.31000e+02 5.99000e+02 1.60000e+01 7.20000e+01 2.80000e+01 4.30000e+01
+  8.08000e+02]]
+
+
+P
+0.9613	0.2245	0.0344	0.1269	0.0994	0.0488	0.3371
+
+R
+0.9926	0.0406	0.0479	0.0918	0.3355	0.0011	0.7319
+
+F1
+Epochs:  27%|██▋       | 8/30 [30:00<1:22:31, 225.08s/it]05/17/2021 22:11:05 - INFO - utils.process_control -   mymodel训练损失:2194.0868,准确率为：63.52%,测试集准确率为：62.94%,测试集f1为：26.12%
+0.9767	0.0687	0.04	0.1065	0.1533	0.0022	0.4616	[[1.37444e+05 4.41900e+03 1.14000e+02 3.08000e+02 1.53000e+02 3.40000e+02
+  1.50000e+02]
+ [3.00000e+00 3.19000e+02 8.91000e+02 3.00000e+01 1.80000e+01 1.60000e+01
+  6.00000e+00]
+ [5.40000e+01 5.89000e+02 5.00000e+01 9.36000e+02 4.50000e+01 7.90000e+01
+  2.20000e+01]
+ [1.30000e+02 6.19000e+02 2.30000e+01 1.54000e+02 3.67000e+02 8.30000e+01
+  8.20000e+01]
+ [4.50000e+01 7.58000e+02 3.40000e+01 1.05000e+02 2.86000e+02 1.28900e+03
+  4.90000e+01]
+ [4.00000e+00 2.30000e+01 0.00000e+00 0.00000e+00 4.00000e+00 1.00000e+00
+  9.00000e+00]
+ [8.93000e+02 5.49000e+02 1.00000e+01 2.90000e+01 3.30000e+01 3.80000e+01
+  8.45000e+02]]
+
+
+P
+0.9616	0.2486	0.0282	0.1056	0.1115	0.0244	0.3525
+
+R
+0.9919	0.0438	0.0446	0.0986	0.3157	0.0005	0.7266
+
+F1
+Epochs:  30%|███       | 9/30 [33:45<1:18:47, 225.11s/it]05/17/2021 22:14:50 - INFO - utils.process_control -   mymodel训练损失:2186.7378,准确率为：65.14%,测试集准确率为：63.69%,测试集f1为：26.43%
+0.9765	0.0745	0.0345	0.102	0.1647	0.0011	0.4747	[[1.37394e+05 4.07700e+03 1.09000e+02 2.87000e+02 2.49000e+02 6.88000e+02
+  1.24000e+02]
+ [2.00000e+00 3.02000e+02 8.84000e+02 3.00000e+01 2.10000e+01 4.00000e+01
+  4.00000e+00]
+ [3.10000e+01 5.12000e+02 6.00000e+01 9.21000e+02 6.60000e+01 1.65000e+02
+  2.00000e+01]
+ [8.60000e+01 5.06000e+02 2.10000e+01 1.64000e+02 4.79000e+02 1.42000e+02
+  6.00000e+01]
+ [2.80000e+01 4.63000e+02 2.80000e+01 8.30000e+01 2.97000e+02 1.63800e+03
+  2.90000e+01]
+ [2.00000e+00 2.30000e+01 0.00000e+00 0.00000e+00 3.00000e+00 6.00000e+00
+  7.00000e+00]
+ [8.28000e+02 5.16000e+02 1.60000e+01 3.40000e+01 6.80000e+01 1.00000e+02
+  8.35000e+02]]
+
+
+P
+0.9613	0.2354	0.0338	0.1125	0.1157	0.1463	0.3484
+
+R
+0.9929	0.0472	0.0537	0.108	0.2511	0.0022	0.7739
+
+F1
+Epochs:  33%|███▎      | 10/30 [37:31<1:15:04, 225.23s/it]05/17/2021 22:18:35 - INFO - utils.process_control -   mymodel训练损失:2180.9745,准确率为：66.34%,测试集准确率为：64.55%,测试集f1为：26.67%
+0.9769	0.0786	0.0415	0.1102	0.1584	0.0043	0.4804	[[1.37442e+05 4.06800e+03 1.37000e+02 3.47000e+02 2.55000e+02 5.43000e+02
+  1.36000e+02]
+ [3.00000e+00 2.85000e+02 9.26000e+02 2.60000e+01 1.60000e+01 2.30000e+01
+  4.00000e+00]
+ [3.40000e+01 4.58000e+02 8.10000e+01 9.94000e+02 6.20000e+01 1.19000e+02
+  2.70000e+01]
+ [1.01000e+02 4.76000e+02 2.70000e+01 1.81000e+02 4.94000e+02 1.06000e+02
+  7.30000e+01]
+ [4.00000e+01 5.01000e+02 3.70000e+01 9.80000e+01 3.09000e+02 1.54700e+03
+  3.40000e+01]
+ [3.00000e+00 2.00000e+01 0.00000e+00 0.00000e+00 7.00000e+00 4.00000e+00
+  7.00000e+00]
+ [9.10000e+02 4.81000e+02 1.60000e+01 3.60000e+01 5.60000e+01 5.60000e+01
+  8.42000e+02]]
+
+
+P
+0.9616	0.2221	0.0456	0.1241	0.1204	0.0976	0.3513
+
+R
+0.9921	0.0453	0.0662	0.1076	0.2577	0.0017	0.7498
+
+F1
+Epochs:  37%|███▋      | 11/30 [41:15<1:11:16, 225.07s/it]05/17/2021 22:22:21 - INFO - utils.process_control -   mymodel训练损失:2175.5555,准确率为：67.53%,测试集准确率为：64.70%,测试集f1为：26.87%
+0.9766	0.0753	0.054	0.1153	0.1641	0.0033	0.4784	[[1.37482e+05 3.97300e+03 1.49000e+02 3.17000e+02 3.20000e+02 5.47000e+02
+  1.40000e+02]
+ [3.00000e+00 2.78000e+02 9.37000e+02 2.30000e+01 1.50000e+01 2.30000e+01
+  4.00000e+00]
+ [4.00000e+01 4.55000e+02 9.10000e+01 9.73000e+02 7.80000e+01 1.13000e+02
+  2.50000e+01]
+ [1.00000e+02 4.19000e+02 3.30000e+01 1.75000e+02 5.62000e+02 1.02000e+02
+  6.70000e+01]
+ [4.30000e+01 4.67000e+02 4.50000e+01 9.10000e+01 3.30000e+02 1.55500e+03
+  3.50000e+01]
+ [3.00000e+00 1.90000e+01 0.00000e+00 0.00000e+00 7.00000e+00 4.00000e+00
+  8.00000e+00]
+ [9.41000e+02 4.18000e+02 1.40000e+01 3.30000e+01 7.40000e+01 6.20000e+01
+  8.55000e+02]]
+
+
+P
+0.9619	0.2167	0.0513	0.12	0.1286	0.0976	0.3567
+
+R
+0.9918	0.0461	0.0717	0.1086	0.2381	0.0017	0.754
+
+F1
+Epochs:  40%|████      | 12/30 [45:01<1:07:35, 225.33s/it]05/17/2021 22:26:06 - INFO - utils.process_control -   mymodel训练损失:2171.3391,准确率为：68.53%,测试集准确率为：64.70%,测试集f1为：26.76%
+0.9766	0.076	0.0598	0.114	0.167	0.0033	0.4843	[[1.37455e+05 4.44500e+03 1.05000e+02 2.51000e+02 1.63000e+02 3.61000e+02
+  1.48000e+02]
+ [5.00000e+00 3.35000e+02 8.86000e+02 2.10000e+01 1.30000e+01 1.70000e+01
+  6.00000e+00]
+ [4.30000e+01 6.23000e+02 7.90000e+01 8.76000e+02 4.10000e+01 8.10000e+01
+  3.20000e+01]
+ [1.04000e+02 6.14000e+02 2.00000e+01 1.48000e+02 4.19000e+02 8.10000e+01
+  7.20000e+01]
+ [3.60000e+01 7.53000e+02 2.90000e+01 7.70000e+01 3.04000e+02 1.32500e+03
+  4.20000e+01]
+ [3.00000e+00 2.70000e+01 0.00000e+00 0.00000e+00 2.00000e+00 2.00000e+00
+  7.00000e+00]
+ [9.20000e+02 5.05000e+02 8.00000e+00 2.50000e+01 3.70000e+01 3.20000e+01
+  8.70000e+02]]
+
+
+P
+0.9617	0.2611	0.0445	0.1015	0.1185	0.0488	0.363
+
+R
+0.992	0.0459	0.0701	0.1059	0.3105	0.0011	0.7392
+
+F1
+Epochs:  43%|████▎     | 13/30 [48:46<1:03:46, 225.09s/it]05/17/2021 22:29:51 - INFO - utils.process_control -   mymodel训练损失:2167.2320,准确率为：69.24%,测试集准确率为：65.21%,测试集f1为：27.52%
+0.9766	0.078	0.0544	0.1036	0.1715	0.0021	0.4868	[[1.37482e+05 3.87100e+03 1.35000e+02 3.42000e+02 3.08000e+02 6.13000e+02
+  1.77000e+02]
+ [4.00000e+00 2.87000e+02 9.22000e+02 1.90000e+01 1.20000e+01 3.30000e+01
+  6.00000e+00]
+ [3.60000e+01 4.05000e+02 9.90000e+01 9.97000e+02 7.00000e+01 1.34000e+02
+  3.40000e+01]
+ [9.90000e+01 3.99000e+02 2.90000e+01 1.96000e+02 5.47000e+02 1.12000e+02
+  7.60000e+01]
+ [4.10000e+01 3.71000e+02 3.70000e+01 9.80000e+01 3.42000e+02 1.63600e+03
+  4.10000e+01]
+ [3.00000e+00 1.80000e+01 0.00000e+00 1.00000e+00 7.00000e+00 5.00000e+00
+  7.00000e+00]
+ [9.46000e+02 3.61000e+02 1.10000e+01 3.60000e+01 6.90000e+01 6.40000e+01
+  9.10000e+02]]
+
+
+P
+0.9619	0.2237	0.0558	0.1344	0.1333	0.122	0.3796
+
+R
+0.9919	0.0502	0.0803	0.116	0.2524	0.0019	0.7274
+
+F1
+Epochs:  47%|████▋     | 14/30 [52:31<1:00:00, 225.00s/it]05/17/2021 22:33:35 - INFO - utils.process_control -   mymodel训练损失:2164.0207,准确率为：70.23%,测试集准确率为：65.41%,测试集f1为：27.54%
+0.9766	0.0821	0.0658	0.1246	0.1744	0.0038	0.4989	[[1.37423e+05 4.12800e+03 1.40000e+02 3.47000e+02 2.33000e+02 5.10000e+02
+  1.47000e+02]
+ [2.00000e+00 3.00000e+02 9.36000e+02 1.70000e+01 7.00000e+00 1.50000e+01
+  6.00000e+00]
+ [2.80000e+01 4.59000e+02 1.07000e+02 1.01700e+03 4.10000e+01 9.80000e+01
+  2.50000e+01]
+ [8.60000e+01 5.10000e+02 3.60000e+01 1.93000e+02 4.78000e+02 9.00000e+01
+  6.50000e+01]
+ [2.60000e+01 4.88000e+02 4.70000e+01 1.01000e+02 3.32000e+02 1.53300e+03
+  3.90000e+01]
+ [3.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 4.00000e+00 4.00000e+00
+  5.00000e+00]
+ [8.69000e+02 4.74000e+02 1.70000e+01 4.10000e+01 5.30000e+01 5.10000e+01
+  8.92000e+02]]
+
+
+P
+0.9615	0.2338	0.0603	0.1324	0.1294	0.0976	0.3721
+
+R
+0.9927	0.047	0.0834	0.1124	0.2892	0.0017	0.7566
+
+F1
+Epochs:  50%|█████     | 15/30 [56:15<56:11, 224.78s/it]  05/17/2021 22:37:19 - INFO - utils.process_control -   mymodel训练损失:2160.4679,准确率为：71.19%,测试集准确率为：65.11%,测试集f1为：27.43%
+0.9768	0.0783	0.07	0.1216	0.1788	0.0034	0.4989	[[1.37487e+05 3.87300e+03 1.52000e+02 5.56000e+02 2.23000e+02 4.83000e+02
+  1.54000e+02]
+ [2.00000e+00 2.87000e+02 9.34000e+02 3.70000e+01 7.00000e+00 1.20000e+01
+  4.00000e+00]
+ [3.20000e+01 3.06000e+02 9.70000e+01 1.20800e+03 3.30000e+01 7.50000e+01
+  2.40000e+01]
+ [1.06000e+02 4.42000e+02 4.20000e+01 2.52000e+02 4.63000e+02 8.80000e+01
+  6.50000e+01]
+ [4.00000e+01 4.48000e+02 5.10000e+01 1.70000e+02 3.17000e+02 1.49800e+03
+  4.20000e+01]
+ [3.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 4.00000e+00 4.00000e+00
+  5.00000e+00]
+ [9.81000e+02 3.71000e+02 1.40000e+01 7.00000e+01 4.50000e+01 4.80000e+01
+  8.68000e+02]]
+
+
+P
+0.9619	0.2237	0.0546	0.1728	0.1235	0.0976	0.3621
+
+R
+0.9916	0.0499	0.0752	0.1099	0.2903	0.0018	0.747
+
+F1
+Epochs:  53%|█████▎    | 16/30 [59:59<52:24, 224.64s/it]05/17/2021 22:41:04 - INFO - utils.process_control -   mymodel训练损失:2158.0370,准确率为：71.67%,测试集准确率为：65.80%,测试集f1为：27.25%
+0.9765	0.0816	0.0633	0.1343	0.1733	0.0036	0.4878	[[1.37462e+05 4.22000e+03 1.15000e+02 3.04000e+02 2.38000e+02 4.52000e+02
+  1.37000e+02]
+ [4.00000e+00 3.19000e+02 8.94000e+02 2.90000e+01 1.20000e+01 1.90000e+01
+  6.00000e+00]
+ [3.60000e+01 5.16000e+02 8.90000e+01 9.80000e+02 4.80000e+01 8.30000e+01
+  2.30000e+01]
+ [9.40000e+01 4.96000e+02 2.60000e+01 1.92000e+02 5.12000e+02 8.50000e+01
+  5.30000e+01]
+ [3.60000e+01 5.69000e+02 3.50000e+01 9.90000e+01 3.24000e+02 1.46900e+03
+  3.40000e+01]
+ [3.00000e+00 2.70000e+01 0.00000e+00 1.00000e+00 4.00000e+00 2.00000e+00
+  4.00000e+00]
+ [9.58000e+02 4.39000e+02 9.00000e+00 3.30000e+01 5.20000e+01 4.20000e+01
+  8.64000e+02]]
+
+
+P
+0.9618	0.2486	0.0501	0.1317	0.1263	0.0488	0.3605
+
+R
+0.9918	0.0484	0.0762	0.1172	0.2723	0.0009	0.7707
+
+F1
+Epochs:  57%|█████▋    | 17/30 [1:03:44<48:43, 224.85s/it]05/17/2021 22:44:51 - INFO - utils.process_control -   mymodel训练损失:2155.4081,准确率为：72.19%,测试集准确率为：65.81%,测试集f1为：27.60%
+0.9766	0.0811	0.0605	0.124	0.1725	0.0018	0.4912	[[1.37461e+05 4.15500e+03 1.33000e+02 3.63000e+02 2.42000e+02 4.33000e+02
+  1.41000e+02]
+ [3.00000e+00 3.12000e+02 9.14000e+02 2.50000e+01 9.00000e+00 1.40000e+01
+  6.00000e+00]
+ [3.50000e+01 4.53000e+02 1.02000e+02 1.04500e+03 3.90000e+01 7.40000e+01
+  2.70000e+01]
+ [9.00000e+01 4.85000e+02 2.90000e+01 2.01000e+02 5.08000e+02 9.00000e+01
+  5.50000e+01]
+ [3.50000e+01 5.77000e+02 3.80000e+01 1.15000e+02 3.41000e+02 1.42000e+03
+  4.00000e+01]
+ [3.00000e+00 2.50000e+01 0.00000e+00 1.00000e+00 4.00000e+00 2.00000e+00
+  6.00000e+00]
+ [9.36000e+02 4.29000e+02 1.20000e+01 3.60000e+01 5.20000e+01 4.30000e+01
+  8.89000e+02]]
+
+
+P
+0.9617	0.2432	0.0575	0.1379	0.1329	0.0488	0.3709
+
+R
+0.992	0.0485	0.0831	0.1125	0.2854	0.001	0.7637
+
+F1
+Epochs:  60%|██████    | 18/30 [1:07:31<45:04, 225.37s/it]05/17/2021 22:48:36 - INFO - utils.process_control -   mymodel训练损失:2152.4090,准确率为：72.97%,测试集准确率为：65.60%,测试集f1为：27.65%
+0.9767	0.0808	0.0679	0.1239	0.1813	0.0019	0.4993	[[1.3745e+05 4.0520e+03 9.9000e+01 3.4300e+02 3.8900e+02 4.6200e+02
+  1.3300e+02]
+ [4.0000e+00 3.3200e+02 8.7600e+02 3.1000e+01 1.4000e+01 2.1000e+01
+  5.0000e+00]
+ [3.1000e+01 4.6200e+02 8.9000e+01 9.9300e+02 9.1000e+01 7.9000e+01
+  3.0000e+01]
+ [7.1000e+01 3.8600e+02 2.3000e+01 1.9800e+02 6.5000e+02 7.8000e+01
+  5.2000e+01]
+ [2.9000e+01 5.0700e+02 3.3000e+01 1.0100e+02 3.7800e+02 1.4810e+03
+  3.7000e+01]
+ [3.0000e+00 2.3000e+01 0.0000e+00 2.0000e+00 7.0000e+00 2.0000e+00
+  4.0000e+00]
+ [9.2600e+02 3.9800e+02 1.0000e+01 3.7000e+01 9.9000e+01 3.8000e+01
+  8.8900e+02]]
+
+
+P
+0.9617	0.2588	0.0501	0.1358	0.1473	0.0488	0.3709
+
+R
+0.9923	0.0539	0.0788	0.1161	0.2322	0.0009	0.773
+
+F1
+Epochs:  63%|██████▎   | 19/30 [1:11:16<41:16, 225.17s/it]05/17/2021 22:52:21 - INFO - utils.process_control -   mymodel训练损失:2150.3171,准确率为：73.28%,测试集准确率为：66.47%,测试集f1为：27.87%
+0.9768	0.0892	0.0613	0.1252	0.1803	0.0018	0.5013	[[1.37467e+05 4.09700e+03 1.30000e+02 3.39000e+02 3.12000e+02 4.39000e+02
+  1.44000e+02]
+ [3.00000e+00 3.11000e+02 9.14000e+02 2.00000e+01 1.30000e+01 1.70000e+01
+  5.00000e+00]
+ [3.70000e+01 4.64000e+02 1.07000e+02 9.96000e+02 6.80000e+01 7.50000e+01
+  2.80000e+01]
+ [8.00000e+01 4.31000e+02 2.90000e+01 2.02000e+02 5.80000e+02 8.30000e+01
+  5.30000e+01]
+ [3.40000e+01 5.22000e+02 3.90000e+01 1.15000e+02 3.66000e+02 1.45300e+03
+  3.70000e+01]
+ [3.00000e+00 2.60000e+01 0.00000e+00 1.00000e+00 5.00000e+00 2.00000e+00
+  4.00000e+00]
+ [9.37000e+02 3.99000e+02 1.10000e+01 3.50000e+01 7.30000e+01 3.60000e+01
+  9.06000e+02]]
+
+
+P
+0.9618	0.2424	0.0603	0.1385	0.1426	0.0488	0.378
+
+R
+0.9921	0.0498	0.087	0.1183	0.2583	0.001	0.7698
+
+F1
+Epochs:  67%|██████▋   | 20/30 [1:15:01<37:32, 225.26s/it]05/17/2021 22:56:06 - INFO - utils.process_control -   mymodel训练损失:2148.2838,准确率为：73.89%,测试集准确率为：66.35%,测试集f1为：27.83%
+0.9767	0.0826	0.0712	0.1276	0.1838	0.0019	0.507	[[1.37505e+05 3.88500e+03 1.40000e+02 4.03000e+02 2.82000e+02 5.58000e+02
+  1.55000e+02]
+ [3.00000e+00 3.01000e+02 9.23000e+02 2.30000e+01 6.00000e+00 2.10000e+01
+  6.00000e+00]
+ [3.90000e+01 3.62000e+02 1.14000e+02 1.08200e+03 5.40000e+01 9.60000e+01
+  2.80000e+01]
+ [9.90000e+01 4.03000e+02 3.50000e+01 2.17000e+02 5.51000e+02 9.70000e+01
+  5.60000e+01]
+ [3.70000e+01 3.92000e+02 3.90000e+01 1.27000e+02 3.37000e+02 1.59300e+03
+  4.10000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 4.00000e+00 5.00000e+00
+  5.00000e+00]
+ [1.00800e+03 3.33000e+02 1.30000e+01 3.70000e+01 5.90000e+01 4.60000e+01
+  9.01000e+02]]
+
+
+P
+0.9621	0.2346	0.0642	0.1488	0.1313	0.122	0.3759
+
+R
+0.9914	0.0528	0.0902	0.1148	0.2606	0.0021	0.7559
+
+F1
+Epochs:  70%|███████   | 21/30 [1:18:46<33:46, 225.13s/it]05/17/2021 22:59:51 - INFO - utils.process_control -   mymodel训练损失:2146.4018,准确率为：74.47%,测试集准确率为：66.24%,测试集f1为：27.64%
+0.9765	0.0862	0.075	0.1296	0.1747	0.0041	0.5021	[[1.37482e+05 4.20000e+03 1.05000e+02 3.46000e+02 2.39000e+02 4.15000e+02
+  1.41000e+02]
+ [3.00000e+00 3.33000e+02 8.98000e+02 2.10000e+01 6.00000e+00 1.60000e+01
+  6.00000e+00]
+ [4.00000e+01 5.01000e+02 9.40000e+01 1.00200e+03 4.30000e+01 6.60000e+01
+  2.90000e+01]
+ [9.40000e+01 4.95000e+02 2.50000e+01 1.98000e+02 5.18000e+02 7.30000e+01
+  5.50000e+01]
+ [3.60000e+01 6.03000e+02 3.40000e+01 1.11000e+02 3.42000e+02 1.40100e+03
+  3.90000e+01]
+ [3.00000e+00 2.60000e+01 0.00000e+00 1.00000e+00 4.00000e+00 3.00000e+00
+  4.00000e+00]
+ [9.90000e+02 3.98000e+02 7.00000e+00 3.10000e+01 5.20000e+01 2.90000e+01
+  8.90000e+02]]
+
+
+P
+0.9619	0.2595	0.053	0.1358	0.1333	0.0732	0.3713
+
+R
+0.9916	0.0508	0.0808	0.1158	0.2841	0.0015	0.7646
+
+F1
+Epochs:  73%|███████▎  | 22/30 [1:22:31<30:00, 225.07s/it]05/17/2021 23:03:36 - INFO - utils.process_control -   mymodel训练损失:2144.9476,准确率为：74.96%,测试集准确率为：66.51%,测试集f1为：27.71%
+0.9765	0.085	0.064	0.125	0.1814	0.0029	0.4999	[[1.37482e+05 4.16000e+03 1.17000e+02 3.29000e+02 3.00000e+02 3.97000e+02
+  1.43000e+02]
+ [3.00000e+00 3.23000e+02 9.10000e+02 1.60000e+01 1.10000e+01 1.40000e+01
+  6.00000e+00]
+ [3.70000e+01 5.01000e+02 1.02000e+02 9.69000e+02 6.70000e+01 6.80000e+01
+  3.10000e+01]
+ [8.90000e+01 4.40000e+02 2.70000e+01 1.98000e+02 5.91000e+02 6.30000e+01
+  5.00000e+01]
+ [3.50000e+01 6.04000e+02 3.60000e+01 1.06000e+02 3.60000e+02 1.38500e+03
+  4.00000e+01]
+ [3.00000e+00 2.60000e+01 0.00000e+00 1.00000e+00 5.00000e+00 2.00000e+00
+  4.00000e+00]
+ [9.91000e+02 3.83000e+02 1.00000e+01 2.80000e+01 6.80000e+01 2.60000e+01
+  8.91000e+02]]
+
+
+P
+0.9619	0.2518	0.0575	0.1358	0.1403	0.0488	0.3717
+
+R
+0.9916	0.0502	0.0849	0.1202	0.2568	0.001	0.7648
+
+F1
+Epochs:  77%|███████▋  | 23/30 [1:26:16<26:15, 225.13s/it]05/17/2021 23:07:21 - INFO - utils.process_control -   mymodel训练损失:2143.4677,准确率为：75.14%,测试集准确率为：66.84%,测试集f1为：27.91%
+0.9765	0.0837	0.0685	0.1275	0.1815	0.002	0.5003	[[1.37474e+05 4.14800e+03 1.26000e+02 3.18000e+02 2.83000e+02 4.36000e+02
+  1.43000e+02]
+ [5.00000e+00 3.08000e+02 9.25000e+02 1.70000e+01 7.00000e+00 1.50000e+01
+  6.00000e+00]
+ [4.00000e+01 4.96000e+02 1.10000e+02 9.61000e+02 6.10000e+01 7.50000e+01
+  3.20000e+01]
+ [8.50000e+01 4.54000e+02 3.00000e+01 2.03000e+02 5.59000e+02 7.50000e+01
+  5.20000e+01]
+ [3.40000e+01 5.49000e+02 3.70000e+01 1.00000e+02 3.62000e+02 1.44300e+03
+  4.10000e+01]
+ [3.00000e+00 2.60000e+01 0.00000e+00 1.00000e+00 4.00000e+00 3.00000e+00
+  4.00000e+00]
+ [9.66000e+02 3.94000e+02 1.00000e+01 2.70000e+01 6.70000e+01 3.10000e+01
+  9.02000e+02]]
+
+
+P
+0.9618	0.2401	0.062	0.1392	0.1411	0.0732	0.3763
+
+R
+0.9918	0.0483	0.0889	0.1248	0.2695	0.0014	0.7644
+
+F1
+Epochs:  80%|████████  | 24/30 [1:30:01<22:30, 225.06s/it]05/17/2021 23:11:05 - INFO - utils.process_control -   mymodel训练损失:2141.7448,准确率为：75.68%,测试集准确率为：66.33%,测试集f1为：27.78%
+0.9766	0.0804	0.073	0.1316	0.1852	0.0028	0.5043	[[1.3749e+05 4.1120e+03 1.1100e+02 3.7100e+02 3.0100e+02 3.9800e+02
+  1.4500e+02]
+ [2.0000e+00 3.2500e+02 9.0500e+02 2.2000e+01 8.0000e+00 1.5000e+01
+  6.0000e+00]
+ [3.5000e+01 4.5400e+02 1.0500e+02 1.0260e+03 6.0000e+01 6.6000e+01
+  2.9000e+01]
+ [9.3000e+01 4.3800e+02 2.7000e+01 2.0300e+02 5.8300e+02 6.1000e+01
+  5.3000e+01]
+ [3.7000e+01 5.8600e+02 3.5000e+01 1.2700e+02 3.5800e+02 1.3830e+03
+  4.0000e+01]
+ [3.0000e+00 2.4000e+01 0.0000e+00 1.0000e+00 6.0000e+00 3.0000e+00
+  4.0000e+00]
+ [1.0020e+03 3.6500e+02 1.0000e+01 3.3000e+01 6.6000e+01 2.5000e+01
+  8.9600e+02]]
+
+
+P
+0.962	0.2533	0.0592	0.1392	0.1395	0.0732	0.3738
+
+R
+0.9915	0.0516	0.088	0.1139	0.259	0.0015	0.7639
+
+F1
+Epochs:  83%|████████▎ | 25/30 [1:33:45<18:43, 224.77s/it]05/17/2021 23:14:51 - INFO - utils.process_control -   mymodel训练损失:2140.5143,准确率为：75.76%,测试集准确率为：66.68%,测试集f1为：28.07%
+0.9765	0.0857	0.0708	0.1253	0.1814	0.003	0.502	[[1.3748e+05 4.0440e+03 1.4400e+02 4.0200e+02 3.0300e+02 4.1700e+02
+  1.3800e+02]
+ [5.0000e+00 3.0600e+02 9.2900e+02 2.0000e+01 7.0000e+00 1.1000e+01
+  5.0000e+00]
+ [3.1000e+01 4.0400e+02 1.1500e+02 1.0740e+03 5.8000e+01 6.7000e+01
+  2.6000e+01]
+ [8.5000e+01 4.0500e+02 3.4000e+01 2.2500e+02 5.8700e+02 7.3000e+01
+  4.9000e+01]
+ [3.4000e+01 5.2400e+02 4.5000e+01 1.3300e+02 3.7000e+02 1.4230e+03
+  3.7000e+01]
+ [3.0000e+00 2.4000e+01 0.0000e+00 1.0000e+00 6.0000e+00 3.0000e+00
+  4.0000e+00]
+ [9.6300e+02 3.7100e+02 1.2000e+01 4.7000e+01 7.3000e+01 3.0000e+01
+  9.0100e+02]]
+
+
+P
+0.9619	0.2385	0.0648	0.1543	0.1442	0.0732	0.3759
+
+R
+0.9919	0.0503	0.0899	0.1183	0.2635	0.0015	0.7767
+
+F1
+Epochs:  87%|████████▋ | 26/30 [1:37:30<14:59, 224.91s/it]05/17/2021 23:18:35 - INFO - utils.process_control -   mymodel训练损失:2139.4285,准确率为：76.12%,测试集准确率为：66.52%,测试集f1为：27.93%
+0.9767	0.0831	0.0753	0.1339	0.1864	0.0029	0.5066	[[1.37475e+05 4.07600e+03 1.17000e+02 4.04000e+02 2.82000e+02 4.43000e+02
+  1.31000e+02]
+ [5.00000e+00 3.21000e+02 9.04000e+02 2.60000e+01 6.00000e+00 1.60000e+01
+  5.00000e+00]
+ [3.10000e+01 4.00000e+02 1.08000e+02 1.09200e+03 4.60000e+01 7.20000e+01
+  2.60000e+01]
+ [9.00000e+01 4.32000e+02 2.80000e+01 2.21000e+02 5.63000e+02 7.50000e+01
+  4.90000e+01]
+ [3.30000e+01 5.15000e+02 3.30000e+01 1.36000e+02 3.54000e+02 1.46200e+03
+  3.30000e+01]
+ [3.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 6.00000e+00 3.00000e+00
+  4.00000e+00]
+ [9.67000e+02 3.79000e+02 1.10000e+01 4.60000e+01 6.90000e+01 3.30000e+01
+  8.92000e+02]]
+
+
+P
+0.9618	0.2502	0.0608	0.1516	0.138	0.0732	0.3721
+
+R
+0.9919	0.0522	0.0899	0.1147	0.267	0.0014	0.7825
+
+F1
+Epochs:  90%|█████████ | 27/30 [1:41:15<11:14, 224.80s/it]05/17/2021 23:22:20 - INFO - utils.process_control -   mymodel训练损失:2138.6656,准确率为：76.36%,测试集准确率为：66.91%,测试集f1为：28.07%
+0.9766	0.0864	0.0726	0.1306	0.1819	0.0028	0.5044	[[1.37487e+05 4.13700e+03 1.20000e+02 3.24000e+02 2.75000e+02 4.46000e+02
+  1.39000e+02]
+ [3.00000e+00 3.23000e+02 9.14000e+02 1.60000e+01 6.00000e+00 1.50000e+01
+  6.00000e+00]
+ [3.60000e+01 4.83000e+02 1.12000e+02 9.84000e+02 5.40000e+01 7.60000e+01
+  3.00000e+01]
+ [9.70000e+01 4.50000e+02 2.90000e+01 2.09000e+02 5.55000e+02 6.80000e+01
+  5.00000e+01]
+ [3.50000e+01 5.34000e+02 3.60000e+01 1.03000e+02 3.65000e+02 1.45700e+03
+  3.60000e+01]
+ [3.00000e+00 2.50000e+01 0.00000e+00 1.00000e+00 5.00000e+00 3.00000e+00
+  4.00000e+00]
+ [9.92000e+02 3.75000e+02 1.20000e+01 3.10000e+01 6.20000e+01 2.70000e+01
+  8.98000e+02]]
+
+
+P
+0.9619	0.2518	0.0631	0.1433	0.1422	0.0732	0.3746
+
+R
+0.9916	0.0511	0.0916	0.1253	0.2761	0.0014	0.7721
+
+F1
+Epochs:  93%|█████████▎| 28/30 [1:45:00<07:29, 224.85s/it]05/17/2021 23:26:04 - INFO - utils.process_control -   mymodel训练损失:2137.9217,准确率为：76.43%,测试集准确率为：67.34%,测试集f1为：27.97%
+0.9765	0.0849	0.0747	0.1337	0.1878	0.0028	0.5045	[[1.37473e+05 4.08200e+03 1.24000e+02 3.95000e+02 2.87000e+02 4.36000e+02
+  1.31000e+02]
+ [5.00000e+00 3.16000e+02 9.10000e+02 2.60000e+01 6.00000e+00 1.50000e+01
+  5.00000e+00]
+ [3.00000e+01 4.02000e+02 1.07000e+02 1.08200e+03 5.20000e+01 7.50000e+01
+  2.70000e+01]
+ [8.50000e+01 4.29000e+02 2.80000e+01 2.20000e+02 5.83000e+02 6.60000e+01
+  4.70000e+01]
+ [3.30000e+01 5.10000e+02 3.40000e+01 1.35000e+02 3.62000e+02 1.45500e+03
+  3.70000e+01]
+ [3.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 6.00000e+00 3.00000e+00
+  4.00000e+00]
+ [9.65000e+02 3.86000e+02 1.10000e+01 4.00000e+01 6.90000e+01 2.80000e+01
+  8.98000e+02]]
+
+
+P
+0.9618	0.2463	0.0603	0.1509	0.1411	0.0732	0.3746
+
+R
+0.9919	0.0514	0.0881	0.1159	0.2652	0.0014	0.7815
+
+F1
+Epochs:  97%|█████████▋| 29/30 [1:48:44<03:44, 224.57s/it]05/17/2021 23:29:53 - INFO - utils.process_control -   mymodel训练损失:2136.6750,准确率为：76.54%,测试集准确率为：66.87%,测试集f1为：27.92%
+0.9766	0.085	0.0716	0.1311	0.1842	0.0028	0.5065	[[1.37476e+05 4.17600e+03 1.08000e+02 3.55000e+02 2.61000e+02 4.19000e+02
+  1.33000e+02]
+ [3.00000e+00 3.29000e+02 9.06000e+02 2.20000e+01 7.00000e+00 1.10000e+01
+  5.00000e+00]
+ [3.40000e+01 4.78000e+02 1.05000e+02 1.01500e+03 4.70000e+01 6.80000e+01
+  2.80000e+01]
+ [9.20000e+01 4.72000e+02 2.70000e+01 2.08000e+02 5.47000e+02 6.50000e+01
+  4.70000e+01]
+ [3.20000e+01 5.81000e+02 3.40000e+01 1.17000e+02 3.57000e+02 1.41000e+03
+  3.50000e+01]
+ [3.00000e+00 2.50000e+01 0.00000e+00 1.00000e+00 5.00000e+00 3.00000e+00
+  4.00000e+00]
+ [9.74000e+02 4.01000e+02 1.20000e+01 3.00000e+01 6.10000e+01 2.60000e+01
+  8.93000e+02]]
+
+
+P
+0.9619	0.2564	0.0592	0.1427	0.1391	0.0732	0.3725
+
+R
+0.9918	0.0509	0.0881	0.119	0.2778	0.0015	0.7799
+
+F1
+Epochs: 100%|██████████| 30/30 [1:52:33<00:00, 225.12s/it]
+0.9766	0.085	0.0708	0.1298	0.1854	0.0029	0.5042	绘制误差与测试集准确率变化曲线
+
+Process finished with exit code 0
+C:\Anaconda3\python.exe D:/事件要素识别和事件关系识别流水线或联合模型/event_element_ba_train.py
+05/17/2021 23:31:32 - INFO - utils.file_utils -   PyTorch version 1.5.0+cu101 available.
+2021-05-17 23:31:32.578078: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found
+2021-05-17 23:31:32.578191: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+05/17/2021 23:31:35 - INFO - utils.process_control -   device: cuda n_gpu: 1, distributed training: False, 16-bits training: False
+Calling ElectraTokenizer.from_pretrained() with the path to a single file or url is deprecated
+Arguments:
+    train_epochs:                  30
+    seed:                          8
+    embeddings_lr:                 5e-05
+    encoder_lr:                    5e-05
+    learning_rate:                 5e-05
+    mymodel_save_dir:              checkpoint/event_element/
+    embedding_name:                ba_embedding.bin
+    model_name:                    element_ba.bin
+    role_lr:                       0.0
+    weight_decay:                  0.0
+    train_batch_size:              16
+    max_sent_len:                  128
+    num_attention_heads:           4
+    test_size:                     0.2
+    all_data_dir:                  data/bio_data/
+    train_data_dir:                data/bio_data/
+    test_data_dir:                 data/bio_data/
+    mymodel_config_dir:            config/event_element_config.json
+    pretrained_model_dir:          pretrained_model/pytorch_electra_180g_large/
+    vocab_dir:                     pretrained_model/pytorch_electra_180g_large/vocab.txt
+    START_TAG:                     [CLS]
+    STOP_TAG:                      [SEP]
+    MASK_TAG:                      [MASK]
+    tag_to_ix:                     {'o': 0, 'B-Time': 1, 'I-Time': 2, 'B-Location': 3, 'I-Location': 4, 'B-Object': 5, 'I-Object': 6, 'B-Participant': 7, 'I-Participant': 8, 'B-Means': 9, 'I-Means': 10, 'B-Denoter': 11, 'I-Denoter': 12, '[CLS]': 13, '[SEP]': 14, '[MASK]': 15}
+    ix_to_tag:                     {0: 'o', 1: 'B-Time', 2: 'I-Time', 3: 'B-Location', 4: 'I-Location', 5: 'B-Object', 6: 'I-Object', 7: 'B-Participant', 8: 'I-Participant', 9: 'B-Means', 10: 'I-Means', 11: 'B-Denoter', 12: 'I-Denoter', 13: '[CLS]', 14: '[SEP]', 15: '[MASK]'}
+    tag_to_tag:                    {'B-Time': 'Time', 'I-Time': 'Time', 'B-Location': 'Location', 'I-Location': 'Location', 'B-Object': 'Object', 'I-Object': 'Object', 'B-Participant': 'Participant', 'I-Participant': 'Participant', 'B-Means': 'Means', 'I-Means': 'Means', 'B-Denoter': 'Denoter', 'I-Denoter': 'Denoter', 'o': 'Other', '[CLS]': 'Other', '[SEP]': 'Other', '[MASK]': 'Other'}
+    tag_to_idx:                    {'Other': 0, 'Time': 1, 'Location': 2, 'Object': 3, 'Participant': 4, 'Means': 5, 'Denoter': 6}
+    rel2label:                     {'Causal': 0, 'Follow': 1, 'Accompany': 2, 'Concurrency': 3, 'Other': 4}
+    ix_to_idx:                     {0: 1, 1: 1, 2: 2, 3: 2, 4: 3, 5: 3, 6: 4, 7: 4, 8: 5, 9: 5, 10: 6, 11: 6, 12: 0, 13: 0, 14: 0, 15: 0}
+    tag_to_score:                  {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 10, 10: 10, 11: 10, 12: 10, 13: 10, 14: 10, 15: 10}
+    max_role_size:                 13
+    do_train:                      True
+    do_eval:                       True
+    no_gpu:                        False
+    gradient_accumulation_steps:   1
+    optimize_on_cpu:               False
+    fp16:                          False
+    loss_scale:                    128
+    local_rank:                    -1
+    no_cuda:                       False
+
+{'return_dict': False, 'output_hidden_states': False, 'output_attentions': False, 'use_cache': True, 'torchscript': False, 'use_bfloat16': False, 'pruned_heads': {}, 'tie_word_embeddings': True, 'is_encoder_decoder': False, 'is_decoder': False, 'add_cross_attention': False, 'tie_encoder_decoder': False, 'max_length': 20, 'min_length': 0, 'do_sample': False, 'early_stopping': False, 'num_beams': 1, 'temperature': 1.0, 'top_k': 50, 'top_p': 1.0, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'no_repeat_ngram_size': 0, 'bad_words_ids': None, 'num_return_sequences': 1, 'chunk_size_feed_forward': 0, 'architectures': None, 'finetuning_task': None, 'id2label': {0: 'LABEL_0', 1: 'LABEL_1'}, 'label2id': {'LABEL_0': 0, 'LABEL_1': 1}, 'tokenizer_class': None, 'prefix': None, 'bos_token_id': None, 'pad_token_id': 0, 'eos_token_id': None, 'sep_token_id': None, 'decoder_start_token_id': None, 'task_specific_params': None, 'xla_device': None, '_name_or_path': '', 'rnn_num_layers': 2, 'model_type': 'electra', 'vocab_size': 21128, 'embedding_size': 1024, 'hidden_size': 1024, 'num_hidden_layers': 4, 'num_attention_heads': 16, 'intermediate_size': 4096, 'hidden_act': 'gelu', 'hidden_dropout_prob': 0.1, 'attention_probs_dropout_prob': 0.1, 'max_position_embeddings': 512, 'type_vocab_size': 2, 'initializer_range': 0.02, 'layer_norm_eps': 1e-12, 'summary_type': 'first', 'summary_use_proj': True, 'summary_activation': 'gelu', 'summary_last_dropout': 0.1}
+05/17/2021 23:31:36 - INFO - utils.configuration_utils -   loading configuration file config/event_element_config.json
+05/17/2021 23:31:36 - INFO - utils.configuration_utils -   Model config ElectraConfig {
+  "attention_probs_dropout_prob": 0.1,
+  "embedding_size": 1024,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "electra",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 4,
+  "pad_token_id": 0,
+  "rnn_num_layers": 2,
+  "summary_activation": "gelu",
+  "summary_last_dropout": 0.1,
+  "summary_type": "first",
+  "summary_use_proj": true,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+05/17/2021 23:31:38 - INFO - utils.modeling_utils -   loading weights file pretrained_model/pytorch_electra_180g_large/pytorch_model.bin
+05/17/2021 23:31:38 - WARNING - utils.modeling_utils -   Some weights of the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin were not used when initializing MyElectraModel: ['electra.encoder.layer.0.attention.self.query.weight', 'electra.encoder.layer.0.attention.self.query.bias', 'electra.encoder.layer.0.attention.self.key.weight', 'electra.encoder.layer.0.attention.self.key.bias', 'electra.encoder.layer.0.attention.self.value.weight', 'electra.encoder.layer.0.attention.self.value.bias', 'electra.encoder.layer.0.attention.output.dense.weight', 'electra.encoder.layer.0.attention.output.dense.bias', 'electra.encoder.layer.0.attention.output.LayerNorm.weight', 'electra.encoder.layer.0.attention.output.LayerNorm.bias', 'electra.encoder.layer.0.intermediate.dense.weight', 'electra.encoder.layer.0.intermediate.dense.bias', 'electra.encoder.layer.0.output.dense.weight', 'electra.encoder.layer.0.output.dense.bias', 'electra.encoder.layer.0.output.LayerNorm.weight', 'electra.encoder.layer.0.output.LayerNorm.bias', 'electra.encoder.layer.1.attention.self.query.weight', 'electra.encoder.layer.1.attention.self.query.bias', 'electra.encoder.layer.1.attention.self.key.weight', 'electra.encoder.layer.1.attention.self.key.bias', 'electra.encoder.layer.1.attention.self.value.weight', 'electra.encoder.layer.1.attention.self.value.bias', 'electra.encoder.layer.1.attention.output.dense.weight', 'electra.encoder.layer.1.attention.output.dense.bias', 'electra.encoder.layer.1.attention.output.LayerNorm.weight', 'electra.encoder.layer.1.attention.output.LayerNorm.bias', 'electra.encoder.layer.1.intermediate.dense.weight', 'electra.encoder.layer.1.intermediate.dense.bias', 'electra.encoder.layer.1.output.dense.weight', 'electra.encoder.layer.1.output.dense.bias', 'electra.encoder.layer.1.output.LayerNorm.weight', 'electra.encoder.layer.1.output.LayerNorm.bias', 'electra.encoder.layer.2.attention.self.query.weight', 'electra.encoder.layer.2.attention.self.query.bias', 'electra.encoder.layer.2.attention.self.key.weight', 'electra.encoder.layer.2.attention.self.key.bias', 'electra.encoder.layer.2.attention.self.value.weight', 'electra.encoder.layer.2.attention.self.value.bias', 'electra.encoder.layer.2.attention.output.dense.weight', 'electra.encoder.layer.2.attention.output.dense.bias', 'electra.encoder.layer.2.attention.output.LayerNorm.weight', 'electra.encoder.layer.2.attention.output.LayerNorm.bias', 'electra.encoder.layer.2.intermediate.dense.weight', 'electra.encoder.layer.2.intermediate.dense.bias', 'electra.encoder.layer.2.output.dense.weight', 'electra.encoder.layer.2.output.dense.bias', 'electra.encoder.layer.2.output.LayerNorm.weight', 'electra.encoder.layer.2.output.LayerNorm.bias', 'electra.encoder.layer.3.attention.self.query.weight', 'electra.encoder.layer.3.attention.self.query.bias', 'electra.encoder.layer.3.attention.self.key.weight', 'electra.encoder.layer.3.attention.self.key.bias', 'electra.encoder.layer.3.attention.self.value.weight', 'electra.encoder.layer.3.attention.self.value.bias', 'electra.encoder.layer.3.attention.output.dense.weight', 'electra.encoder.layer.3.attention.output.dense.bias', 'electra.encoder.layer.3.attention.output.LayerNorm.weight', 'electra.encoder.layer.3.attention.output.LayerNorm.bias', 'electra.encoder.layer.3.intermediate.dense.weight', 'electra.encoder.layer.3.intermediate.dense.bias', 'electra.encoder.layer.3.output.dense.weight', 'electra.encoder.layer.3.output.dense.bias', 'electra.encoder.layer.3.output.LayerNorm.weight', 'electra.encoder.layer.3.output.LayerNorm.bias', 'electra.encoder.layer.4.attention.self.query.weight', 'electra.encoder.layer.4.attention.self.query.bias', 'electra.encoder.layer.4.attention.self.key.weight', 'electra.encoder.layer.4.attention.self.key.bias', 'electra.encoder.layer.4.attention.self.value.weight', 'electra.encoder.layer.4.attention.self.value.bias', 'electra.encoder.layer.4.attention.output.dense.weight', 'electra.encoder.layer.4.attention.output.dense.bias', 'electra.encoder.layer.4.attention.output.LayerNorm.weight', 'electra.encoder.layer.4.attention.output.LayerNorm.bias', 'electra.encoder.layer.4.intermediate.dense.weight', 'electra.encoder.layer.4.intermediate.dense.bias', 'electra.encoder.layer.4.output.dense.weight', 'electra.encoder.layer.4.output.dense.bias', 'electra.encoder.layer.4.output.LayerNorm.weight', 'electra.encoder.layer.4.output.LayerNorm.bias', 'electra.encoder.layer.5.attention.self.query.weight', 'electra.encoder.layer.5.attention.self.query.bias', 'electra.encoder.layer.5.attention.self.key.weight', 'electra.encoder.layer.5.attention.self.key.bias', 'electra.encoder.layer.5.attention.self.value.weight', 'electra.encoder.layer.5.attention.self.value.bias', 'electra.encoder.layer.5.attention.output.dense.weight', 'electra.encoder.layer.5.attention.output.dense.bias', 'electra.encoder.layer.5.attention.output.LayerNorm.weight', 'electra.encoder.layer.5.attention.output.LayerNorm.bias', 'electra.encoder.layer.5.intermediate.dense.weight', 'electra.encoder.layer.5.intermediate.dense.bias', 'electra.encoder.layer.5.output.dense.weight', 'electra.encoder.layer.5.output.dense.bias', 'electra.encoder.layer.5.output.LayerNorm.weight', 'electra.encoder.layer.5.output.LayerNorm.bias', 'electra.encoder.layer.6.attention.self.query.weight', 'electra.encoder.layer.6.attention.self.query.bias', 'electra.encoder.layer.6.attention.self.key.weight', 'electra.encoder.layer.6.attention.self.key.bias', 'electra.encoder.layer.6.attention.self.value.weight', 'electra.encoder.layer.6.attention.self.value.bias', 'electra.encoder.layer.6.attention.output.dense.weight', 'electra.encoder.layer.6.attention.output.dense.bias', 'electra.encoder.layer.6.attention.output.LayerNorm.weight', 'electra.encoder.layer.6.attention.output.LayerNorm.bias', 'electra.encoder.layer.6.intermediate.dense.weight', 'electra.encoder.layer.6.intermediate.dense.bias', 'electra.encoder.layer.6.output.dense.weight', 'electra.encoder.layer.6.output.dense.bias', 'electra.encoder.layer.6.output.LayerNorm.weight', 'electra.encoder.layer.6.output.LayerNorm.bias', 'electra.encoder.layer.7.attention.self.query.weight', 'electra.encoder.layer.7.attention.self.query.bias', 'electra.encoder.layer.7.attention.self.key.weight', 'electra.encoder.layer.7.attention.self.key.bias', 'electra.encoder.layer.7.attention.self.value.weight', 'electra.encoder.layer.7.attention.self.value.bias', 'electra.encoder.layer.7.attention.output.dense.weight', 'electra.encoder.layer.7.attention.output.dense.bias', 'electra.encoder.layer.7.attention.output.LayerNorm.weight', 'electra.encoder.layer.7.attention.output.LayerNorm.bias', 'electra.encoder.layer.7.intermediate.dense.weight', 'electra.encoder.layer.7.intermediate.dense.bias', 'electra.encoder.layer.7.output.dense.weight', 'electra.encoder.layer.7.output.dense.bias', 'electra.encoder.layer.7.output.LayerNorm.weight', 'electra.encoder.layer.7.output.LayerNorm.bias', 'electra.encoder.layer.8.attention.self.query.weight', 'electra.encoder.layer.8.attention.self.query.bias', 'electra.encoder.layer.8.attention.self.key.weight', 'electra.encoder.layer.8.attention.self.key.bias', 'electra.encoder.layer.8.attention.self.value.weight', 'electra.encoder.layer.8.attention.self.value.bias', 'electra.encoder.layer.8.attention.output.dense.weight', 'electra.encoder.layer.8.attention.output.dense.bias', 'electra.encoder.layer.8.attention.output.LayerNorm.weight', 'electra.encoder.layer.8.attention.output.LayerNorm.bias', 'electra.encoder.layer.8.intermediate.dense.weight', 'electra.encoder.layer.8.intermediate.dense.bias', 'electra.encoder.layer.8.output.dense.weight', 'electra.encoder.layer.8.output.dense.bias', 'electra.encoder.layer.8.output.LayerNorm.weight', 'electra.encoder.layer.8.output.LayerNorm.bias', 'electra.encoder.layer.9.attention.self.query.weight', 'electra.encoder.layer.9.attention.self.query.bias', 'electra.encoder.layer.9.attention.self.key.weight', 'electra.encoder.layer.9.attention.self.key.bias', 'electra.encoder.layer.9.attention.self.value.weight', 'electra.encoder.layer.9.attention.self.value.bias', 'electra.encoder.layer.9.attention.output.dense.weight', 'electra.encoder.layer.9.attention.output.dense.bias', 'electra.encoder.layer.9.attention.output.LayerNorm.weight', 'electra.encoder.layer.9.attention.output.LayerNorm.bias', 'electra.encoder.layer.9.intermediate.dense.weight', 'electra.encoder.layer.9.intermediate.dense.bias', 'electra.encoder.layer.9.output.dense.weight', 'electra.encoder.layer.9.output.dense.bias', 'electra.encoder.layer.9.output.LayerNorm.weight', 'electra.encoder.layer.9.output.LayerNorm.bias', 'electra.encoder.layer.10.attention.self.query.weight', 'electra.encoder.layer.10.attention.self.query.bias', 'electra.encoder.layer.10.attention.self.key.weight', 'electra.encoder.layer.10.attention.self.key.bias', 'electra.encoder.layer.10.attention.self.value.weight', 'electra.encoder.layer.10.attention.self.value.bias', 'electra.encoder.layer.10.attention.output.dense.weight', 'electra.encoder.layer.10.attention.output.dense.bias', 'electra.encoder.layer.10.attention.output.LayerNorm.weight', 'electra.encoder.layer.10.attention.output.LayerNorm.bias', 'electra.encoder.layer.10.intermediate.dense.weight', 'electra.encoder.layer.10.intermediate.dense.bias', 'electra.encoder.layer.10.output.dense.weight', 'electra.encoder.layer.10.output.dense.bias', 'electra.encoder.layer.10.output.LayerNorm.weight', 'electra.encoder.layer.10.output.LayerNorm.bias', 'electra.encoder.layer.11.attention.self.query.weight', 'electra.encoder.layer.11.attention.self.query.bias', 'electra.encoder.layer.11.attention.self.key.weight', 'electra.encoder.layer.11.attention.self.key.bias', 'electra.encoder.layer.11.attention.self.value.weight', 'electra.encoder.layer.11.attention.self.value.bias', 'electra.encoder.layer.11.attention.output.dense.weight', 'electra.encoder.layer.11.attention.output.dense.bias', 'electra.encoder.layer.11.attention.output.LayerNorm.weight', 'electra.encoder.layer.11.attention.output.LayerNorm.bias', 'electra.encoder.layer.11.intermediate.dense.weight', 'electra.encoder.layer.11.intermediate.dense.bias', 'electra.encoder.layer.11.output.dense.weight', 'electra.encoder.layer.11.output.dense.bias', 'electra.encoder.layer.11.output.LayerNorm.weight', 'electra.encoder.layer.11.output.LayerNorm.bias', 'electra.encoder.layer.12.attention.self.query.weight', 'electra.encoder.layer.12.attention.self.query.bias', 'electra.encoder.layer.12.attention.self.key.weight', 'electra.encoder.layer.12.attention.self.key.bias', 'electra.encoder.layer.12.attention.self.value.weight', 'electra.encoder.layer.12.attention.self.value.bias', 'electra.encoder.layer.12.attention.output.dense.weight', 'electra.encoder.layer.12.attention.output.dense.bias', 'electra.encoder.layer.12.attention.output.LayerNorm.weight', 'electra.encoder.layer.12.attention.output.LayerNorm.bias', 'electra.encoder.layer.12.intermediate.dense.weight', 'electra.encoder.layer.12.intermediate.dense.bias', 'electra.encoder.layer.12.output.dense.weight', 'electra.encoder.layer.12.output.dense.bias', 'electra.encoder.layer.12.output.LayerNorm.weight', 'electra.encoder.layer.12.output.LayerNorm.bias', 'electra.encoder.layer.13.attention.self.query.weight', 'electra.encoder.layer.13.attention.self.query.bias', 'electra.encoder.layer.13.attention.self.key.weight', 'electra.encoder.layer.13.attention.self.key.bias', 'electra.encoder.layer.13.attention.self.value.weight', 'electra.encoder.layer.13.attention.self.value.bias', 'electra.encoder.layer.13.attention.output.dense.weight', 'electra.encoder.layer.13.attention.output.dense.bias', 'electra.encoder.layer.13.attention.output.LayerNorm.weight', 'electra.encoder.layer.13.attention.output.LayerNorm.bias', 'electra.encoder.layer.13.intermediate.dense.weight', 'electra.encoder.layer.13.intermediate.dense.bias', 'electra.encoder.layer.13.output.dense.weight', 'electra.encoder.layer.13.output.dense.bias', 'electra.encoder.layer.13.output.LayerNorm.weight', 'electra.encoder.layer.13.output.LayerNorm.bias', 'electra.encoder.layer.14.attention.self.query.weight', 'electra.encoder.layer.14.attention.self.query.bias', 'electra.encoder.layer.14.attention.self.key.weight', 'electra.encoder.layer.14.attention.self.key.bias', 'electra.encoder.layer.14.attention.self.value.weight', 'electra.encoder.layer.14.attention.self.value.bias', 'electra.encoder.layer.14.attention.output.dense.weight', 'electra.encoder.layer.14.attention.output.dense.bias', 'electra.encoder.layer.14.attention.output.LayerNorm.weight', 'electra.encoder.layer.14.attention.output.LayerNorm.bias', 'electra.encoder.layer.14.intermediate.dense.weight', 'electra.encoder.layer.14.intermediate.dense.bias', 'electra.encoder.layer.14.output.dense.weight', 'electra.encoder.layer.14.output.dense.bias', 'electra.encoder.layer.14.output.LayerNorm.weight', 'electra.encoder.layer.14.output.LayerNorm.bias', 'electra.encoder.layer.15.attention.self.query.weight', 'electra.encoder.layer.15.attention.self.query.bias', 'electra.encoder.layer.15.attention.self.key.weight', 'electra.encoder.layer.15.attention.self.key.bias', 'electra.encoder.layer.15.attention.self.value.weight', 'electra.encoder.layer.15.attention.self.value.bias', 'electra.encoder.layer.15.attention.output.dense.weight', 'electra.encoder.layer.15.attention.output.dense.bias', 'electra.encoder.layer.15.attention.output.LayerNorm.weight', 'electra.encoder.layer.15.attention.output.LayerNorm.bias', 'electra.encoder.layer.15.intermediate.dense.weight', 'electra.encoder.layer.15.intermediate.dense.bias', 'electra.encoder.layer.15.output.dense.weight', 'electra.encoder.layer.15.output.dense.bias', 'electra.encoder.layer.15.output.LayerNorm.weight', 'electra.encoder.layer.15.output.LayerNorm.bias', 'electra.encoder.layer.16.attention.self.query.weight', 'electra.encoder.layer.16.attention.self.query.bias', 'electra.encoder.layer.16.attention.self.key.weight', 'electra.encoder.layer.16.attention.self.key.bias', 'electra.encoder.layer.16.attention.self.value.weight', 'electra.encoder.layer.16.attention.self.value.bias', 'electra.encoder.layer.16.attention.output.dense.weight', 'electra.encoder.layer.16.attention.output.dense.bias', 'electra.encoder.layer.16.attention.output.LayerNorm.weight', 'electra.encoder.layer.16.attention.output.LayerNorm.bias', 'electra.encoder.layer.16.intermediate.dense.weight', 'electra.encoder.layer.16.intermediate.dense.bias', 'electra.encoder.layer.16.output.dense.weight', 'electra.encoder.layer.16.output.dense.bias', 'electra.encoder.layer.16.output.LayerNorm.weight', 'electra.encoder.layer.16.output.LayerNorm.bias', 'electra.encoder.layer.17.attention.self.query.weight', 'electra.encoder.layer.17.attention.self.query.bias', 'electra.encoder.layer.17.attention.self.key.weight', 'electra.encoder.layer.17.attention.self.key.bias', 'electra.encoder.layer.17.attention.self.value.weight', 'electra.encoder.layer.17.attention.self.value.bias', 'electra.encoder.layer.17.attention.output.dense.weight', 'electra.encoder.layer.17.attention.output.dense.bias', 'electra.encoder.layer.17.attention.output.LayerNorm.weight', 'electra.encoder.layer.17.attention.output.LayerNorm.bias', 'electra.encoder.layer.17.intermediate.dense.weight', 'electra.encoder.layer.17.intermediate.dense.bias', 'electra.encoder.layer.17.output.dense.weight', 'electra.encoder.layer.17.output.dense.bias', 'electra.encoder.layer.17.output.LayerNorm.weight', 'electra.encoder.layer.17.output.LayerNorm.bias', 'electra.encoder.layer.18.attention.self.query.weight', 'electra.encoder.layer.18.attention.self.query.bias', 'electra.encoder.layer.18.attention.self.key.weight', 'electra.encoder.layer.18.attention.self.key.bias', 'electra.encoder.layer.18.attention.self.value.weight', 'electra.encoder.layer.18.attention.self.value.bias', 'electra.encoder.layer.18.attention.output.dense.weight', 'electra.encoder.layer.18.attention.output.dense.bias', 'electra.encoder.layer.18.attention.output.LayerNorm.weight', 'electra.encoder.layer.18.attention.output.LayerNorm.bias', 'electra.encoder.layer.18.intermediate.dense.weight', 'electra.encoder.layer.18.intermediate.dense.bias', 'electra.encoder.layer.18.output.dense.weight', 'electra.encoder.layer.18.output.dense.bias', 'electra.encoder.layer.18.output.LayerNorm.weight', 'electra.encoder.layer.18.output.LayerNorm.bias', 'electra.encoder.layer.19.attention.self.query.weight', 'electra.encoder.layer.19.attention.self.query.bias', 'electra.encoder.layer.19.attention.self.key.weight', 'electra.encoder.layer.19.attention.self.key.bias', 'electra.encoder.layer.19.attention.self.value.weight', 'electra.encoder.layer.19.attention.self.value.bias', 'electra.encoder.layer.19.attention.output.dense.weight', 'electra.encoder.layer.19.attention.output.dense.bias', 'electra.encoder.layer.19.attention.output.LayerNorm.weight', 'electra.encoder.layer.19.attention.output.LayerNorm.bias', 'electra.encoder.layer.19.intermediate.dense.weight', 'electra.encoder.layer.19.intermediate.dense.bias', 'electra.encoder.layer.19.output.dense.weight', 'electra.encoder.layer.19.output.dense.bias', 'electra.encoder.layer.19.output.LayerNorm.weight', 'electra.encoder.layer.19.output.LayerNorm.bias', 'electra.encoder.layer.20.attention.self.query.weight', 'electra.encoder.layer.20.attention.self.query.bias', 'electra.encoder.layer.20.attention.self.key.weight', 'electra.encoder.layer.20.attention.self.key.bias', 'electra.encoder.layer.20.attention.self.value.weight', 'electra.encoder.layer.20.attention.self.value.bias', 'electra.encoder.layer.20.attention.output.dense.weight', 'electra.encoder.layer.20.attention.output.dense.bias', 'electra.encoder.layer.20.attention.output.LayerNorm.weight', 'electra.encoder.layer.20.attention.output.LayerNorm.bias', 'electra.encoder.layer.20.intermediate.dense.weight', 'electra.encoder.layer.20.intermediate.dense.bias', 'electra.encoder.layer.20.output.dense.weight', 'electra.encoder.layer.20.output.dense.bias', 'electra.encoder.layer.20.output.LayerNorm.weight', 'electra.encoder.layer.20.output.LayerNorm.bias', 'electra.encoder.layer.21.attention.self.query.weight', 'electra.encoder.layer.21.attention.self.query.bias', 'electra.encoder.layer.21.attention.self.key.weight', 'electra.encoder.layer.21.attention.self.key.bias', 'electra.encoder.layer.21.attention.self.value.weight', 'electra.encoder.layer.21.attention.self.value.bias', 'electra.encoder.layer.21.attention.output.dense.weight', 'electra.encoder.layer.21.attention.output.dense.bias', 'electra.encoder.layer.21.attention.output.LayerNorm.weight', 'electra.encoder.layer.21.attention.output.LayerNorm.bias', 'electra.encoder.layer.21.intermediate.dense.weight', 'electra.encoder.layer.21.intermediate.dense.bias', 'electra.encoder.layer.21.output.dense.weight', 'electra.encoder.layer.21.output.dense.bias', 'electra.encoder.layer.21.output.LayerNorm.weight', 'electra.encoder.layer.21.output.LayerNorm.bias', 'electra.encoder.layer.22.attention.self.query.weight', 'electra.encoder.layer.22.attention.self.query.bias', 'electra.encoder.layer.22.attention.self.key.weight', 'electra.encoder.layer.22.attention.self.key.bias', 'electra.encoder.layer.22.attention.self.value.weight', 'electra.encoder.layer.22.attention.self.value.bias', 'electra.encoder.layer.22.attention.output.dense.weight', 'electra.encoder.layer.22.attention.output.dense.bias', 'electra.encoder.layer.22.attention.output.LayerNorm.weight', 'electra.encoder.layer.22.attention.output.LayerNorm.bias', 'electra.encoder.layer.22.intermediate.dense.weight', 'electra.encoder.layer.22.intermediate.dense.bias', 'electra.encoder.layer.22.output.dense.weight', 'electra.encoder.layer.22.output.dense.bias', 'electra.encoder.layer.22.output.LayerNorm.weight', 'electra.encoder.layer.22.output.LayerNorm.bias', 'electra.encoder.layer.23.attention.self.query.weight', 'electra.encoder.layer.23.attention.self.query.bias', 'electra.encoder.layer.23.attention.self.key.weight', 'electra.encoder.layer.23.attention.self.key.bias', 'electra.encoder.layer.23.attention.self.value.weight', 'electra.encoder.layer.23.attention.self.value.bias', 'electra.encoder.layer.23.attention.output.dense.weight', 'electra.encoder.layer.23.attention.output.dense.bias', 'electra.encoder.layer.23.attention.output.LayerNorm.weight', 'electra.encoder.layer.23.attention.output.LayerNorm.bias', 'electra.encoder.layer.23.intermediate.dense.weight', 'electra.encoder.layer.23.intermediate.dense.bias', 'electra.encoder.layer.23.output.dense.weight', 'electra.encoder.layer.23.output.dense.bias', 'electra.encoder.layer.23.output.LayerNorm.weight', 'electra.encoder.layer.23.output.LayerNorm.bias', 'electra.embeddings.position_ids', 'electra.embeddings.LayerNorm.weight', 'electra.embeddings.LayerNorm.bias']
+- This IS expected if you are initializing MyElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing MyElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+05/17/2021 23:31:38 - WARNING - utils.modeling_utils -   Some weights of MyElectraModel were not initialized from the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin and are newly initialized: ['electra.LayerNorm.weight', 'electra.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Epochs:   0%|          | 0/30 [00:00<?, ?it/s]Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+..\torch\csrc\utils\python_arg_parser.cpp:756: UserWarning: This overload of addcmul_ is deprecated:
+	addcmul_(Number value, Tensor tensor1, Tensor tensor2)
+Consider using one of the following signatures instead:
+	addcmul_(Tensor tensor1, Tensor tensor2, *, Number value)
+[[1.36209e+05 6.71900e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [7.00000e+00 1.27600e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [6.20000e+01 1.71200e+03 0.00000e+00 0.00000e+00 0.00000e+00 1.00000e+00
+  0.00000e+00]
+ [2.00000e+01 1.43800e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [3.40000e+01 2.53200e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [4.00000e+00 3.70000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [2.20000e+01 2.37500e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]]
+
+
+P
+0.953	0.9945	0.0	0.0	0.0	0.0	0.0
+
+R
+0.9989	0.0793	-	-	-	0.0	-
+
+F1
+05/17/2021 23:35:52 - INFO - utils.process_control -   mymodel训练损失:3432.0745,准确率为：21.49%,测试集准确率为：36.12%,测试集f1为：16.03%
+Epochs:   3%|▎         | 1/30 [04:13<2:02:42, 253.90s/it]05/17/2021 23:40:08 - INFO - utils.process_control -   mymodel训练损失:2375.3680,准确率为：35.88%,测试集准确率为：37.06%,测试集f1为：16.22%
+0.9754	0.1469	-	-	-	-	-	[[1.3724e+05 5.6830e+03 0.0000e+00 0.0000e+00 0.0000e+00 5.0000e+00
+  0.0000e+00]
+ [0.0000e+00 1.2830e+03 0.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00
+  0.0000e+00]
+ [1.0000e+00 1.7730e+03 0.0000e+00 0.0000e+00 0.0000e+00 1.0000e+00
+  0.0000e+00]
+ [0.0000e+00 1.4580e+03 0.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00
+  0.0000e+00]
+ [2.0000e+00 2.5360e+03 0.0000e+00 0.0000e+00 0.0000e+00 2.8000e+01
+  0.0000e+00]
+ [0.0000e+00 4.1000e+01 0.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00
+  0.0000e+00]
+ [0.0000e+00 2.3860e+03 0.0000e+00 0.0000e+00 0.0000e+00 1.1000e+01
+  0.0000e+00]]
+
+
+P
+0.9602	1.0	0.0	0.0	0.0	0.0	0.0
+
+R
+1.0	0.0846	-	-	-	0.0	-
+
+F1
+Epochs:   7%|▋         | 2/30 [08:30<1:58:47, 254.56s/it]05/17/2021 23:44:25 - INFO - utils.process_control -   mymodel训练损失:2314.9830,准确率为：37.90%,测试集准确率为：42.10%,测试集f1为：17.76%
+0.9797	0.1561	-	-	-	-	-	[[1.3724e+05 5.1830e+03 2.5000e+01 0.0000e+00 6.8000e+01 4.0800e+02
+  4.0000e+00]
+ [0.0000e+00 7.0700e+02 3.1800e+02 0.0000e+00 6.8000e+01 1.9000e+02
+  0.0000e+00]
+ [0.0000e+00 1.6050e+03 2.0000e+00 1.0000e+00 2.1000e+01 1.4500e+02
+  1.0000e+00]
+ [1.0000e+00 1.1540e+03 0.0000e+00 0.0000e+00 4.4000e+01 2.5300e+02
+  6.0000e+00]
+ [0.0000e+00 1.5360e+03 3.0000e+00 0.0000e+00 1.6600e+02 8.5900e+02
+  2.0000e+00]
+ [0.0000e+00 3.9000e+01 0.0000e+00 0.0000e+00 0.0000e+00 2.0000e+00
+  0.0000e+00]
+ [3.3000e+01 1.8130e+03 0.0000e+00 0.0000e+00 7.8000e+01 4.1900e+02
+  5.4000e+01]]
+
+
+P
+0.9602	0.5511	0.0011	0.0	0.0647	0.0488	0.0225
+
+R
+0.9998	0.0587	0.0057	0.0	0.373	0.0009	0.806
+
+F1
+Epochs:  10%|█         | 3/30 [12:47<1:54:55, 255.37s/it]05/17/2021 23:48:42 - INFO - utils.process_control -   mymodel训练损失:2277.5892,准确率为：45.65%,测试集准确率为：50.82%,测试集f1为：21.29%
+0.9796	0.1062	0.0019	-	0.1103	0.0017	0.0438	[[1.3729e+05 4.7760e+03 7.6000e+01 2.2000e+01 6.7000e+01 6.5000e+02
+  4.7000e+01]
+ [0.0000e+00 3.6400e+02 6.5600e+02 4.0000e+00 5.7000e+01 2.0000e+02
+  2.0000e+00]
+ [3.5000e+01 1.3310e+03 1.1000e+01 8.0000e+01 3.0000e+01 2.6900e+02
+  1.9000e+01]
+ [5.1000e+01 9.1500e+02 1.0000e+01 3.0000e+00 9.3000e+01 3.4800e+02
+  3.8000e+01]
+ [1.6000e+01 9.8000e+02 1.3000e+01 8.0000e+00 2.0400e+02 1.3210e+03
+  2.4000e+01]
+ [0.0000e+00 3.4000e+01 0.0000e+00 0.0000e+00 1.0000e+00 6.0000e+00
+  0.0000e+00]
+ [3.8700e+02 1.2150e+03 6.0000e+00 2.0000e+00 4.0000e+01 3.0900e+02
+  4.3800e+02]]
+
+
+P
+0.9606	0.2837	0.0062	0.0021	0.0795	0.1463	0.1827
+
+R
+0.9965	0.0379	0.0142	0.0252	0.4146	0.0019	0.7711
+
+F1
+Epochs:  13%|█▎        | 4/30 [17:04<1:50:53, 255.89s/it]05/17/2021 23:52:58 - INFO - utils.process_control -   mymodel训练损失:2241.7396,准确率为：54.07%,测试集准确率为：57.61%,测试集f1为：23.86%
+0.9782	0.0668	0.0086	0.0038	0.1334	0.0038	0.2954	[[1.37413e+05 4.45400e+03 1.01000e+02 3.28000e+02 1.24000e+02 3.91000e+02
+  1.17000e+02]
+ [7.00000e+00 3.14000e+02 8.78000e+02 3.20000e+01 1.30000e+01 3.60000e+01
+  3.00000e+00]
+ [8.00000e+01 7.59000e+02 3.60000e+01 7.03000e+02 4.20000e+01 1.30000e+02
+  2.50000e+01]
+ [1.26000e+02 7.72000e+02 2.00000e+01 7.80000e+01 2.44000e+02 1.25000e+02
+  9.30000e+01]
+ [5.30000e+01 8.99000e+02 3.40000e+01 1.06000e+02 2.14000e+02 1.18300e+03
+  7.70000e+01]
+ [3.00000e+00 2.80000e+01 0.00000e+00 0.00000e+00 2.00000e+00 2.00000e+00
+  6.00000e+00]
+ [7.01000e+02 8.41000e+02 9.00000e+00 5.60000e+01 3.50000e+01 5.30000e+01
+  7.02000e+02]]
+
+
+P
+0.9614	0.2447	0.0203	0.0535	0.0834	0.0488	0.2929
+
+R
+0.993	0.0389	0.0334	0.0599	0.3175	0.001	0.6862
+
+F1
+Epochs:  17%|█▋        | 5/30 [21:19<1:46:33, 255.74s/it]05/17/2021 23:57:14 - INFO - utils.process_control -   mymodel训练损失:2216.8935,准确率为：58.87%,测试集准确率为：59.85%,测试集f1为：24.46%
+0.9769	0.0672	0.0252	0.0565	0.1321	0.002	0.4105	[[1.37431e+05 4.50900e+03 1.24000e+02 2.82000e+02 1.31000e+02 3.36000e+02
+  1.15000e+02]
+ [3.00000e+00 3.09000e+02 9.13000e+02 2.10000e+01 1.10000e+01 1.70000e+01
+  9.00000e+00]
+ [7.50000e+01 7.15000e+02 4.90000e+01 7.92000e+02 5.00000e+01 6.90000e+01
+  2.50000e+01]
+ [1.24000e+02 7.54000e+02 2.50000e+01 8.40000e+01 3.02000e+02 8.60000e+01
+  8.30000e+01]
+ [5.00000e+01 9.36000e+02 4.00000e+01 8.90000e+01 2.35000e+02 1.16300e+03
+  5.30000e+01]
+ [3.00000e+00 2.50000e+01 0.00000e+00 0.00000e+00 3.00000e+00 1.00000e+00
+  9.00000e+00]
+ [8.00000e+02 7.22000e+02 1.30000e+01 3.50000e+01 5.00000e+01 3.30000e+01
+  7.44000e+02]]
+
+
+P
+0.9615	0.2408	0.0276	0.0576	0.0916	0.0244	0.3104
+
+R
+0.9924	0.0388	0.0421	0.0645	0.3005	0.0006	0.7168
+
+F1
+Epochs:  20%|██        | 6/30 [25:36<1:42:21, 255.89s/it]05/18/2021 00:01:30 - INFO - utils.process_control -   mymodel训练损失:2201.1937,准确率为：62.37%,测试集准确率为：61.24%,测试集f1为：24.89%
+0.9767	0.0668	0.0333	0.0608	0.1404	0.0011	0.4332	[[1.37407e+05 4.27100e+03 8.70000e+01 1.89000e+02 1.71000e+02 6.92000e+02
+  1.11000e+02]
+ [2.00000e+00 3.28000e+02 8.54000e+02 1.40000e+01 1.30000e+01 6.80000e+01
+  4.00000e+00]
+ [4.40000e+01 6.96000e+02 4.20000e+01 7.04000e+02 6.30000e+01 2.01000e+02
+  2.50000e+01]
+ [9.00000e+01 6.52000e+02 1.30000e+01 8.40000e+01 3.86000e+02 1.60000e+02
+  7.30000e+01]
+ [3.50000e+01 5.42000e+02 1.90000e+01 5.10000e+01 2.63000e+02 1.62300e+03
+  3.30000e+01]
+ [2.00000e+00 2.20000e+01 0.00000e+00 0.00000e+00 2.00000e+00 8.00000e+00
+  7.00000e+00]
+ [8.22000e+02 6.42000e+02 8.00000e+00 2.60000e+01 5.20000e+01 1.08000e+02
+  7.39000e+02]]
+
+
+P
+0.9614	0.2557	0.0237	0.0576	0.1025	0.1951	0.3083
+
+R
+0.9928	0.0459	0.0411	0.0787	0.2768	0.0028	0.745
+
+F1
+Epochs:  23%|██▎       | 7/30 [29:52<1:38:12, 256.21s/it]05/18/2021 00:05:48 - INFO - utils.process_control -   mymodel训练损失:2190.7032,准确率为：64.32%,测试集准确率为：62.71%,测试集f1为：26.21%
+0.9768	0.0778	0.03	0.0665	0.1496	0.0055	0.4361	[[1.37502e+05 3.96100e+03 1.36000e+02 4.34000e+02 2.89000e+02 4.44000e+02
+  1.62000e+02]
+ [3.00000e+00 2.76000e+02 9.33000e+02 3.30000e+01 1.50000e+01 1.50000e+01
+  8.00000e+00]
+ [5.80000e+01 4.27000e+02 7.50000e+01 1.03000e+03 7.50000e+01 8.10000e+01
+  2.90000e+01]
+ [1.31000e+02 4.39000e+02 2.90000e+01 1.79000e+02 5.08000e+02 8.10000e+01
+  9.10000e+01]
+ [6.80000e+01 5.44000e+02 4.20000e+01 1.19000e+02 3.10000e+02 1.41900e+03
+  6.40000e+01]
+ [5.00000e+00 1.80000e+01 0.00000e+00 0.00000e+00 6.00000e+00 2.00000e+00
+  1.00000e+01]
+ [9.68000e+02 4.11000e+02 1.40000e+01 5.20000e+01 7.60000e+01 4.60000e+01
+  8.30000e+02]]
+
+
+P
+0.962	0.2151	0.0423	0.1228	0.1208	0.0488	0.3463
+
+R
+0.9911	0.0454	0.061	0.0969	0.2424	0.001	0.6951
+
+F1
+Epochs:  27%|██▋       | 8/30 [34:09<1:34:01, 256.45s/it]05/18/2021 00:10:05 - INFO - utils.process_control -   mymodel训练损失:2182.1498,准确率为：66.32%,测试集准确率为：63.34%,测试集f1为：26.38%
+0.9764	0.075	0.0499	0.1083	0.1612	0.0019	0.4623	[[1.37451e+05 3.96000e+03 1.25000e+02 4.56000e+02 2.85000e+02 4.94000e+02
+  1.57000e+02]
+ [3.00000e+00 2.81000e+02 9.25000e+02 3.00000e+01 1.20000e+01 2.40000e+01
+  8.00000e+00]
+ [3.80000e+01 4.24000e+02 7.50000e+01 1.06600e+03 6.10000e+01 8.50000e+01
+  2.60000e+01]
+ [9.30000e+01 4.45000e+02 2.60000e+01 1.87000e+02 5.25000e+02 9.50000e+01
+  8.70000e+01]
+ [4.50000e+01 4.99000e+02 3.50000e+01 1.35000e+02 3.03000e+02 1.50300e+03
+  4.60000e+01]
+ [2.00000e+00 2.30000e+01 0.00000e+00 0.00000e+00 6.00000e+00 3.00000e+00
+  7.00000e+00]
+ [9.16000e+02 4.39000e+02 1.40000e+01 5.70000e+01 7.50000e+01 5.40000e+01
+  8.42000e+02]]
+
+
+P
+0.9617	0.219	0.0423	0.1283	0.1181	0.0732	0.3513
+
+R
+0.9921	0.0463	0.0625	0.0968	0.2391	0.0013	0.7178
+
+F1
+Epochs:  30%|███       | 9/30 [38:26<1:29:48, 256.61s/it]05/18/2021 00:14:22 - INFO - utils.process_control -   mymodel训练损失:2175.5092,准确率为：68.01%,测试集准确率为：64.68%,测试集f1为：26.45%
+0.9766	0.0764	0.0504	0.1104	0.1581	0.0026	0.4717	[[1.37488e+05 4.11600e+03 1.20000e+02 3.76000e+02 2.31000e+02 4.51000e+02
+  1.46000e+02]
+ [3.00000e+00 2.97000e+02 9.27000e+02 2.40000e+01 1.20000e+01 1.40000e+01
+  6.00000e+00]
+ [5.00000e+01 4.87000e+02 8.50000e+01 9.97000e+02 4.40000e+01 8.30000e+01
+  2.90000e+01]
+ [1.16000e+02 4.86000e+02 2.90000e+01 1.69000e+02 4.98000e+02 7.20000e+01
+  8.80000e+01]
+ [5.20000e+01 5.67000e+02 3.40000e+01 1.07000e+02 3.03000e+02 1.45700e+03
+  4.60000e+01]
+ [5.00000e+00 2.00000e+01 0.00000e+00 0.00000e+00 5.00000e+00 3.00000e+00
+  8.00000e+00]
+ [9.79000e+02 4.36000e+02 1.30000e+01 4.00000e+01 5.70000e+01 4.00000e+01
+  8.32000e+02]]
+
+
+P
+0.9619	0.2315	0.0479	0.1159	0.1181	0.0732	0.3471
+
+R
+0.9913	0.0463	0.0704	0.0987	0.2635	0.0014	0.7203
+
+F1
+Epochs:  33%|███▎      | 10/30 [42:43<1:25:34, 256.71s/it]05/18/2021 00:18:39 - INFO - utils.process_control -   mymodel训练损失:2169.1410,准确率为：69.47%,测试集准确率为：64.46%,测试集f1为：26.46%
+0.9764	0.0772	0.057	0.1066	0.1631	0.0028	0.4685	[[1.37377e+05 4.64200e+03 1.14000e+02 1.92000e+02 1.57000e+02 3.29000e+02
+  1.17000e+02]
+ [3.00000e+00 3.28000e+02 9.17000e+02 8.00000e+00 9.00000e+00 1.20000e+01
+  6.00000e+00]
+ [2.30000e+01 7.81000e+02 8.10000e+01 7.40000e+02 4.60000e+01 7.90000e+01
+  2.50000e+01]
+ [6.40000e+01 6.61000e+02 2.70000e+01 1.37000e+02 4.43000e+02 6.70000e+01
+  5.90000e+01]
+ [2.60000e+01 8.15000e+02 2.70000e+01 5.70000e+01 2.97000e+02 1.30600e+03
+  3.80000e+01]
+ [2.00000e+00 2.70000e+01 0.00000e+00 1.00000e+00 3.00000e+00 1.00000e+00
+  7.00000e+00]
+ [7.81000e+02 6.57000e+02 1.30000e+01 2.50000e+01 5.10000e+01 4.10000e+01
+  8.29000e+02]]
+
+
+P
+0.9612	0.2557	0.0456	0.094	0.1157	0.0244	0.3458
+
+R
+0.9935	0.0415	0.0687	0.1181	0.2952	0.0005	0.7669
+
+F1
+Epochs:  37%|███▋      | 11/30 [47:01<1:21:21, 256.90s/it]05/18/2021 00:22:57 - INFO - utils.process_control -   mymodel训练损失:2163.8274,准确率为：70.57%,测试集准确率为：65.43%,测试集f1为：27.04%
+0.9771	0.0714	0.0548	0.1047	0.1663	0.0011	0.4767	[[1.37418e+05 4.20200e+03 1.19000e+02 3.64000e+02 1.92000e+02 4.87000e+02
+  1.46000e+02]
+ [3.00000e+00 3.00000e+02 9.21000e+02 1.80000e+01 1.10000e+01 2.50000e+01
+  5.00000e+00]
+ [3.50000e+01 4.47000e+02 9.20000e+01 1.02100e+03 4.40000e+01 1.06000e+02
+  3.00000e+01]
+ [7.30000e+01 5.18000e+02 2.80000e+01 1.84000e+02 4.80000e+02 9.70000e+01
+  7.80000e+01]
+ [3.00000e+01 5.61000e+02 2.90000e+01 8.40000e+01 3.20000e+02 1.50500e+03
+  3.70000e+01]
+ [2.00000e+00 2.70000e+01 0.00000e+00 1.00000e+00 5.00000e+00 1.00000e+00
+  5.00000e+00]
+ [8.79000e+02 4.78000e+02 1.40000e+01 4.20000e+01 5.80000e+01 5.80000e+01
+  8.68000e+02]]
+
+
+P
+0.9614	0.2338	0.0518	0.1262	0.1247	0.0244	0.3621
+
+R
+0.9926	0.0459	0.0765	0.1074	0.2883	0.0004	0.7425
+
+F1
+Epochs:  40%|████      | 12/30 [51:19<1:17:10, 257.26s/it]05/18/2021 00:27:14 - INFO - utils.process_control -   mymodel训练损失:2159.5575,准确率为：71.44%,测试集准确率为：65.82%,测试集f1为：27.08%
+0.9768	0.0768	0.0618	0.116	0.1741	0.0009	0.4868	[[1.37425e+05 4.10200e+03 1.23000e+02 3.51000e+02 1.92000e+02 6.01000e+02
+  1.34000e+02]
+ [3.00000e+00 2.97000e+02 9.28000e+02 1.70000e+01 8.00000e+00 2.50000e+01
+  5.00000e+00]
+ [3.20000e+01 4.38000e+02 9.40000e+01 1.01500e+03 4.50000e+01 1.21000e+02
+  3.00000e+01]
+ [8.20000e+01 5.02000e+02 2.90000e+01 1.77000e+02 4.85000e+02 1.14000e+02
+  6.90000e+01]
+ [2.80000e+01 4.51000e+02 2.80000e+01 8.80000e+01 3.24000e+02 1.61700e+03
+  3.00000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 2.00000e+00 7.00000e+00
+  5.00000e+00]
+ [9.07000e+02 4.54000e+02 1.20000e+01 4.40000e+01 5.60000e+01 7.30000e+01
+  8.51000e+02]]
+
+
+P
+0.9615	0.2315	0.053	0.1214	0.1263	0.1707	0.355
+
+R
+0.9924	0.0474	0.0774	0.1045	0.2914	0.0027	0.7571
+
+F1
+Epochs:  43%|████▎     | 13/30 [55:36<1:12:52, 257.22s/it]05/18/2021 00:31:32 - INFO - utils.process_control -   mymodel训练损失:2155.1420,准确率为：72.67%,测试集准确率为：66.09%,测试集f1为：27.44%
+0.9767	0.0787	0.0629	0.1123	0.1762	0.0054	0.4834	[[1.3747e+05 3.9570e+03 1.1400e+02 4.6800e+02 2.6000e+02 4.9700e+02
+  1.6200e+02]
+ [3.0000e+00 3.0500e+02 9.1900e+02 2.3000e+01 9.0000e+00 1.9000e+01
+  5.0000e+00]
+ [3.0000e+01 3.6200e+02 9.9000e+01 1.1120e+03 5.5000e+01 9.0000e+01
+  2.7000e+01]
+ [8.4000e+01 4.2200e+02 2.9000e+01 2.1600e+02 5.5700e+02 6.9000e+01
+  8.1000e+01]
+ [3.5000e+01 4.6500e+02 2.7000e+01 1.2900e+02 3.3400e+02 1.5330e+03
+  4.3000e+01]
+ [4.0000e+00 2.0000e+01 0.0000e+00 2.0000e+00 6.0000e+00 4.0000e+00
+  5.0000e+00]
+ [9.3600e+02 3.8100e+02 1.8000e+01 6.2000e+01 6.7000e+01 4.6000e+01
+  8.8700e+02]]
+
+
+P
+0.9618	0.2377	0.0558	0.1481	0.1302	0.0976	0.37
+
+R
+0.9921	0.0516	0.0821	0.1074	0.2593	0.0018	0.7331
+
+F1
+Epochs:  47%|████▋     | 14/30 [59:54<1:08:40, 257.54s/it]05/18/2021 00:35:51 - INFO - utils.process_control -   mymodel训练损失:2150.9579,准确率为：73.72%,测试集准确率为：66.11%,测试集f1为：27.76%
+0.9767	0.0848	0.0664	0.1245	0.1733	0.0035	0.4918	[[1.37463e+05 3.93800e+03 1.31000e+02 4.02000e+02 3.19000e+02 5.12000e+02
+  1.63000e+02]
+ [3.00000e+00 2.97000e+02 9.34000e+02 1.80000e+01 1.00000e+01 1.60000e+01
+  5.00000e+00]
+ [3.20000e+01 3.74000e+02 1.16000e+02 1.05800e+03 7.00000e+01 9.40000e+01
+  3.10000e+01]
+ [7.50000e+01 3.99000e+02 2.80000e+01 1.90000e+02 6.08000e+02 7.80000e+01
+  8.00000e+01]
+ [2.80000e+01 4.51000e+02 3.10000e+01 1.08000e+02 3.70000e+02 1.53800e+03
+  4.00000e+01]
+ [2.00000e+00 2.00000e+01 0.00000e+00 1.00000e+00 7.00000e+00 6.00000e+00
+  5.00000e+00]
+ [9.21000e+02 3.58000e+02 1.50000e+01 4.80000e+01 8.20000e+01 6.20000e+01
+  9.11000e+02]]
+
+
+P
+0.9618	0.2315	0.0654	0.1303	0.1442	0.1463	0.3801
+
+R
+0.9923	0.0509	0.0924	0.1041	0.2524	0.0026	0.7377
+
+F1
+Epochs:  50%|█████     | 15/30 [1:04:12<1:04:25, 257.68s/it]05/18/2021 00:40:08 - INFO - utils.process_control -   mymodel训练损失:2146.9468,准确率为：74.73%,测试集准确率为：66.46%,测试集f1为：27.97%
+0.9768	0.0834	0.0766	0.1157	0.1835	0.0051	0.5017	[[1.37454e+05 3.94200e+03 1.47000e+02 4.06000e+02 2.41000e+02 5.84000e+02
+  1.54000e+02]
+ [4.00000e+00 2.87000e+02 9.36000e+02 1.70000e+01 8.00000e+00 2.40000e+01
+  7.00000e+00]
+ [3.00000e+01 3.52000e+02 1.22000e+02 1.07500e+03 4.90000e+01 1.19000e+02
+  2.80000e+01]
+ [7.40000e+01 4.46000e+02 2.80000e+01 2.12000e+02 5.34000e+02 9.60000e+01
+  6.80000e+01]
+ [2.40000e+01 3.85000e+02 3.50000e+01 1.05000e+02 3.60000e+02 1.61900e+03
+  3.80000e+01]
+ [2.00000e+00 2.20000e+01 0.00000e+00 1.00000e+00 4.00000e+00 7.00000e+00
+  5.00000e+00]
+ [9.13000e+02 3.95000e+02 1.70000e+01 5.80000e+01 5.30000e+01 6.40000e+01
+  8.97000e+02]]
+
+
+P
+0.9617	0.2237	0.0687	0.1454	0.1403	0.1707	0.3742
+
+R
+0.9924	0.0492	0.0949	0.1131	0.2882	0.0028	0.7494
+
+F1
+Epochs:  53%|█████▎    | 16/30 [1:08:29<1:00:04, 257.48s/it]05/18/2021 00:44:25 - INFO - utils.process_control -   mymodel训练损失:2143.6423,准确率为：75.66%,测试集准确率为：66.41%,测试集f1为：27.47%
+0.9768	0.0807	0.0797	0.1273	0.1887	0.0055	0.4992	[[1.37443e+05 4.27000e+03 1.13000e+02 2.48000e+02 2.38000e+02 4.65000e+02
+  1.51000e+02]
+ [3.00000e+00 3.20000e+02 9.17000e+02 1.00000e+01 1.00000e+01 1.70000e+01
+  6.00000e+00]
+ [3.40000e+01 5.67000e+02 1.06000e+02 8.69000e+02 6.60000e+01 1.08000e+02
+  2.50000e+01]
+ [7.50000e+01 4.80000e+02 2.60000e+01 1.60000e+02 5.79000e+02 7.00000e+01
+  6.80000e+01]
+ [2.30000e+01 6.12000e+02 2.50000e+01 4.80000e+01 3.45000e+02 1.47600e+03
+  3.70000e+01]
+ [1.00000e+00 2.40000e+01 0.00000e+00 2.00000e+00 5.00000e+00 4.00000e+00
+  5.00000e+00]
+ [9.23000e+02 4.32000e+02 1.20000e+01 2.60000e+01 6.30000e+01 4.50000e+01
+  8.96000e+02]]
+
+
+P
+0.9616	0.2494	0.0597	0.1097	0.1345	0.0976	0.3738
+
+R
+0.9924	0.0477	0.0884	0.1174	0.2642	0.0018	0.7542
+
+F1
+Epochs:  57%|█████▋    | 17/30 [1:12:46<55:45, 257.33s/it]  05/18/2021 00:48:41 - INFO - utils.process_control -   mymodel训练损失:2140.4530,准确率为：76.54%,测试集准确率为：67.13%,测试集f1为：27.95%
+0.9767	0.0801	0.0713	0.1134	0.1782	0.0036	0.4999	[[1.37422e+05 4.19300e+03 1.02000e+02 3.58000e+02 1.87000e+02 5.23000e+02
+  1.43000e+02]
+ [4.00000e+00 3.16000e+02 9.10000e+02 1.60000e+01 8.00000e+00 2.20000e+01
+  7.00000e+00]
+ [2.50000e+01 4.36000e+02 1.04000e+02 1.03300e+03 4.20000e+01 1.10000e+02
+  2.50000e+01]
+ [6.40000e+01 5.13000e+02 2.60000e+01 1.97000e+02 5.16000e+02 7.80000e+01
+  6.40000e+01]
+ [2.10000e+01 5.03000e+02 2.40000e+01 9.20000e+01 3.50000e+02 1.53300e+03
+  4.30000e+01]
+ [1.00000e+00 2.50000e+01 0.00000e+00 2.00000e+00 3.00000e+00 5.00000e+00
+  5.00000e+00]
+ [8.70000e+02 4.52000e+02 1.10000e+01 4.50000e+01 4.70000e+01 4.90000e+01
+  9.23000e+02]]
+
+
+P
+0.9615	0.2463	0.0586	0.1351	0.1364	0.122	0.3851
+
+R
+0.9929	0.0491	0.0884	0.113	0.3036	0.0022	0.7628
+
+F1
+Epochs:  60%|██████    | 18/30 [1:17:03<51:25, 257.11s/it]05/18/2021 00:53:00 - INFO - utils.process_control -   mymodel训练损失:2137.4546,准确率为：77.23%,测试集准确率为：67.28%,测试集f1为：28.01%
+0.9769	0.0819	0.0705	0.1231	0.1882	0.0042	0.5118	[[1.37446e+05 4.25800e+03 1.05000e+02 3.19000e+02 1.95000e+02 4.56000e+02
+  1.49000e+02]
+ [3.00000e+00 3.31000e+02 9.03000e+02 1.50000e+01 8.00000e+00 1.70000e+01
+  6.00000e+00]
+ [2.90000e+01 4.89000e+02 1.06000e+02 9.85000e+02 4.50000e+01 9.30000e+01
+  2.80000e+01]
+ [7.10000e+01 5.16000e+02 2.60000e+01 1.90000e+02 5.17000e+02 7.50000e+01
+  6.30000e+01]
+ [2.40000e+01 5.84000e+02 2.30000e+01 7.20000e+01 3.62000e+02 1.46500e+03
+  3.60000e+01]
+ [3.00000e+00 2.50000e+01 0.00000e+00 2.00000e+00 3.00000e+00 4.00000e+00
+  4.00000e+00]
+ [9.07000e+02 4.32000e+02 1.00000e+01 4.10000e+01 4.70000e+01 4.70000e+01
+  9.13000e+02]]
+
+
+P
+0.9616	0.258	0.0597	0.1303	0.1411	0.0976	0.3809
+
+R
+0.9925	0.0499	0.0904	0.117	0.3076	0.0019	0.7615
+
+F1
+Epochs:  63%|██████▎   | 19/30 [1:21:21<47:11, 257.44s/it]05/18/2021 00:57:17 - INFO - utils.process_control -   mymodel训练损失:2134.9944,准确率为：77.94%,测试集准确率为：66.47%,测试集f1为：28.23%
+0.9768	0.0836	0.0719	0.1233	0.1934	0.0036	0.5078	[[1.37456e+05 3.69800e+03 1.44000e+02 3.94000e+02 4.42000e+02 6.21000e+02
+  1.73000e+02]
+ [3.00000e+00 2.86000e+02 9.46000e+02 1.20000e+01 8.00000e+00 2.00000e+01
+  8.00000e+00]
+ [3.10000e+01 3.03000e+02 1.26000e+02 1.08100e+03 9.60000e+01 1.13000e+02
+  2.50000e+01]
+ [5.90000e+01 3.42000e+02 3.10000e+01 1.95000e+02 6.85000e+02 8.10000e+01
+  6.50000e+01]
+ [2.30000e+01 3.06000e+02 3.00000e+01 9.50000e+01 4.14000e+02 1.66200e+03
+  3.60000e+01]
+ [2.00000e+00 1.40000e+01 0.00000e+00 2.00000e+00 1.10000e+01 8.00000e+00
+  4.00000e+00]
+ [9.03000e+02 3.16000e+02 1.30000e+01 5.60000e+01 1.09000e+02 6.30000e+01
+  9.37000e+02]]
+
+
+P
+0.9617	0.2229	0.071	0.1337	0.1613	0.1951	0.3909
+
+R
+0.9926	0.0543	0.0977	0.1063	0.2346	0.0031	0.7508
+
+F1
+Epochs:  67%|██████▋   | 20/30 [1:25:38<42:53, 257.30s/it]05/18/2021 01:01:34 - INFO - utils.process_control -   mymodel训练损失:2132.2766,准确率为：78.71%,测试集准确率为：67.78%,测试集f1为：28.39%
+0.9769	0.0874	0.0822	0.1184	0.1912	0.0061	0.5141	[[1.37433e+05 4.06000e+03 1.24000e+02 4.07000e+02 2.24000e+02 5.25000e+02
+  1.55000e+02]
+ [3.00000e+00 3.08000e+02 9.31000e+02 1.40000e+01 5.00000e+00 1.70000e+01
+  5.00000e+00]
+ [2.70000e+01 3.67000e+02 1.22000e+02 1.09300e+03 4.90000e+01 8.90000e+01
+  2.80000e+01]
+ [6.50000e+01 4.61000e+02 3.30000e+01 2.15000e+02 5.34000e+02 8.30000e+01
+  6.70000e+01]
+ [2.20000e+01 4.16000e+02 2.90000e+01 1.18000e+02 3.70000e+02 1.57300e+03
+  3.80000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 2.00000e+00 4.00000e+00 5.00000e+00
+  4.00000e+00]
+ [8.88000e+02 3.96000e+02 1.10000e+01 5.40000e+01 5.20000e+01 5.30000e+01
+  9.43000e+02]]
+
+
+P
+0.9616	0.2401	0.0687	0.1475	0.1442	0.122	0.3934
+
+R
+0.9927	0.0511	0.0976	0.113	0.2989	0.0021	0.7605
+
+F1
+Epochs:  70%|███████   | 21/30 [1:29:55<38:34, 257.18s/it]05/18/2021 01:05:51 - INFO - utils.process_control -   mymodel训练损失:2130.2486,准确率为：78.91%,测试集准确率为：67.61%,测试集f1为：28.28%
+0.9769	0.0842	0.0807	0.1279	0.1945	0.0042	0.5186	[[1.37467e+05 4.10500e+03 1.17000e+02 3.71000e+02 2.35000e+02 4.72000e+02
+  1.61000e+02]
+ [3.00000e+00 3.14000e+02 9.29000e+02 1.10000e+01 6.00000e+00 1.40000e+01
+  6.00000e+00]
+ [3.70000e+01 4.06000e+02 1.20000e+02 1.05400e+03 5.20000e+01 8.10000e+01
+  2.50000e+01]
+ [7.80000e+01 4.65000e+02 2.80000e+01 2.06000e+02 5.46000e+02 7.60000e+01
+  5.90000e+01]
+ [2.50000e+01 5.12000e+02 2.70000e+01 1.00000e+02 3.79000e+02 1.48100e+03
+  4.20000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 2.00000e+00 4.00000e+00 5.00000e+00
+  4.00000e+00]
+ [9.53000e+02 3.74000e+02 1.20000e+01 4.60000e+01 4.90000e+01 4.10000e+01
+  9.22000e+02]]
+
+
+P
+0.9618	0.2447	0.0676	0.1413	0.1477	0.122	0.3846
+
+R
+0.9921	0.0507	0.0973	0.1151	0.2982	0.0023	0.7564
+
+F1
+Epochs:  73%|███████▎  | 22/30 [1:34:13<34:18, 257.32s/it]05/18/2021 01:10:08 - INFO - utils.process_control -   mymodel训练损失:2128.0796,准确率为：79.63%,测试集准确率为：67.73%,测试集f1为：28.58%
+0.9767	0.0839	0.0798	0.1268	0.1976	0.0045	0.51	[[1.37461e+05 4.00100e+03 1.24000e+02 3.94000e+02 2.51000e+02 5.42000e+02
+  1.55000e+02]
+ [3.00000e+00 3.08000e+02 9.30000e+02 1.30000e+01 9.00000e+00 1.50000e+01
+  5.00000e+00]
+ [2.80000e+01 3.56000e+02 1.29000e+02 1.08500e+03 5.60000e+01 9.60000e+01
+  2.50000e+01]
+ [7.50000e+01 4.37000e+02 3.30000e+01 2.15000e+02 5.54000e+02 8.40000e+01
+  6.00000e+01]
+ [2.30000e+01 4.15000e+02 2.80000e+01 1.02000e+02 3.86000e+02 1.57400e+03
+  3.80000e+01]
+ [3.00000e+00 2.10000e+01 0.00000e+00 2.00000e+00 4.00000e+00 7.00000e+00
+  4.00000e+00]
+ [9.12000e+02 3.69000e+02 1.40000e+01 5.20000e+01 5.90000e+01 5.10000e+01
+  9.40000e+02]]
+
+
+P
+0.9617	0.2401	0.0727	0.1475	0.1504	0.1707	0.3922
+
+R
+0.9925	0.0521	0.1025	0.1154	0.2926	0.003	0.7661
+
+F1
+Epochs:  77%|███████▋  | 23/30 [1:38:30<30:00, 257.23s/it]05/18/2021 01:14:26 - INFO - utils.process_control -   mymodel训练损失:2126.5699,准确率为：79.91%,测试集准确率为：68.19%,测试集f1为：28.33%
+0.9769	0.0857	0.0851	0.1295	0.1987	0.0058	0.5188	[[1.37442e+05 4.14200e+03 1.25000e+02 3.12000e+02 2.54000e+02 5.02000e+02
+  1.51000e+02]
+ [3.00000e+00 3.10000e+02 9.29000e+02 1.00000e+01 7.00000e+00 1.80000e+01
+  6.00000e+00]
+ [3.20000e+01 4.45000e+02 1.25000e+02 9.88000e+02 5.80000e+01 9.90000e+01
+  2.80000e+01]
+ [7.20000e+01 4.60000e+02 2.90000e+01 1.95000e+02 5.63000e+02 7.90000e+01
+  6.00000e+01]
+ [2.40000e+01 4.82000e+02 2.20000e+01 6.80000e+01 3.82000e+02 1.55200e+03
+  3.60000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 2.00000e+00 4.00000e+00 5.00000e+00
+  4.00000e+00]
+ [9.23000e+02 3.82000e+02 1.20000e+01 4.80000e+01 6.00000e+01 4.50000e+01
+  9.27000e+02]]
+
+
+P
+0.9616	0.2416	0.0704	0.1337	0.1489	0.122	0.3867
+
+R
+0.9924	0.0496	0.1006	0.1201	0.2877	0.0022	0.7649
+
+F1
+Epochs:  80%|████████  | 24/30 [1:42:47<25:44, 257.41s/it]05/18/2021 01:18:42 - INFO - utils.process_control -   mymodel训练损失:2124.4659,准确率为：80.62%,测试集准确率为：67.87%,测试集f1为：28.75%
+0.9768	0.0824	0.0829	0.1266	0.1962	0.0043	0.5137	[[1.37438e+05 4.06700e+03 1.20000e+02 3.99000e+02 2.97000e+02 4.51000e+02
+  1.56000e+02]
+ [3.00000e+00 3.14000e+02 9.34000e+02 1.20000e+01 7.00000e+00 8.00000e+00
+  5.00000e+00]
+ [2.50000e+01 3.83000e+02 1.34000e+02 1.08200e+03 5.70000e+01 7.00000e+01
+  2.40000e+01]
+ [6.20000e+01 4.39000e+02 3.20000e+01 2.21000e+02 5.81000e+02 5.90000e+01
+  6.40000e+01]
+ [2.40000e+01 4.88000e+02 3.00000e+01 1.19000e+02 4.02000e+02 1.46800e+03
+  3.50000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 2.00000e+00 4.00000e+00 5.00000e+00
+  4.00000e+00]
+ [8.92000e+02 3.77000e+02 1.10000e+01 6.10000e+01 7.00000e+01 3.30000e+01
+  9.53000e+02]]
+
+
+P
+0.9616	0.2447	0.0755	0.1516	0.1567	0.122	0.3976
+
+R
+0.9927	0.0516	0.1063	0.1166	0.2835	0.0024	0.7679
+
+F1
+Epochs:  83%|████████▎ | 25/30 [1:47:04<21:25, 257.11s/it]05/18/2021 01:22:59 - INFO - utils.process_control -   mymodel训练损失:2123.2905,准确率为：80.85%,测试集准确率为：68.01%,测试集f1为：28.61%
+0.9769	0.0852	0.0883	0.1318	0.2018	0.0047	0.5239	[[1.37448e+05 3.97400e+03 1.23000e+02 3.66000e+02 2.79000e+02 5.84000e+02
+  1.54000e+02]
+ [3.00000e+00 3.04000e+02 9.30000e+02 1.20000e+01 9.00000e+00 1.90000e+01
+  6.00000e+00]
+ [2.90000e+01 3.84000e+02 1.29000e+02 1.04600e+03 5.30000e+01 1.08000e+02
+  2.60000e+01]
+ [7.00000e+01 4.38000e+02 3.10000e+01 2.09000e+02 5.64000e+02 8.60000e+01
+  6.00000e+01]
+ [2.20000e+01 3.77000e+02 2.30000e+01 9.30000e+01 3.92000e+02 1.62600e+03
+  3.30000e+01]
+ [2.00000e+00 2.00000e+01 0.00000e+00 2.00000e+00 5.00000e+00 8.00000e+00
+  4.00000e+00]
+ [9.20000e+02 3.57000e+02 1.10000e+01 5.30000e+01 6.30000e+01 5.00000e+01
+  9.43000e+02]]
+
+
+P
+0.9617	0.2369	0.0727	0.1433	0.1528	0.1951	0.3934
+
+R
+0.9924	0.0519	0.1034	0.1173	0.2872	0.0032	0.7692
+
+F1
+Epochs:  87%|████████▋ | 26/30 [1:51:20<17:07, 256.85s/it]05/18/2021 01:27:14 - INFO - utils.process_control -   mymodel训练损失:2121.7880,准确率为：81.17%,测试集准确率为：68.08%,测试集f1为：28.66%
+0.9768	0.0852	0.0854	0.1291	0.1994	0.0063	0.5206	[[1.3745e+05 4.1040e+03 1.1700e+02 3.5300e+02 2.4000e+02 5.1000e+02
+  1.5400e+02]
+ [3.0000e+00 3.1800e+02 9.2700e+02 1.0000e+01 6.0000e+00 1.3000e+01
+  6.0000e+00]
+ [3.2000e+01 4.1100e+02 1.2900e+02 1.0410e+03 4.5000e+01 9.0000e+01
+  2.7000e+01]
+ [7.1000e+01 4.7300e+02 3.1000e+01 2.1100e+02 5.3600e+02 7.4000e+01
+  6.2000e+01]
+ [2.3000e+01 4.7500e+02 2.6000e+01 9.4000e+01 3.8100e+02 1.5300e+03
+  3.7000e+01]
+ [3.0000e+00 2.2000e+01 0.0000e+00 2.0000e+00 3.0000e+00 7.0000e+00
+  4.0000e+00]
+ [9.1500e+02 3.8000e+02 1.0000e+01 4.9000e+01 5.0000e+01 4.3000e+01
+  9.5000e+02]]
+
+
+P
+0.9617	0.2479	0.0727	0.1447	0.1485	0.1707	0.3963
+
+R
+0.9924	0.0514	0.104	0.1199	0.3021	0.0031	0.7661
+
+F1
+Epochs:  90%|█████████ | 27/30 [1:55:36<12:49, 256.45s/it]05/18/2021 01:31:30 - INFO - utils.process_control -   mymodel训练损失:2120.5760,准确率为：81.54%,测试集准确率为：68.59%,测试集f1为：28.88%
+0.9768	0.0852	0.0856	0.1311	0.1991	0.0061	0.5224	[[1.37443e+05 4.09300e+03 1.23000e+02 3.20000e+02 2.40000e+02 5.56000e+02
+  1.53000e+02]
+ [3.00000e+00 3.08000e+02 9.33000e+02 1.00000e+01 8.00000e+00 1.50000e+01
+  6.00000e+00]
+ [2.90000e+01 4.17000e+02 1.35000e+02 1.00600e+03 5.20000e+01 1.08000e+02
+  2.80000e+01]
+ [6.80000e+01 4.63000e+02 3.30000e+01 2.10000e+02 5.40000e+02 8.50000e+01
+  5.90000e+01]
+ [2.10000e+01 4.23000e+02 2.60000e+01 7.80000e+01 3.93000e+02 1.58900e+03
+  3.60000e+01]
+ [3.00000e+00 2.00000e+01 0.00000e+00 2.00000e+00 4.00000e+00 8.00000e+00
+  4.00000e+00]
+ [9.01000e+02 3.83000e+02 1.00000e+01 4.80000e+01 4.90000e+01 4.50000e+01
+  9.61000e+02]]
+
+
+P
+0.9616	0.2401	0.0761	0.144	0.1532	0.1951	0.4009
+
+R
+0.9926	0.0504	0.1071	0.1254	0.3056	0.0033	0.7706
+
+F1
+Epochs:  93%|█████████▎| 28/30 [1:59:51<08:32, 256.24s/it]05/18/2021 01:35:47 - INFO - utils.process_control -   mymodel训练损失:2119.7240,准确率为：81.79%,测试集准确率为：68.44%,测试集f1为：28.76%
+0.9769	0.0834	0.089	0.1341	0.204	0.0065	0.5274	[[1.37441e+05 4.04600e+03 1.20000e+02 3.79000e+02 2.87000e+02 5.00000e+02
+  1.55000e+02]
+ [3.00000e+00 3.12000e+02 9.34000e+02 1.10000e+01 5.00000e+00 1.20000e+01
+  6.00000e+00]
+ [2.80000e+01 3.82000e+02 1.32000e+02 1.06300e+03 6.20000e+01 8.40000e+01
+  2.40000e+01]
+ [6.10000e+01 4.37000e+02 3.00000e+01 2.18000e+02 5.85000e+02 7.10000e+01
+  5.60000e+01]
+ [2.30000e+01 4.51000e+02 2.70000e+01 1.04000e+02 3.98000e+02 1.52900e+03
+  3.40000e+01]
+ [2.00000e+00 2.10000e+01 0.00000e+00 3.00000e+00 4.00000e+00 7.00000e+00
+  4.00000e+00]
+ [8.96000e+02 3.78000e+02 1.10000e+01 5.30000e+01 6.90000e+01 3.70000e+01
+  9.53000e+02]]
+
+
+P
+0.9616	0.2432	0.0744	0.1495	0.1551	0.1707	0.3976
+
+R
+0.9927	0.0518	0.1053	0.1191	0.2823	0.0031	0.7735
+
+F1
+Epochs:  97%|█████████▋| 29/30 [2:04:08<04:16, 256.42s/it]05/18/2021 01:40:03 - INFO - utils.process_control -   mymodel训练损失:2118.4111,准确率为：82.05%,测试集准确率为：68.20%,测试集f1为：28.91%
+0.9769	0.0854	0.0872	0.1326	0.2002	0.0061	0.5252	[[1.37449e+05 4.00700e+03 1.21000e+02 3.50000e+02 2.93000e+02 5.48000e+02
+  1.60000e+02]
+ [3.00000e+00 3.10000e+02 9.31000e+02 1.20000e+01 7.00000e+00 1.50000e+01
+  5.00000e+00]
+ [3.20000e+01 3.92000e+02 1.36000e+02 1.02700e+03 6.00000e+01 1.03000e+02
+  2.50000e+01]
+ [6.90000e+01 4.36000e+02 3.10000e+01 2.07000e+02 5.75000e+02 8.10000e+01
+  5.90000e+01]
+ [2.30000e+01 4.14000e+02 2.50000e+01 8.30000e+01 4.03000e+02 1.58300e+03
+  3.50000e+01]
+ [3.00000e+00 1.80000e+01 0.00000e+00 3.00000e+00 4.00000e+00 9.00000e+00
+  4.00000e+00]
+ [9.15000e+02 3.57000e+02 1.10000e+01 4.60000e+01 5.80000e+01 4.10000e+01
+  9.69000e+02]]
+
+
+P
+0.9617	0.2416	0.0766	0.142	0.1571	0.2195	0.4043
+
+R
+0.9925	0.0522	0.1084	0.1198	0.2879	0.0038	0.7709
+
+F1
+0.9768	0.0859	0.0898	0.1299	0.2032	0.0074	0.5304	绘制误差与测试集准确率变化曲线
+Epochs: 100%|██████████| 30/30 [2:08:25<00:00, 256.85s/it]
+
+Process finished with exit code 0
+
+C:\Anaconda3\python.exe D:/事件要素识别和事件关系识别流水线或联合模型/event_element_bg_train.py
+05/18/2021 08:42:46 - INFO - utils.file_utils -   PyTorch version 1.5.0+cu101 available.
+2021-05-18 08:42:46.115799: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found
+2021-05-18 08:42:46.115922: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+05/18/2021 08:42:49 - INFO - utils.process_control -   device: cuda n_gpu: 1, distributed training: False, 16-bits training: False
+Arguments:
+    train_epochs:                  30
+    seed:                          8
+    embeddings_lr:                 5e-05
+    encoder_lr:                    5e-05
+    learning_rate:                 5e-05
+    mymodel_save_dir:              checkpoint/event_element/
+    embedding_name:                bg_embedding.bin
+    model_name:                    element_bg.bin
+    role_lr:                       0.0
+    weight_decay:                  0.0
+    train_batch_size:              16
+    max_sent_len:                  128
+    num_attention_heads:           4
+    test_size:                     0.2
+    all_data_dir:                  data/bio_data/
+    train_data_dir:                data/bio_data/
+    test_data_dir:                 data/bio_data/
+    mymodel_config_dir:            config/event_element_config.json
+    pretrained_model_dir:          pretrained_model/pytorch_electra_180g_large/
+    vocab_dir:                     pretrained_model/pytorch_electra_180g_large/vocab.txt
+    START_TAG:                     [CLS]
+    STOP_TAG:                      [SEP]
+    MASK_TAG:                      [MASK]
+    tag_to_ix:                     {'o': 0, 'B-Time': 1, 'I-Time': 2, 'B-Location': 3, 'I-Location': 4, 'B-Object': 5, 'I-Object': 6, 'B-Participant': 7, 'I-Participant': 8, 'B-Means': 9, 'I-Means': 10, 'B-Denoter': 11, 'I-Denoter': 12, '[CLS]': 13, '[SEP]': 14, '[MASK]': 15}
+    ix_to_tag:                     {0: 'o', 1: 'B-Time', 2: 'I-Time', 3: 'B-Location', 4: 'I-Location', 5: 'B-Object', 6: 'I-Object', 7: 'B-Participant', 8: 'I-Participant', 9: 'B-Means', 10: 'I-Means', 11: 'B-Denoter', 12: 'I-Denoter', 13: '[CLS]', 14: '[SEP]', 15: '[MASK]'}
+    tag_to_tag:                    {'B-Time': 'Time', 'I-Time': 'Time', 'B-Location': 'Location', 'I-Location': 'Location', 'B-Object': 'Object', 'I-Object': 'Object', 'B-Participant': 'Participant', 'I-Participant': 'Participant', 'B-Means': 'Means', 'I-Means': 'Means', 'B-Denoter': 'Denoter', 'I-Denoter': 'Denoter', 'o': 'Other', '[CLS]': 'Other', '[SEP]': 'Other', '[MASK]': 'Other'}
+    tag_to_idx:                    {'Other': 0, 'Time': 1, 'Location': 2, 'Object': 3, 'Participant': 4, 'Means': 5, 'Denoter': 6}
+    rel2label:                     {'Causal': 0, 'Follow': 1, 'Accompany': 2, 'Concurrency': 3, 'Other': 4}
+    ix_to_idx:                     {0: 1, 1: 1, 2: 2, 3: 2, 4: 3, 5: 3, 6: 4, 7: 4, 8: 5, 9: 5, 10: 6, 11: 6, 12: 0, 13: 0, 14: 0, 15: 0}
+    tag_to_score:                  {0: 10, 1: 10, 2: 10, 3: 10, 4: 10, 5: 10, 6: 10, 7: 10, 8: 10, 9: 10, 10: 10, 11: 10, 12: 10, 13: 10, 14: 10, 15: 10}
+    max_role_size:                 13
+    do_train:                      True
+    do_eval:                       True
+    no_gpu:                        False
+    gradient_accumulation_steps:   1
+    optimize_on_cpu:               False
+    fp16:                          False
+    loss_scale:                    128
+    local_rank:                    -1
+    no_cuda:                       False
+
+Calling ElectraTokenizer.from_pretrained() with the path to a single file or url is deprecated
+05/18/2021 08:42:50 - INFO - utils.configuration_utils -   loading configuration file config/event_element_config.json
+05/18/2021 08:42:50 - INFO - utils.configuration_utils -   Model config ElectraConfig {
+  "attention_probs_dropout_prob": 0.1,
+  "embedding_size": 1024,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "electra",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 4,
+  "pad_token_id": 0,
+  "rnn_num_layers": 2,
+  "summary_activation": "gelu",
+  "summary_last_dropout": 0.1,
+  "summary_type": "first",
+  "summary_use_proj": true,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+{'return_dict': False, 'output_hidden_states': False, 'output_attentions': False, 'use_cache': True, 'torchscript': False, 'use_bfloat16': False, 'pruned_heads': {}, 'tie_word_embeddings': True, 'is_encoder_decoder': False, 'is_decoder': False, 'add_cross_attention': False, 'tie_encoder_decoder': False, 'max_length': 20, 'min_length': 0, 'do_sample': False, 'early_stopping': False, 'num_beams': 1, 'temperature': 1.0, 'top_k': 50, 'top_p': 1.0, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'no_repeat_ngram_size': 0, 'bad_words_ids': None, 'num_return_sequences': 1, 'chunk_size_feed_forward': 0, 'architectures': None, 'finetuning_task': None, 'id2label': {0: 'LABEL_0', 1: 'LABEL_1'}, 'label2id': {'LABEL_0': 0, 'LABEL_1': 1}, 'tokenizer_class': None, 'prefix': None, 'bos_token_id': None, 'pad_token_id': 0, 'eos_token_id': None, 'sep_token_id': None, 'decoder_start_token_id': None, 'task_specific_params': None, 'xla_device': None, '_name_or_path': '', 'rnn_num_layers': 2, 'model_type': 'electra', 'vocab_size': 21128, 'embedding_size': 1024, 'hidden_size': 1024, 'num_hidden_layers': 4, 'num_attention_heads': 16, 'intermediate_size': 4096, 'hidden_act': 'gelu', 'hidden_dropout_prob': 0.1, 'attention_probs_dropout_prob': 0.1, 'max_position_embeddings': 512, 'type_vocab_size': 2, 'initializer_range': 0.02, 'layer_norm_eps': 1e-12, 'summary_type': 'first', 'summary_use_proj': True, 'summary_activation': 'gelu', 'summary_last_dropout': 0.1}
+05/18/2021 08:42:56 - INFO - utils.modeling_utils -   loading weights file pretrained_model/pytorch_electra_180g_large/pytorch_model.bin
+05/18/2021 08:42:56 - WARNING - utils.modeling_utils -   Some weights of the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin were not used when initializing MyElectraModel: ['electra.encoder.layer.0.attention.self.query.weight', 'electra.encoder.layer.0.attention.self.query.bias', 'electra.encoder.layer.0.attention.self.key.weight', 'electra.encoder.layer.0.attention.self.key.bias', 'electra.encoder.layer.0.attention.self.value.weight', 'electra.encoder.layer.0.attention.self.value.bias', 'electra.encoder.layer.0.attention.output.dense.weight', 'electra.encoder.layer.0.attention.output.dense.bias', 'electra.encoder.layer.0.attention.output.LayerNorm.weight', 'electra.encoder.layer.0.attention.output.LayerNorm.bias', 'electra.encoder.layer.0.intermediate.dense.weight', 'electra.encoder.layer.0.intermediate.dense.bias', 'electra.encoder.layer.0.output.dense.weight', 'electra.encoder.layer.0.output.dense.bias', 'electra.encoder.layer.0.output.LayerNorm.weight', 'electra.encoder.layer.0.output.LayerNorm.bias', 'electra.encoder.layer.1.attention.self.query.weight', 'electra.encoder.layer.1.attention.self.query.bias', 'electra.encoder.layer.1.attention.self.key.weight', 'electra.encoder.layer.1.attention.self.key.bias', 'electra.encoder.layer.1.attention.self.value.weight', 'electra.encoder.layer.1.attention.self.value.bias', 'electra.encoder.layer.1.attention.output.dense.weight', 'electra.encoder.layer.1.attention.output.dense.bias', 'electra.encoder.layer.1.attention.output.LayerNorm.weight', 'electra.encoder.layer.1.attention.output.LayerNorm.bias', 'electra.encoder.layer.1.intermediate.dense.weight', 'electra.encoder.layer.1.intermediate.dense.bias', 'electra.encoder.layer.1.output.dense.weight', 'electra.encoder.layer.1.output.dense.bias', 'electra.encoder.layer.1.output.LayerNorm.weight', 'electra.encoder.layer.1.output.LayerNorm.bias', 'electra.encoder.layer.2.attention.self.query.weight', 'electra.encoder.layer.2.attention.self.query.bias', 'electra.encoder.layer.2.attention.self.key.weight', 'electra.encoder.layer.2.attention.self.key.bias', 'electra.encoder.layer.2.attention.self.value.weight', 'electra.encoder.layer.2.attention.self.value.bias', 'electra.encoder.layer.2.attention.output.dense.weight', 'electra.encoder.layer.2.attention.output.dense.bias', 'electra.encoder.layer.2.attention.output.LayerNorm.weight', 'electra.encoder.layer.2.attention.output.LayerNorm.bias', 'electra.encoder.layer.2.intermediate.dense.weight', 'electra.encoder.layer.2.intermediate.dense.bias', 'electra.encoder.layer.2.output.dense.weight', 'electra.encoder.layer.2.output.dense.bias', 'electra.encoder.layer.2.output.LayerNorm.weight', 'electra.encoder.layer.2.output.LayerNorm.bias', 'electra.encoder.layer.3.attention.self.query.weight', 'electra.encoder.layer.3.attention.self.query.bias', 'electra.encoder.layer.3.attention.self.key.weight', 'electra.encoder.layer.3.attention.self.key.bias', 'electra.encoder.layer.3.attention.self.value.weight', 'electra.encoder.layer.3.attention.self.value.bias', 'electra.encoder.layer.3.attention.output.dense.weight', 'electra.encoder.layer.3.attention.output.dense.bias', 'electra.encoder.layer.3.attention.output.LayerNorm.weight', 'electra.encoder.layer.3.attention.output.LayerNorm.bias', 'electra.encoder.layer.3.intermediate.dense.weight', 'electra.encoder.layer.3.intermediate.dense.bias', 'electra.encoder.layer.3.output.dense.weight', 'electra.encoder.layer.3.output.dense.bias', 'electra.encoder.layer.3.output.LayerNorm.weight', 'electra.encoder.layer.3.output.LayerNorm.bias', 'electra.encoder.layer.4.attention.self.query.weight', 'electra.encoder.layer.4.attention.self.query.bias', 'electra.encoder.layer.4.attention.self.key.weight', 'electra.encoder.layer.4.attention.self.key.bias', 'electra.encoder.layer.4.attention.self.value.weight', 'electra.encoder.layer.4.attention.self.value.bias', 'electra.encoder.layer.4.attention.output.dense.weight', 'electra.encoder.layer.4.attention.output.dense.bias', 'electra.encoder.layer.4.attention.output.LayerNorm.weight', 'electra.encoder.layer.4.attention.output.LayerNorm.bias', 'electra.encoder.layer.4.intermediate.dense.weight', 'electra.encoder.layer.4.intermediate.dense.bias', 'electra.encoder.layer.4.output.dense.weight', 'electra.encoder.layer.4.output.dense.bias', 'electra.encoder.layer.4.output.LayerNorm.weight', 'electra.encoder.layer.4.output.LayerNorm.bias', 'electra.encoder.layer.5.attention.self.query.weight', 'electra.encoder.layer.5.attention.self.query.bias', 'electra.encoder.layer.5.attention.self.key.weight', 'electra.encoder.layer.5.attention.self.key.bias', 'electra.encoder.layer.5.attention.self.value.weight', 'electra.encoder.layer.5.attention.self.value.bias', 'electra.encoder.layer.5.attention.output.dense.weight', 'electra.encoder.layer.5.attention.output.dense.bias', 'electra.encoder.layer.5.attention.output.LayerNorm.weight', 'electra.encoder.layer.5.attention.output.LayerNorm.bias', 'electra.encoder.layer.5.intermediate.dense.weight', 'electra.encoder.layer.5.intermediate.dense.bias', 'electra.encoder.layer.5.output.dense.weight', 'electra.encoder.layer.5.output.dense.bias', 'electra.encoder.layer.5.output.LayerNorm.weight', 'electra.encoder.layer.5.output.LayerNorm.bias', 'electra.encoder.layer.6.attention.self.query.weight', 'electra.encoder.layer.6.attention.self.query.bias', 'electra.encoder.layer.6.attention.self.key.weight', 'electra.encoder.layer.6.attention.self.key.bias', 'electra.encoder.layer.6.attention.self.value.weight', 'electra.encoder.layer.6.attention.self.value.bias', 'electra.encoder.layer.6.attention.output.dense.weight', 'electra.encoder.layer.6.attention.output.dense.bias', 'electra.encoder.layer.6.attention.output.LayerNorm.weight', 'electra.encoder.layer.6.attention.output.LayerNorm.bias', 'electra.encoder.layer.6.intermediate.dense.weight', 'electra.encoder.layer.6.intermediate.dense.bias', 'electra.encoder.layer.6.output.dense.weight', 'electra.encoder.layer.6.output.dense.bias', 'electra.encoder.layer.6.output.LayerNorm.weight', 'electra.encoder.layer.6.output.LayerNorm.bias', 'electra.encoder.layer.7.attention.self.query.weight', 'electra.encoder.layer.7.attention.self.query.bias', 'electra.encoder.layer.7.attention.self.key.weight', 'electra.encoder.layer.7.attention.self.key.bias', 'electra.encoder.layer.7.attention.self.value.weight', 'electra.encoder.layer.7.attention.self.value.bias', 'electra.encoder.layer.7.attention.output.dense.weight', 'electra.encoder.layer.7.attention.output.dense.bias', 'electra.encoder.layer.7.attention.output.LayerNorm.weight', 'electra.encoder.layer.7.attention.output.LayerNorm.bias', 'electra.encoder.layer.7.intermediate.dense.weight', 'electra.encoder.layer.7.intermediate.dense.bias', 'electra.encoder.layer.7.output.dense.weight', 'electra.encoder.layer.7.output.dense.bias', 'electra.encoder.layer.7.output.LayerNorm.weight', 'electra.encoder.layer.7.output.LayerNorm.bias', 'electra.encoder.layer.8.attention.self.query.weight', 'electra.encoder.layer.8.attention.self.query.bias', 'electra.encoder.layer.8.attention.self.key.weight', 'electra.encoder.layer.8.attention.self.key.bias', 'electra.encoder.layer.8.attention.self.value.weight', 'electra.encoder.layer.8.attention.self.value.bias', 'electra.encoder.layer.8.attention.output.dense.weight', 'electra.encoder.layer.8.attention.output.dense.bias', 'electra.encoder.layer.8.attention.output.LayerNorm.weight', 'electra.encoder.layer.8.attention.output.LayerNorm.bias', 'electra.encoder.layer.8.intermediate.dense.weight', 'electra.encoder.layer.8.intermediate.dense.bias', 'electra.encoder.layer.8.output.dense.weight', 'electra.encoder.layer.8.output.dense.bias', 'electra.encoder.layer.8.output.LayerNorm.weight', 'electra.encoder.layer.8.output.LayerNorm.bias', 'electra.encoder.layer.9.attention.self.query.weight', 'electra.encoder.layer.9.attention.self.query.bias', 'electra.encoder.layer.9.attention.self.key.weight', 'electra.encoder.layer.9.attention.self.key.bias', 'electra.encoder.layer.9.attention.self.value.weight', 'electra.encoder.layer.9.attention.self.value.bias', 'electra.encoder.layer.9.attention.output.dense.weight', 'electra.encoder.layer.9.attention.output.dense.bias', 'electra.encoder.layer.9.attention.output.LayerNorm.weight', 'electra.encoder.layer.9.attention.output.LayerNorm.bias', 'electra.encoder.layer.9.intermediate.dense.weight', 'electra.encoder.layer.9.intermediate.dense.bias', 'electra.encoder.layer.9.output.dense.weight', 'electra.encoder.layer.9.output.dense.bias', 'electra.encoder.layer.9.output.LayerNorm.weight', 'electra.encoder.layer.9.output.LayerNorm.bias', 'electra.encoder.layer.10.attention.self.query.weight', 'electra.encoder.layer.10.attention.self.query.bias', 'electra.encoder.layer.10.attention.self.key.weight', 'electra.encoder.layer.10.attention.self.key.bias', 'electra.encoder.layer.10.attention.self.value.weight', 'electra.encoder.layer.10.attention.self.value.bias', 'electra.encoder.layer.10.attention.output.dense.weight', 'electra.encoder.layer.10.attention.output.dense.bias', 'electra.encoder.layer.10.attention.output.LayerNorm.weight', 'electra.encoder.layer.10.attention.output.LayerNorm.bias', 'electra.encoder.layer.10.intermediate.dense.weight', 'electra.encoder.layer.10.intermediate.dense.bias', 'electra.encoder.layer.10.output.dense.weight', 'electra.encoder.layer.10.output.dense.bias', 'electra.encoder.layer.10.output.LayerNorm.weight', 'electra.encoder.layer.10.output.LayerNorm.bias', 'electra.encoder.layer.11.attention.self.query.weight', 'electra.encoder.layer.11.attention.self.query.bias', 'electra.encoder.layer.11.attention.self.key.weight', 'electra.encoder.layer.11.attention.self.key.bias', 'electra.encoder.layer.11.attention.self.value.weight', 'electra.encoder.layer.11.attention.self.value.bias', 'electra.encoder.layer.11.attention.output.dense.weight', 'electra.encoder.layer.11.attention.output.dense.bias', 'electra.encoder.layer.11.attention.output.LayerNorm.weight', 'electra.encoder.layer.11.attention.output.LayerNorm.bias', 'electra.encoder.layer.11.intermediate.dense.weight', 'electra.encoder.layer.11.intermediate.dense.bias', 'electra.encoder.layer.11.output.dense.weight', 'electra.encoder.layer.11.output.dense.bias', 'electra.encoder.layer.11.output.LayerNorm.weight', 'electra.encoder.layer.11.output.LayerNorm.bias', 'electra.encoder.layer.12.attention.self.query.weight', 'electra.encoder.layer.12.attention.self.query.bias', 'electra.encoder.layer.12.attention.self.key.weight', 'electra.encoder.layer.12.attention.self.key.bias', 'electra.encoder.layer.12.attention.self.value.weight', 'electra.encoder.layer.12.attention.self.value.bias', 'electra.encoder.layer.12.attention.output.dense.weight', 'electra.encoder.layer.12.attention.output.dense.bias', 'electra.encoder.layer.12.attention.output.LayerNorm.weight', 'electra.encoder.layer.12.attention.output.LayerNorm.bias', 'electra.encoder.layer.12.intermediate.dense.weight', 'electra.encoder.layer.12.intermediate.dense.bias', 'electra.encoder.layer.12.output.dense.weight', 'electra.encoder.layer.12.output.dense.bias', 'electra.encoder.layer.12.output.LayerNorm.weight', 'electra.encoder.layer.12.output.LayerNorm.bias', 'electra.encoder.layer.13.attention.self.query.weight', 'electra.encoder.layer.13.attention.self.query.bias', 'electra.encoder.layer.13.attention.self.key.weight', 'electra.encoder.layer.13.attention.self.key.bias', 'electra.encoder.layer.13.attention.self.value.weight', 'electra.encoder.layer.13.attention.self.value.bias', 'electra.encoder.layer.13.attention.output.dense.weight', 'electra.encoder.layer.13.attention.output.dense.bias', 'electra.encoder.layer.13.attention.output.LayerNorm.weight', 'electra.encoder.layer.13.attention.output.LayerNorm.bias', 'electra.encoder.layer.13.intermediate.dense.weight', 'electra.encoder.layer.13.intermediate.dense.bias', 'electra.encoder.layer.13.output.dense.weight', 'electra.encoder.layer.13.output.dense.bias', 'electra.encoder.layer.13.output.LayerNorm.weight', 'electra.encoder.layer.13.output.LayerNorm.bias', 'electra.encoder.layer.14.attention.self.query.weight', 'electra.encoder.layer.14.attention.self.query.bias', 'electra.encoder.layer.14.attention.self.key.weight', 'electra.encoder.layer.14.attention.self.key.bias', 'electra.encoder.layer.14.attention.self.value.weight', 'electra.encoder.layer.14.attention.self.value.bias', 'electra.encoder.layer.14.attention.output.dense.weight', 'electra.encoder.layer.14.attention.output.dense.bias', 'electra.encoder.layer.14.attention.output.LayerNorm.weight', 'electra.encoder.layer.14.attention.output.LayerNorm.bias', 'electra.encoder.layer.14.intermediate.dense.weight', 'electra.encoder.layer.14.intermediate.dense.bias', 'electra.encoder.layer.14.output.dense.weight', 'electra.encoder.layer.14.output.dense.bias', 'electra.encoder.layer.14.output.LayerNorm.weight', 'electra.encoder.layer.14.output.LayerNorm.bias', 'electra.encoder.layer.15.attention.self.query.weight', 'electra.encoder.layer.15.attention.self.query.bias', 'electra.encoder.layer.15.attention.self.key.weight', 'electra.encoder.layer.15.attention.self.key.bias', 'electra.encoder.layer.15.attention.self.value.weight', 'electra.encoder.layer.15.attention.self.value.bias', 'electra.encoder.layer.15.attention.output.dense.weight', 'electra.encoder.layer.15.attention.output.dense.bias', 'electra.encoder.layer.15.attention.output.LayerNorm.weight', 'electra.encoder.layer.15.attention.output.LayerNorm.bias', 'electra.encoder.layer.15.intermediate.dense.weight', 'electra.encoder.layer.15.intermediate.dense.bias', 'electra.encoder.layer.15.output.dense.weight', 'electra.encoder.layer.15.output.dense.bias', 'electra.encoder.layer.15.output.LayerNorm.weight', 'electra.encoder.layer.15.output.LayerNorm.bias', 'electra.encoder.layer.16.attention.self.query.weight', 'electra.encoder.layer.16.attention.self.query.bias', 'electra.encoder.layer.16.attention.self.key.weight', 'electra.encoder.layer.16.attention.self.key.bias', 'electra.encoder.layer.16.attention.self.value.weight', 'electra.encoder.layer.16.attention.self.value.bias', 'electra.encoder.layer.16.attention.output.dense.weight', 'electra.encoder.layer.16.attention.output.dense.bias', 'electra.encoder.layer.16.attention.output.LayerNorm.weight', 'electra.encoder.layer.16.attention.output.LayerNorm.bias', 'electra.encoder.layer.16.intermediate.dense.weight', 'electra.encoder.layer.16.intermediate.dense.bias', 'electra.encoder.layer.16.output.dense.weight', 'electra.encoder.layer.16.output.dense.bias', 'electra.encoder.layer.16.output.LayerNorm.weight', 'electra.encoder.layer.16.output.LayerNorm.bias', 'electra.encoder.layer.17.attention.self.query.weight', 'electra.encoder.layer.17.attention.self.query.bias', 'electra.encoder.layer.17.attention.self.key.weight', 'electra.encoder.layer.17.attention.self.key.bias', 'electra.encoder.layer.17.attention.self.value.weight', 'electra.encoder.layer.17.attention.self.value.bias', 'electra.encoder.layer.17.attention.output.dense.weight', 'electra.encoder.layer.17.attention.output.dense.bias', 'electra.encoder.layer.17.attention.output.LayerNorm.weight', 'electra.encoder.layer.17.attention.output.LayerNorm.bias', 'electra.encoder.layer.17.intermediate.dense.weight', 'electra.encoder.layer.17.intermediate.dense.bias', 'electra.encoder.layer.17.output.dense.weight', 'electra.encoder.layer.17.output.dense.bias', 'electra.encoder.layer.17.output.LayerNorm.weight', 'electra.encoder.layer.17.output.LayerNorm.bias', 'electra.encoder.layer.18.attention.self.query.weight', 'electra.encoder.layer.18.attention.self.query.bias', 'electra.encoder.layer.18.attention.self.key.weight', 'electra.encoder.layer.18.attention.self.key.bias', 'electra.encoder.layer.18.attention.self.value.weight', 'electra.encoder.layer.18.attention.self.value.bias', 'electra.encoder.layer.18.attention.output.dense.weight', 'electra.encoder.layer.18.attention.output.dense.bias', 'electra.encoder.layer.18.attention.output.LayerNorm.weight', 'electra.encoder.layer.18.attention.output.LayerNorm.bias', 'electra.encoder.layer.18.intermediate.dense.weight', 'electra.encoder.layer.18.intermediate.dense.bias', 'electra.encoder.layer.18.output.dense.weight', 'electra.encoder.layer.18.output.dense.bias', 'electra.encoder.layer.18.output.LayerNorm.weight', 'electra.encoder.layer.18.output.LayerNorm.bias', 'electra.encoder.layer.19.attention.self.query.weight', 'electra.encoder.layer.19.attention.self.query.bias', 'electra.encoder.layer.19.attention.self.key.weight', 'electra.encoder.layer.19.attention.self.key.bias', 'electra.encoder.layer.19.attention.self.value.weight', 'electra.encoder.layer.19.attention.self.value.bias', 'electra.encoder.layer.19.attention.output.dense.weight', 'electra.encoder.layer.19.attention.output.dense.bias', 'electra.encoder.layer.19.attention.output.LayerNorm.weight', 'electra.encoder.layer.19.attention.output.LayerNorm.bias', 'electra.encoder.layer.19.intermediate.dense.weight', 'electra.encoder.layer.19.intermediate.dense.bias', 'electra.encoder.layer.19.output.dense.weight', 'electra.encoder.layer.19.output.dense.bias', 'electra.encoder.layer.19.output.LayerNorm.weight', 'electra.encoder.layer.19.output.LayerNorm.bias', 'electra.encoder.layer.20.attention.self.query.weight', 'electra.encoder.layer.20.attention.self.query.bias', 'electra.encoder.layer.20.attention.self.key.weight', 'electra.encoder.layer.20.attention.self.key.bias', 'electra.encoder.layer.20.attention.self.value.weight', 'electra.encoder.layer.20.attention.self.value.bias', 'electra.encoder.layer.20.attention.output.dense.weight', 'electra.encoder.layer.20.attention.output.dense.bias', 'electra.encoder.layer.20.attention.output.LayerNorm.weight', 'electra.encoder.layer.20.attention.output.LayerNorm.bias', 'electra.encoder.layer.20.intermediate.dense.weight', 'electra.encoder.layer.20.intermediate.dense.bias', 'electra.encoder.layer.20.output.dense.weight', 'electra.encoder.layer.20.output.dense.bias', 'electra.encoder.layer.20.output.LayerNorm.weight', 'electra.encoder.layer.20.output.LayerNorm.bias', 'electra.encoder.layer.21.attention.self.query.weight', 'electra.encoder.layer.21.attention.self.query.bias', 'electra.encoder.layer.21.attention.self.key.weight', 'electra.encoder.layer.21.attention.self.key.bias', 'electra.encoder.layer.21.attention.self.value.weight', 'electra.encoder.layer.21.attention.self.value.bias', 'electra.encoder.layer.21.attention.output.dense.weight', 'electra.encoder.layer.21.attention.output.dense.bias', 'electra.encoder.layer.21.attention.output.LayerNorm.weight', 'electra.encoder.layer.21.attention.output.LayerNorm.bias', 'electra.encoder.layer.21.intermediate.dense.weight', 'electra.encoder.layer.21.intermediate.dense.bias', 'electra.encoder.layer.21.output.dense.weight', 'electra.encoder.layer.21.output.dense.bias', 'electra.encoder.layer.21.output.LayerNorm.weight', 'electra.encoder.layer.21.output.LayerNorm.bias', 'electra.encoder.layer.22.attention.self.query.weight', 'electra.encoder.layer.22.attention.self.query.bias', 'electra.encoder.layer.22.attention.self.key.weight', 'electra.encoder.layer.22.attention.self.key.bias', 'electra.encoder.layer.22.attention.self.value.weight', 'electra.encoder.layer.22.attention.self.value.bias', 'electra.encoder.layer.22.attention.output.dense.weight', 'electra.encoder.layer.22.attention.output.dense.bias', 'electra.encoder.layer.22.attention.output.LayerNorm.weight', 'electra.encoder.layer.22.attention.output.LayerNorm.bias', 'electra.encoder.layer.22.intermediate.dense.weight', 'electra.encoder.layer.22.intermediate.dense.bias', 'electra.encoder.layer.22.output.dense.weight', 'electra.encoder.layer.22.output.dense.bias', 'electra.encoder.layer.22.output.LayerNorm.weight', 'electra.encoder.layer.22.output.LayerNorm.bias', 'electra.encoder.layer.23.attention.self.query.weight', 'electra.encoder.layer.23.attention.self.query.bias', 'electra.encoder.layer.23.attention.self.key.weight', 'electra.encoder.layer.23.attention.self.key.bias', 'electra.encoder.layer.23.attention.self.value.weight', 'electra.encoder.layer.23.attention.self.value.bias', 'electra.encoder.layer.23.attention.output.dense.weight', 'electra.encoder.layer.23.attention.output.dense.bias', 'electra.encoder.layer.23.attention.output.LayerNorm.weight', 'electra.encoder.layer.23.attention.output.LayerNorm.bias', 'electra.encoder.layer.23.intermediate.dense.weight', 'electra.encoder.layer.23.intermediate.dense.bias', 'electra.encoder.layer.23.output.dense.weight', 'electra.encoder.layer.23.output.dense.bias', 'electra.encoder.layer.23.output.LayerNorm.weight', 'electra.encoder.layer.23.output.LayerNorm.bias', 'electra.embeddings.position_ids', 'electra.embeddings.LayerNorm.weight', 'electra.embeddings.LayerNorm.bias']
+- This IS expected if you are initializing MyElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing MyElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+05/18/2021 08:42:56 - WARNING - utils.modeling_utils -   Some weights of MyElectraModel were not initialized from the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin and are newly initialized: ['electra.LayerNorm.weight', 'electra.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Epochs:   0%|          | 0/30 [00:00<?, ?it/s]..\torch\csrc\utils\python_arg_parser.cpp:756: UserWarning: This overload of addcmul_ is deprecated:
+	addcmul_(Number value, Tensor tensor1, Tensor tensor2)
+Consider using one of the following signatures instead:
+	addcmul_(Tensor tensor1, Tensor tensor2, *, Number value)
+05/18/2021 08:46:41 - INFO - utils.process_control -   mymodel训练损失:8357.0037,准确率为：27.11%,测试集准确率为：36.09%,测试集f1为：16.15%
+[[1.36849e+05 6.07900e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.28300e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [1.80000e+01 1.75700e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [1.60000e+01 1.44200e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [3.00000e+00 2.56300e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [1.00000e+00 4.00000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [6.10000e+01 2.33600e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]]
+
+
+P
+0.9575	1.0	0.0	0.0	0.0	0.0	0.0
+
+R
+0.9993	0.0828	-	-	-	-	-
+
+F1
+Epochs:   3%|▎         | 1/30 [03:44<1:48:38, 224.76s/it]05/18/2021 08:50:26 - INFO - utils.process_control -   mymodel训练损失:2405.0581,准确率为：35.95%,测试集准确率为：36.84%,测试集f1为：16.03%
+0.9779	0.1529	-	-	-	-	-	[[1.36203e+05 6.72500e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.28300e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.77500e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.45800e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 2.56600e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 4.10000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [1.00000e+00 2.39600e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]]
+
+
+P
+0.9529	1.0	0.0	0.0	0.0	0.0	0.0
+
+R
+1.0	0.079	-	-	-	-	-
+
+F1
+Epochs:   7%|▋         | 2/30 [07:29<1:44:54, 224.81s/it]05/18/2021 08:54:10 - INFO - utils.process_control -   mymodel训练损失:2358.5263,准确率为：36.28%,测试集准确率为：36.63%,测试集f1为：16.22%
+0.9759	0.1464	-	-	-	-	-	[[1.37237e+05 5.69100e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.28300e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.77500e+03 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [0.00000e+00 1.45700e+03 0.00000e+00 0.00000e+00 0.00000e+00 1.00000e+00
+  0.00000e+00]
+ [0.00000e+00 2.53400e+03 0.00000e+00 0.00000e+00 0.00000e+00 3.10000e+01
+  1.00000e+00]
+ [0.00000e+00 4.10000e+01 0.00000e+00 0.00000e+00 0.00000e+00 0.00000e+00
+  0.00000e+00]
+ [1.00000e+00 2.39500e+03 0.00000e+00 0.00000e+00 0.00000e+00 1.00000e+00
+  0.00000e+00]]
+
+
+P
+0.9602	1.0	0.0	0.0	0.0	0.0	0.0
+
+R
+1.0	0.0845	-	-	-	0.0	0.0
+
+F1
+Epochs:  10%|█         | 3/30 [11:13<1:41:05, 224.65s/it]05/18/2021 08:57:54 - INFO - utils.process_control -   mymodel训练损失:2319.3777,准确率为：38.24%,测试集准确率为：45.22%,测试集f1为：17.25%
+0.9797	0.1559	-	-	-	-	-	[[1.37259e+05 5.47200e+03 8.00000e+00 0.00000e+00 9.00000e+00 1.74000e+02
+  6.00000e+00]
+ [0.00000e+00 7.29000e+02 3.75000e+02 0.00000e+00 7.70000e+01 1.02000e+02
+  0.00000e+00]
+ [2.20000e+01 1.65800e+03 2.00000e+00 0.00000e+00 1.00000e+00 9.00000e+01
+  2.00000e+00]
+ [2.10000e+01 1.30500e+03 1.00000e+00 0.00000e+00 2.00000e+00 1.29000e+02
+  0.00000e+00]
+ [3.00000e+00 1.69000e+03 2.00000e+00 0.00000e+00 5.70000e+01 8.08000e+02
+  6.00000e+00]
+ [0.00000e+00 3.80000e+01 0.00000e+00 0.00000e+00 0.00000e+00 3.00000e+00
+  0.00000e+00]
+ [2.36000e+02 1.89100e+03 0.00000e+00 0.00000e+00 2.00000e+00 1.71000e+02
+  9.70000e+01]]
+
+
+P
+0.9603	0.5682	0.0011	0.0	0.0222	0.0732	0.0405
+
+R
+0.9979	0.057	0.0052	-	0.3851	0.002	0.8739
+
+F1
+Epochs:  13%|█▎        | 4/30 [14:57<1:37:16, 224.46s/it]05/18/2021 09:01:38 - INFO - utils.process_control -   mymodel训练损失:2281.2909,准确率为：47.62%,测试集准确率为：53.01%,测试集f1为：19.37%
+0.9788	0.1037	0.0018	-	0.042	0.004	0.0774	[[1.37403e+05 5.10900e+03 4.70000e+01 5.80000e+01 3.00000e+01 2.65000e+02
+  1.60000e+01]
+ [3.00000e+00 3.55000e+02 8.38000e+02 3.00000e+00 5.50000e+01 2.90000e+01
+  0.00000e+00]
+ [1.07000e+02 1.34000e+03 3.00000e+00 1.96000e+02 1.70000e+01 1.10000e+02
+  2.00000e+00]
+ [8.50000e+01 1.20800e+03 3.00000e+00 1.10000e+01 2.50000e+01 1.18000e+02
+  8.00000e+00]
+ [2.70000e+01 1.25900e+03 9.00000e+00 3.10000e+01 1.69000e+02 1.05300e+03
+  1.80000e+01]
+ [0.00000e+00 3.90000e+01 0.00000e+00 0.00000e+00 0.00000e+00 2.00000e+00
+  0.00000e+00]
+ [6.31000e+02 1.46800e+03 1.00000e+00 0.00000e+00 8.00000e+00 4.10000e+01
+  2.48000e+02]]
+
+
+P
+0.9613	0.2767	0.0017	0.0075	0.0659	0.0488	0.1035
+
+R
+0.9938	0.0329	0.0033	0.0368	0.5559	0.0012	0.8493
+
+F1
+Epochs:  17%|█▋        | 5/30 [18:42<1:33:29, 224.39s/it]05/18/2021 09:05:23 - INFO - utils.process_control -   mymodel训练损失:2246.0169,准确率为：55.84%,测试集准确率为：59.00%,测试集f1为：22.65%
+0.9773	0.0589	0.0022	0.0125	0.1178	0.0024	0.1845	[[1.37495e+05 4.45100e+03 9.10000e+01 3.21000e+02 7.90000e+01 4.46000e+02
+  4.50000e+01]
+ [5.00000e+00 2.92000e+02 9.50000e+02 1.60000e+01 4.00000e+00 1.50000e+01
+  1.00000e+00]
+ [1.45000e+02 6.58000e+02 1.30000e+01 7.89000e+02 3.90000e+01 1.20000e+02
+  1.10000e+01]
+ [1.34000e+02 8.84000e+02 9.00000e+00 9.00000e+01 1.59000e+02 1.42000e+02
+  4.00000e+01]
+ [2.60000e+01 7.21000e+02 1.60000e+01 1.30000e+02 2.34000e+02 1.40400e+03
+  3.50000e+01]
+ [0.00000e+00 3.30000e+01 0.00000e+00 0.00000e+00 2.00000e+00 2.00000e+00
+  4.00000e+00]
+ [8.38000e+02 9.78000e+02 6.00000e+00 1.60000e+01 1.90000e+01 5.70000e+01
+  4.83000e+02]]
+
+
+P
+0.962	0.2276	0.0073	0.0617	0.0912	0.0488	0.2015
+
+R
+0.9917	0.0364	0.012	0.0661	0.4366	0.0009	0.7803
+
+F1
+Epochs:  20%|██        | 6/30 [22:26<1:29:47, 224.46s/it]05/18/2021 09:09:07 - INFO - utils.process_control -   mymodel训练损失:2219.1891,准确率为：61.31%,测试集准确率为：61.70%,测试集f1为：23.60%
+0.9766	0.0628	0.0091	0.0638	0.1509	0.0018	0.3203	[[1.37471e+05 4.45600e+03 8.80000e+01 2.41000e+02 1.32000e+02 4.73000e+02
+  6.70000e+01]
+ [3.00000e+00 2.90000e+02 9.55000e+02 1.20000e+01 5.00000e+00 1.70000e+01
+  1.00000e+00]
+ [9.90000e+01 6.84000e+02 1.20000e+01 7.96000e+02 5.50000e+01 1.14000e+02
+  1.50000e+01]
+ [1.32000e+02 7.50000e+02 8.00000e+00 8.90000e+01 2.87000e+02 1.28000e+02
+  6.40000e+01]
+ [2.00000e+01 6.51000e+02 1.20000e+01 8.70000e+01 2.57000e+02 1.49800e+03
+  4.10000e+01]
+ [3.00000e+00 2.80000e+01 0.00000e+00 0.00000e+00 3.00000e+00 1.00000e+00
+  6.00000e+00]
+ [8.45000e+02 8.50000e+02 6.00000e+00 1.20000e+01 2.40000e+01 5.00000e+01
+  6.10000e+02]]
+
+
+P
+0.9618	0.226	0.0068	0.061	0.1002	0.0244	0.2545
+
+R
+0.992	0.0376	0.0111	0.0719	0.3368	0.0004	0.7587
+
+F1
+Epochs:  23%|██▎       | 7/30 [26:10<1:25:58, 224.28s/it]05/18/2021 09:12:51 - INFO - utils.process_control -   mymodel训练损失:2200.7391,准确率为：64.75%,测试集准确率为：64.22%,测试集f1为：24.86%
+0.9767	0.0645	0.0084	0.066	0.1544	0.0009	0.3811	[[1.37474e+05 4.29800e+03 9.30000e+01 3.79000e+02 1.65000e+02 4.19000e+02
+  1.00000e+02]
+ [2.00000e+00 2.80000e+02 9.72000e+02 1.70000e+01 3.00000e+00 9.00000e+00
+  0.00000e+00]
+ [7.50000e+01 4.68000e+02 1.60000e+01 1.08800e+03 5.60000e+01 5.50000e+01
+  1.70000e+01]
+ [1.25000e+02 6.23000e+02 9.00000e+00 1.47000e+02 3.92000e+02 9.70000e+01
+  6.50000e+01]
+ [2.50000e+01 6.29000e+02 1.00000e+01 1.41000e+02 2.79000e+02 1.43800e+03
+  4.40000e+01]
+ [3.00000e+00 2.70000e+01 0.00000e+00 0.00000e+00 3.00000e+00 1.00000e+00
+  7.00000e+00]
+ [8.80000e+02 6.97000e+02 5.00000e+00 1.80000e+01 3.00000e+01 3.90000e+01
+  7.28000e+02]]
+
+
+P
+0.9618	0.2182	0.009	0.1008	0.1087	0.0244	0.3037
+
+R
+0.992	0.0399	0.0145	0.0821	0.3006	0.0005	0.7575
+
+F1
+Epochs:  27%|██▋       | 8/30 [29:55<1:22:14, 224.30s/it]05/18/2021 09:16:36 - INFO - utils.process_control -   mymodel训练损失:2187.3145,准确率为：67.23%,测试集准确率为：65.51%,测试集f1为：25.64%
+0.9767	0.0674	0.0111	0.0905	0.1597	0.001	0.4336	[[1.37466e+05 4.23100e+03 8.70000e+01 3.79000e+02 2.02000e+02 4.31000e+02
+  1.32000e+02]
+ [2.00000e+00 2.92000e+02 9.55000e+02 1.70000e+01 4.00000e+00 1.30000e+01
+  0.00000e+00]
+ [5.20000e+01 4.15000e+02 3.70000e+01 1.13100e+03 6.40000e+01 5.90000e+01
+  1.70000e+01]
+ [1.27000e+02 5.49000e+02 1.10000e+01 1.65000e+02 4.43000e+02 1.01000e+02
+  6.20000e+01]
+ [2.40000e+01 5.68000e+02 9.00000e+00 1.24000e+02 2.89000e+02 1.51300e+03
+  3.90000e+01]
+ [3.00000e+00 2.50000e+01 0.00000e+00 0.00000e+00 5.00000e+00 1.00000e+00
+  7.00000e+00]
+ [9.03000e+02 6.01000e+02 6.00000e+00 1.90000e+01 4.00000e+01 4.00000e+01
+  7.88000e+02]]
+
+
+P
+0.9618	0.2276	0.0208	0.1132	0.1126	0.0244	0.3287
+
+R
+0.992	0.0437	0.0335	0.0899	0.276	0.0005	0.7541
+
+F1
+Epochs:  30%|███       | 9/30 [33:39<1:18:31, 224.34s/it]05/18/2021 09:20:20 - INFO - utils.process_control -   mymodel训练损失:2177.2479,准确率为：69.53%,测试集准确率为：67.24%,测试集f1为：26.31%
+0.9767	0.0733	0.0257	0.1002	0.16	0.0009	0.4579	[[1.37436e+05 4.29200e+03 8.30000e+01 3.10000e+02 1.99000e+02 4.93000e+02
+  1.15000e+02]
+ [3.00000e+00 3.13000e+02 9.28000e+02 1.70000e+01 3.00000e+00 1.80000e+01
+  1.00000e+00]
+ [4.50000e+01 4.36000e+02 5.30000e+01 1.09700e+03 5.60000e+01 7.30000e+01
+  1.50000e+01]
+ [9.50000e+01 5.56000e+02 9.00000e+00 1.74000e+02 4.60000e+02 1.01000e+02
+  6.30000e+01]
+ [1.90000e+01 4.98000e+02 8.00000e+00 1.00000e+02 2.96000e+02 1.61300e+03
+  3.20000e+01]
+ [2.00000e+00 2.50000e+01 0.00000e+00 0.00000e+00 5.00000e+00 1.00000e+00
+  8.00000e+00]
+ [8.82000e+02 5.87000e+02 5.00000e+00 1.80000e+01 4.10000e+01 4.30000e+01
+  8.21000e+02]]
+
+
+P
+0.9616	0.244	0.0299	0.1193	0.1154	0.0244	0.3425
+
+R
+0.9924	0.0467	0.0488	0.1014	0.2792	0.0004	0.7782
+
+F1
+Epochs:  33%|███▎      | 10/30 [37:23<1:14:46, 224.33s/it]05/18/2021 09:24:04 - INFO - utils.process_control -   mymodel训练损失:2169.5555,准确率为：71.31%,测试集准确率为：68.15%,测试集f1为：26.66%
+0.9768	0.0783	0.037	0.1096	0.1633	0.0008	0.4757	[[1.37438e+05 4.25500e+03 8.70000e+01 3.11000e+02 2.51000e+02 4.73000e+02
+  1.13000e+02]
+ [3.00000e+00 3.14000e+02 9.26000e+02 1.60000e+01 3.00000e+00 1.80000e+01
+  3.00000e+00]
+ [3.80000e+01 4.00000e+02 6.70000e+01 1.12700e+03 6.20000e+01 6.80000e+01
+  1.30000e+01]
+ [9.00000e+01 4.94000e+02 9.00000e+00 1.83000e+02 5.28000e+02 9.50000e+01
+  5.90000e+01]
+ [2.20000e+01 4.92000e+02 8.00000e+00 9.60000e+01 3.15000e+02 1.60300e+03
+  3.00000e+01]
+ [2.00000e+00 2.40000e+01 0.00000e+00 0.00000e+00 6.00000e+00 1.00000e+00
+  8.00000e+00]
+ [8.90000e+02 5.50000e+02 5.00000e+00 2.00000e+01 5.80000e+01 4.20000e+01
+  8.32000e+02]]
+
+
+P
+0.9616	0.2447	0.0377	0.1255	0.1228	0.0244	0.3471
+
+R
+0.9925	0.0481	0.0608	0.1044	0.2576	0.0004	0.7864
+
+F1
+Epochs:  37%|███▋      | 11/30 [41:08<1:11:01, 224.31s/it]05/18/2021 09:27:49 - INFO - utils.process_control -   mymodel训练损失:2163.4923,准确率为：72.53%,测试集准确率为：68.94%,测试集f1为：27.24%
+0.9768	0.0804	0.0466	0.114	0.1663	0.0009	0.4816	[[1.37425e+05 4.33900e+03 8.70000e+01 2.58000e+02 2.06000e+02 4.96000e+02
+  1.17000e+02]
+ [3.00000e+00 3.12000e+02 9.31000e+02 1.20000e+01 3.00000e+00 1.90000e+01
+  3.00000e+00]
+ [4.10000e+01 4.56000e+02 9.70000e+01 1.03800e+03 5.00000e+01 7.70000e+01
+  1.60000e+01]
+ [9.20000e+01 5.42000e+02 1.20000e+01 1.75000e+02 4.65000e+02 1.05000e+02
+  6.70000e+01]
+ [2.10000e+01 4.67000e+02 8.00000e+00 7.30000e+01 3.25000e+02 1.64100e+03
+  3.10000e+01]
+ [2.00000e+00 2.30000e+01 0.00000e+00 0.00000e+00 5.00000e+00 1.00000e+00
+  1.00000e+01]
+ [8.84000e+02 5.43000e+02 5.00000e+00 1.60000e+01 4.10000e+01 4.80000e+01
+  8.60000e+02]]
+
+
+P
+0.9615	0.2432	0.0546	0.12	0.1267	0.0244	0.3588
+
+R
+0.9925	0.0467	0.0851	0.1113	0.2968	0.0004	0.779
+
+F1
+Epochs:  40%|████      | 12/30 [44:52<1:07:20, 224.49s/it]05/18/2021 09:31:34 - INFO - utils.process_control -   mymodel训练损失:2158.4110,准确率为：73.58%,测试集准确率为：69.71%,测试集f1为：27.59%
+0.9767	0.0783	0.0666	0.1155	0.1775	0.0008	0.4913	[[1.3741e+05 4.4040e+03 8.4000e+01 2.9200e+02 2.3500e+02 3.8900e+02
+  1.1400e+02]
+ [3.0000e+00 3.2900e+02 9.1600e+02 1.3000e+01 3.0000e+00 1.5000e+01
+  4.0000e+00]
+ [2.9000e+01 4.0700e+02 1.0600e+02 1.1110e+03 5.2000e+01 5.7000e+01
+  1.3000e+01]
+ [7.6000e+01 5.1600e+02 1.4000e+01 1.8500e+02 5.2900e+02 7.7000e+01
+  6.1000e+01]
+ [2.1000e+01 5.4100e+02 1.2000e+01 8.8000e+01 3.5000e+02 1.5230e+03
+  3.1000e+01]
+ [2.0000e+00 2.3000e+01 0.0000e+00 0.0000e+00 6.0000e+00 1.0000e+00
+  9.0000e+00]
+ [8.8500e+02 5.3200e+02 4.0000e+00 2.4000e+01 5.0000e+01 3.1000e+01
+  8.7100e+02]]
+
+
+P
+0.9614	0.2564	0.0597	0.1269	0.1364	0.0244	0.3634
+
+R
+0.9927	0.0487	0.0933	0.108	0.2857	0.0005	0.7897
+
+F1
+Epochs:  43%|████▎     | 13/30 [48:38<1:03:40, 224.74s/it]05/18/2021 09:35:19 - INFO - utils.process_control -   mymodel训练损失:2153.7860,准确率为：74.94%,测试集准确率为：70.09%,测试集f1为：28.05%
+0.9768	0.0819	0.0728	0.1167	0.1846	0.0009	0.4977	[[1.37415e+05 4.31000e+03 9.00000e+01 3.02000e+02 2.53000e+02 4.32000e+02
+  1.26000e+02]
+ [3.00000e+00 3.22000e+02 9.26000e+02 1.20000e+01 3.00000e+00 1.30000e+01
+  4.00000e+00]
+ [2.50000e+01 3.80000e+02 1.14000e+02 1.13200e+03 5.40000e+01 5.50000e+01
+  1.50000e+01]
+ [7.80000e+01 4.72000e+02 1.50000e+01 1.96000e+02 5.53000e+02 8.20000e+01
+  6.20000e+01]
+ [2.20000e+01 4.70000e+02 1.10000e+01 9.00000e+01 3.75000e+02 1.56600e+03
+  3.20000e+01]
+ [2.00000e+00 2.30000e+01 0.00000e+00 0.00000e+00 6.00000e+00 1.00000e+00
+  9.00000e+00]
+ [8.90000e+02 4.85000e+02 5.00000e+00 2.30000e+01 5.70000e+01 3.40000e+01
+  9.03000e+02]]
+
+
+P
+0.9614	0.251	0.0642	0.1344	0.1461	0.0244	0.3767
+
+R
+0.9926	0.0498	0.0982	0.1117	0.2882	0.0005	0.7845
+
+F1
+Epochs:  47%|████▋     | 14/30 [52:23<59:56, 224.77s/it]  05/18/2021 09:39:04 - INFO - utils.process_control -   mymodel训练损失:2150.5797,准确率为：75.59%,测试集准确率为：70.87%,测试集f1为：28.51%
+0.9768	0.0832	0.0777	0.122	0.1939	0.0009	0.509	[[1.37436e+05 4.17800e+03 1.03000e+02 3.37000e+02 2.96000e+02 4.30000e+02
+  1.48000e+02]
+ [4.00000e+00 3.15000e+02 9.30000e+02 1.40000e+01 4.00000e+00 1.20000e+01
+  4.00000e+00]
+ [2.50000e+01 3.28000e+02 1.26000e+02 1.16800e+03 6.10000e+01 5.20000e+01
+  1.50000e+01]
+ [7.80000e+01 3.92000e+02 1.80000e+01 2.13000e+02 6.14000e+02 7.70000e+01
+  6.60000e+01]
+ [2.20000e+01 4.09000e+02 1.20000e+01 9.50000e+01 3.99000e+02 1.59600e+03
+  3.30000e+01]
+ [2.00000e+00 2.20000e+01 0.00000e+00 0.00000e+00 7.00000e+00 1.00000e+00
+  9.00000e+00]
+ [9.20000e+02 4.07000e+02 6.00000e+00 2.80000e+01 6.20000e+01 3.60000e+01
+  9.38000e+02]]
+
+
+P
+0.9616	0.2455	0.071	0.1461	0.1555	0.0244	0.3913
+
+R
+0.9924	0.0521	0.1054	0.1148	0.2765	0.0005	0.7733
+
+F1
+Epochs:  50%|█████     | 15/30 [56:07<56:09, 224.64s/it]05/18/2021 09:42:48 - INFO - utils.process_control -   mymodel训练损失:2147.9323,准确率为：76.27%,测试集准确率为：70.43%,测试集f1为：28.29%
+0.9767	0.0859	0.0848	0.1286	0.1991	0.0009	0.5197	[[1.37384e+05 4.59600e+03 8.30000e+01 2.73000e+02 1.96000e+02 2.87000e+02
+  1.09000e+02]
+ [3.00000e+00 3.47000e+02 9.09000e+02 1.20000e+01 2.00000e+00 7.00000e+00
+  3.00000e+00]
+ [2.00000e+01 4.38000e+02 1.29000e+02 1.10500e+03 3.80000e+01 3.60000e+01
+  9.00000e+00]
+ [6.40000e+01 5.75000e+02 1.40000e+01 1.98000e+02 4.86000e+02 6.60000e+01
+  5.50000e+01]
+ [1.80000e+01 6.61000e+02 1.00000e+01 8.90000e+01 3.62000e+02 1.39700e+03
+  2.90000e+01]
+ [2.00000e+00 2.50000e+01 0.00000e+00 0.00000e+00 5.00000e+00 0.00000e+00
+  9.00000e+00]
+ [8.55000e+02 5.50000e+02 4.00000e+00 2.00000e+01 4.40000e+01 2.60000e+01
+  8.98000e+02]]
+
+
+P
+0.9612	0.2705	0.0727	0.1358	0.1411	0.0	0.3746
+
+R
+0.993	0.0482	0.1123	0.1167	0.3195	0.0	0.8076
+
+F1
+Epochs:  53%|█████▎    | 16/30 [59:51<52:22, 224.44s/it]05/18/2021 09:46:32 - INFO - utils.process_control -   mymodel训练损失:2144.9386,准确率为：76.98%,测试集准确率为：71.39%,测试集f1为：28.72%
+0.9769	0.0819	0.0882	0.1255	0.1957	-	0.5118	[[1.37424e+05 4.30300e+03 1.01000e+02 3.16000e+02 2.61000e+02 3.96000e+02
+  1.27000e+02]
+ [3.00000e+00 3.19000e+02 9.30000e+02 1.40000e+01 3.00000e+00 1.00000e+01
+  4.00000e+00]
+ [2.40000e+01 3.47000e+02 1.42000e+02 1.15600e+03 4.80000e+01 4.80000e+01
+  1.00000e+01]
+ [7.60000e+01 4.38000e+02 1.60000e+01 2.16000e+02 5.78000e+02 7.50000e+01
+  5.90000e+01]
+ [2.40000e+01 4.57000e+02 1.20000e+01 9.30000e+01 3.93000e+02 1.55700e+03
+  3.00000e+01]
+ [2.00000e+00 2.30000e+01 0.00000e+00 0.00000e+00 6.00000e+00 1.00000e+00
+  9.00000e+00]
+ [9.13000e+02 4.31000e+02 6.00000e+00 3.10000e+01 5.30000e+01 3.40000e+01
+  9.29000e+02]]
+
+
+P
+0.9615	0.2486	0.08	0.1481	0.1532	0.0244	0.3876
+
+R
+0.9925	0.0505	0.1176	0.1183	0.2928	0.0005	0.7954
+
+F1
+Epochs:  57%|█████▋    | 17/30 [1:03:35<48:37, 224.41s/it]05/18/2021 09:50:17 - INFO - utils.process_control -   mymodel训练损失:2142.1836,准确率为：77.73%,测试集准确率为：71.66%,测试集f1为：28.81%
+0.9767	0.0839	0.0952	0.1315	0.2011	0.0009	0.5212	[[1.37405e+05 4.41300e+03 9.40000e+01 2.79000e+02 2.34000e+02 3.76000e+02
+  1.27000e+02]
+ [3.00000e+00 3.35000e+02 9.16000e+02 1.10000e+01 3.00000e+00 1.10000e+01
+  4.00000e+00]
+ [2.20000e+01 3.87000e+02 1.43000e+02 1.12300e+03 3.90000e+01 5.00000e+01
+  1.10000e+01]
+ [7.10000e+01 4.84000e+02 1.60000e+01 2.10000e+02 5.38000e+02 7.60000e+01
+  6.30000e+01]
+ [2.10000e+01 4.90000e+02 1.30000e+01 8.30000e+01 3.84000e+02 1.54800e+03
+  2.70000e+01]
+ [2.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 5.00000e+00 1.00000e+00
+  9.00000e+00]
+ [8.95000e+02 4.53000e+02 5.00000e+00 2.40000e+01 4.80000e+01 3.40000e+01
+  9.38000e+02]]
+
+
+P
+0.9614	0.2611	0.0806	0.144	0.1496	0.0244	0.3913
+
+R
+0.9927	0.0509	0.1205	0.1213	0.307	0.0005	0.7956
+
+F1
+Epochs:  60%|██████    | 18/30 [1:07:20<44:53, 224.50s/it]05/18/2021 09:54:00 - INFO - utils.process_control -   mymodel训练损失:2140.2490,准确率为：78.22%,测试集准确率为：71.88%,测试集f1为：29.04%
+0.9768	0.0852	0.0966	0.1317	0.2012	0.0009	0.5246	[[1.37424e+05 4.27700e+03 9.80000e+01 2.90000e+02 2.78000e+02 4.35000e+02
+  1.26000e+02]
+ [4.00000e+00 3.30000e+02 9.19000e+02 1.20000e+01 2.00000e+00 1.20000e+01
+  4.00000e+00]
+ [2.40000e+01 3.59000e+02 1.48000e+02 1.12100e+03 5.40000e+01 5.80000e+01
+  1.10000e+01]
+ [7.00000e+01 4.10000e+02 1.90000e+01 2.09000e+02 6.04000e+02 8.60000e+01
+  6.00000e+01]
+ [2.20000e+01 3.94000e+02 1.00000e+01 8.00000e+01 4.18000e+02 1.61500e+03
+  2.70000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 8.00000e+00 0.00000e+00
+  6.00000e+00]
+ [9.17000e+02 4.09000e+02 6.00000e+00 2.70000e+01 5.80000e+01 3.70000e+01
+  9.43000e+02]]
+
+
+P
+0.9615	0.2572	0.0834	0.1433	0.1629	0.0	0.3934
+
+R
+0.9925	0.0532	0.1233	0.1201	0.294	0.0	0.8012
+
+F1
+Epochs:  63%|██████▎   | 19/30 [1:11:04<41:07, 224.30s/it]05/18/2021 09:57:45 - INFO - utils.process_control -   mymodel训练损失:2138.3934,准确率为：78.65%,测试集准确率为：71.98%,测试集f1为：29.30%
+0.9767	0.0882	0.0995	0.1307	0.2096	-	0.5277	[[1.37419e+05 4.34700e+03 9.60000e+01 3.23000e+02 2.58000e+02 3.58000e+02
+  1.27000e+02]
+ [4.00000e+00 3.41000e+02 9.08000e+02 1.30000e+01 2.00000e+00 1.10000e+01
+  4.00000e+00]
+ [1.90000e+01 3.31000e+02 1.56000e+02 1.17700e+03 4.10000e+01 4.20000e+01
+  9.00000e+00]
+ [7.10000e+01 4.19000e+02 1.80000e+01 2.35000e+02 5.87000e+02 6.70000e+01
+  6.10000e+01]
+ [2.20000e+01 4.84000e+02 1.30000e+01 9.80000e+01 4.04000e+02 1.51800e+03
+  2.70000e+01]
+ [3.00000e+00 2.20000e+01 0.00000e+00 1.00000e+00 8.00000e+00 0.00000e+00
+  7.00000e+00]
+ [9.17000e+02 3.99000e+02 5.00000e+00 3.60000e+01 5.40000e+01 3.00000e+01
+  9.56000e+02]]
+
+
+P
+0.9615	0.2658	0.0879	0.1612	0.1574	0.0	0.3988
+
+R
+0.9925	0.0538	0.1304	0.1248	0.2984	0.0	0.8027
+
+F1
+Epochs:  67%|██████▋   | 20/30 [1:14:48<37:24, 224.42s/it]05/18/2021 10:01:30 - INFO - utils.process_control -   mymodel训练损失:2136.7281,准确率为：79.27%,测试集准确率为：72.27%,测试集f1为：29.24%
+0.9767	0.0894	0.105	0.1407	0.2061	-	0.5329	[[1.37435e+05 4.16600e+03 1.02000e+02 3.04000e+02 2.88000e+02 4.92000e+02
+  1.41000e+02]
+ [6.00000e+00 3.18000e+02 9.23000e+02 1.30000e+01 3.00000e+00 1.60000e+01
+  4.00000e+00]
+ [2.30000e+01 3.19000e+02 1.58000e+02 1.14900e+03 4.80000e+01 6.70000e+01
+  1.10000e+01]
+ [7.40000e+01 3.74000e+02 2.00000e+01 2.22000e+02 6.08000e+02 9.60000e+01
+  6.40000e+01]
+ [2.10000e+01 3.40000e+02 1.10000e+01 8.30000e+01 4.14000e+02 1.66800e+03
+  2.90000e+01]
+ [3.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 7.00000e+00 1.00000e+00
+  6.00000e+00]
+ [9.32000e+02 3.61000e+02 7.00000e+00 3.60000e+01 5.40000e+01 4.70000e+01
+  9.60000e+02]]
+
+
+P
+0.9616	0.2479	0.089	0.1523	0.1613	0.0244	0.4005
+
+R
+0.9924	0.0539	0.1294	0.1228	0.2911	0.0004	0.7901
+
+F1
+Epochs:  70%|███████   | 21/30 [1:18:33<33:40, 224.50s/it]05/18/2021 10:05:15 - INFO - utils.process_control -   mymodel训练损失:2135.3249,准确率为：79.48%,测试集准确率为：72.57%,测试集f1为：29.37%
+0.9767	0.0885	0.1055	0.1359	0.2076	0.0008	0.5316	[[1.37419e+05 4.33000e+03 9.90000e+01 2.88000e+02 2.48000e+02 4.10000e+02
+  1.34000e+02]
+ [4.00000e+00 3.30000e+02 9.20000e+02 1.20000e+01 2.00000e+00 1.10000e+01
+  4.00000e+00]
+ [2.30000e+01 3.59000e+02 1.61000e+02 1.11800e+03 4.80000e+01 5.60000e+01
+  1.00000e+01]
+ [6.60000e+01 4.46000e+02 2.20000e+01 2.17000e+02 5.58000e+02 8.80000e+01
+  6.10000e+01]
+ [1.80000e+01 4.03000e+02 1.10000e+01 7.70000e+01 4.16000e+02 1.61300e+03
+  2.80000e+01]
+ [4.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 6.00000e+00 1.00000e+00
+  5.00000e+00]
+ [9.20000e+02 4.00000e+02 6.00000e+00 2.80000e+01 4.50000e+01 3.70000e+01
+  9.61000e+02]]
+
+
+P
+0.9615	0.2572	0.0907	0.1488	0.1621	0.0244	0.4009
+
+R
+0.9925	0.0524	0.1321	0.1246	0.3144	0.0005	0.7988
+
+F1
+Epochs:  73%|███████▎  | 22/30 [1:22:18<29:56, 224.56s/it]05/18/2021 10:08:59 - INFO - utils.process_control -   mymodel训练损失:2134.0990,准确率为：79.81%,测试集准确率为：72.64%,测试集f1为：29.46%
+0.9767	0.0871	0.1075	0.1357	0.2139	0.0009	0.5339	[[1.37422e+05 4.27100e+03 1.01000e+02 3.15000e+02 2.95000e+02 3.85000e+02
+  1.39000e+02]
+ [5.00000e+00 3.27000e+02 9.23000e+02 1.30000e+01 2.00000e+00 9.00000e+00
+  4.00000e+00]
+ [2.00000e+01 3.23000e+02 1.63000e+02 1.16000e+03 4.70000e+01 5.10000e+01
+  1.10000e+01]
+ [6.60000e+01 3.80000e+02 2.10000e+01 2.30000e+02 6.34000e+02 6.70000e+01
+  6.00000e+01]
+ [1.90000e+01 4.20000e+02 1.30000e+01 8.90000e+01 4.32000e+02 1.56400e+03
+  2.90000e+01]
+ [4.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 8.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.30000e+02 3.62000e+02 5.00000e+00 3.90000e+01 5.90000e+01 3.50000e+01
+  9.67000e+02]]
+
+
+P
+0.9615	0.2549	0.0918	0.1578	0.1684	0.0	0.4034
+
+R
+0.9925	0.0536	0.133	0.1245	0.2925	0.0	0.7959
+
+F1
+Epochs:  77%|███████▋  | 23/30 [1:26:02<26:10, 224.41s/it]05/18/2021 10:12:43 - INFO - utils.process_control -   mymodel训练损失:2132.8487,准确率为：80.14%,测试集准确率为：72.83%,测试集f1为：29.44%
+0.9767	0.0885	0.1086	0.1392	0.2137	-	0.5354	[[1.37411e+05 4.36100e+03 9.70000e+01 2.96000e+02 2.56000e+02 3.74000e+02
+  1.33000e+02]
+ [4.00000e+00 3.43000e+02 9.08000e+02 1.20000e+01 2.00000e+00 1.00000e+01
+  4.00000e+00]
+ [2.10000e+01 3.58000e+02 1.67000e+02 1.12900e+03 4.40000e+01 4.70000e+01
+  9.00000e+00]
+ [6.80000e+01 4.40000e+02 2.20000e+01 2.24000e+02 5.78000e+02 6.80000e+01
+  5.80000e+01]
+ [2.00000e+01 4.66000e+02 1.40000e+01 8.50000e+01 4.10000e+02 1.54300e+03
+  2.80000e+01]
+ [4.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 7.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.22000e+02 3.97000e+02 5.00000e+00 3.10000e+01 4.90000e+01 3.10000e+01
+  9.62000e+02]]
+
+
+P
+0.9614	0.2673	0.0941	0.1536	0.1598	0.0	0.4013
+
+R
+0.9925	0.0537	0.1377	0.126	0.3046	0.0	0.8023
+
+F1
+Epochs:  80%|████████  | 24/30 [1:29:47<22:27, 224.55s/it]05/18/2021 10:16:28 - INFO - utils.process_control -   mymodel训练损失:2132.3224,准确率为：80.10%,测试集准确率为：72.31%,测试集f1为：29.41%
+0.9767	0.0894	0.1118	0.1384	0.2096	-	0.535	[[1.37403e+05 4.38900e+03 9.30000e+01 2.82000e+02 2.67000e+02 3.64000e+02
+  1.30000e+02]
+ [3.00000e+00 3.43000e+02 9.10000e+02 1.10000e+01 2.00000e+00 1.00000e+01
+  4.00000e+00]
+ [2.10000e+01 3.74000e+02 1.67000e+02 1.10800e+03 4.70000e+01 4.90000e+01
+  9.00000e+00]
+ [6.30000e+01 4.37000e+02 2.20000e+01 2.19000e+02 5.97000e+02 6.50000e+01
+  5.50000e+01]
+ [1.70000e+01 4.75000e+02 1.40000e+01 8.10000e+01 4.15000e+02 1.53600e+03
+  2.80000e+01]
+ [4.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 7.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.15000e+02 4.07000e+02 5.00000e+00 2.70000e+01 5.40000e+01 3.20000e+01
+  9.57000e+02]]
+
+
+P
+0.9613	0.2673	0.0941	0.1502	0.1617	0.0	0.3992
+
+R
+0.9926	0.0532	0.1379	0.1267	0.2988	0.0	0.8056
+
+F1
+Epochs:  83%|████████▎ | 25/30 [1:33:31<18:42, 224.51s/it]05/18/2021 10:20:13 - INFO - utils.process_control -   mymodel训练损失:2131.2473,准确率为：80.54%,测试集准确率为：73.22%,测试集f1为：29.62%
+0.9767	0.0887	0.1119	0.1374	0.2099	-	0.5339	[[1.37425e+05 4.21500e+03 1.05000e+02 3.10000e+02 2.94000e+02 4.40000e+02
+  1.39000e+02]
+ [6.00000e+00 3.24000e+02 9.18000e+02 1.30000e+01 4.00000e+00 1.40000e+01
+  4.00000e+00]
+ [2.00000e+01 3.09000e+02 1.77000e+02 1.14700e+03 5.00000e+01 6.20000e+01
+  1.00000e+01]
+ [6.80000e+01 3.74000e+02 2.10000e+01 2.28000e+02 6.24000e+02 8.40000e+01
+  5.90000e+01]
+ [1.70000e+01 3.58000e+02 1.10000e+01 8.00000e+01 4.29000e+02 1.64400e+03
+  2.70000e+01]
+ [4.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 8.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.32000e+02 3.51000e+02 5.00000e+00 3.60000e+01 5.80000e+01 4.50000e+01
+  9.70000e+02]]
+
+
+P
+0.9615	0.2525	0.0997	0.1564	0.1672	0.0	0.4047
+
+R
+0.9924	0.0544	0.1431	0.1256	0.2924	0.0	0.799
+
+F1
+Epochs:  87%|████████▋ | 26/30 [1:37:16<14:58, 224.65s/it]05/18/2021 10:23:57 - INFO - utils.process_control -   mymodel训练损失:2130.2430,准确率为：80.62%,测试集准确率为：72.82%,测试集f1为：29.65%
+0.9767	0.0895	0.1175	0.1393	0.2127	-	0.5372	[[1.37404e+05 4.43700e+03 9.70000e+01 2.93000e+02 2.73000e+02 2.99000e+02
+  1.25000e+02]
+ [3.00000e+00 3.47000e+02 9.09000e+02 1.10000e+01 2.00000e+00 7.00000e+00
+  4.00000e+00]
+ [1.90000e+01 3.66000e+02 1.76000e+02 1.12600e+03 4.40000e+01 3.50000e+01
+  9.00000e+00]
+ [6.20000e+01 4.32000e+02 2.30000e+01 2.23000e+02 6.10000e+02 5.50000e+01
+  5.30000e+01]
+ [2.10000e+01 5.35000e+02 1.50000e+01 9.00000e+01 4.35000e+02 1.44300e+03
+  2.70000e+01]
+ [4.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 7.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.18000e+02 3.99000e+02 6.00000e+00 3.10000e+01 5.50000e+01 2.70000e+01
+  9.61000e+02]]
+
+
+P
+0.9614	0.2705	0.0992	0.1529	0.1695	0.0	0.4009
+
+R
+0.9926	0.0531	0.1436	0.1256	0.305	0.0	0.8117
+
+F1
+Epochs:  90%|█████████ | 27/30 [1:41:01<11:13, 224.64s/it]05/18/2021 10:27:42 - INFO - utils.process_control -   mymodel训练损失:2129.2577,准确率为：80.97%,测试集准确率为：72.98%,测试集f1为：29.65%
+0.9767	0.0887	0.1173	0.138	0.2179	-	0.5367	[[1.37419e+05 4.34300e+03 1.00000e+02 2.81000e+02 2.78000e+02 3.77000e+02
+  1.30000e+02]
+ [5.00000e+00 3.37000e+02 9.14000e+02 1.00000e+01 3.00000e+00 1.00000e+01
+  4.00000e+00]
+ [2.30000e+01 3.63000e+02 1.76000e+02 1.10000e+03 5.30000e+01 5.10000e+01
+  9.00000e+00]
+ [6.50000e+01 4.10000e+02 2.10000e+01 2.23000e+02 6.10000e+02 7.50000e+01
+  5.40000e+01]
+ [1.70000e+01 4.35000e+02 1.30000e+01 7.30000e+01 4.33000e+02 1.56900e+03
+  2.60000e+01]
+ [4.00000e+00 2.30000e+01 0.00000e+00 1.00000e+00 8.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.32000e+02 3.76000e+02 6.00000e+00 2.90000e+01 5.80000e+01 3.50000e+01
+  9.61000e+02]]
+
+
+P
+0.9615	0.2627	0.0992	0.1529	0.1687	0.0	0.4009
+
+R
+0.9924	0.0536	0.1431	0.1299	0.3001	0.0	0.8082
+
+F1
+Epochs:  93%|█████████▎| 28/30 [1:44:45<07:29, 224.54s/it]05/18/2021 10:31:26 - INFO - utils.process_control -   mymodel训练损失:2129.1387,准确率为：80.99%,测试集准确率为：72.64%,测试集f1为：29.60%
+0.9767	0.089	0.1171	0.1405	0.216	-	0.536	[[1.37415e+05 4.39000e+03 1.01000e+02 2.72000e+02 2.55000e+02 3.70000e+02
+  1.25000e+02]
+ [4.00000e+00 3.37000e+02 9.15000e+02 1.00000e+01 4.00000e+00 9.00000e+00
+  4.00000e+00]
+ [2.40000e+01 3.73000e+02 1.75000e+02 1.09700e+03 4.60000e+01 5.10000e+01
+  9.00000e+00]
+ [6.70000e+01 4.41000e+02 2.20000e+01 2.23000e+02 5.79000e+02 7.20000e+01
+  5.40000e+01]
+ [2.00000e+01 4.54000e+02 1.50000e+01 7.30000e+01 4.19000e+02 1.56000e+03
+  2.50000e+01]
+ [4.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 7.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.33000e+02 3.88000e+02 7.00000e+00 2.70000e+01 4.80000e+01 3.30000e+01
+  9.61000e+02]]
+
+
+P
+0.9614	0.2627	0.0986	0.1529	0.1633	0.0	0.4009
+
+R
+0.9924	0.0526	0.1417	0.1309	0.3085	0.0	0.8123
+
+F1
+Epochs:  97%|█████████▋| 29/30 [1:48:30<03:44, 224.53s/it]05/18/2021 10:35:11 - INFO - utils.process_control -   mymodel训练损失:2128.6980,准确率为：81.14%,测试集准确率为：73.31%,测试集f1为：29.79%
+0.9767	0.0876	0.1163	0.1411	0.2136	-	0.5369	[[1.37432e+05 4.25600e+03 1.08000e+02 3.19000e+02 2.87000e+02 3.88000e+02
+  1.38000e+02]
+ [6.00000e+00 3.23000e+02 9.24000e+02 1.30000e+01 4.00000e+00 9.00000e+00
+  4.00000e+00]
+ [2.20000e+01 3.07000e+02 1.83000e+02 1.15300e+03 4.90000e+01 5.00000e+01
+  1.10000e+01]
+ [6.90000e+01 3.88000e+02 2.20000e+01 2.36000e+02 6.11000e+02 7.30000e+01
+  5.90000e+01]
+ [1.90000e+01 4.01000e+02 1.50000e+01 8.80000e+01 4.38000e+02 1.57700e+03
+  2.80000e+01]
+ [4.00000e+00 2.40000e+01 0.00000e+00 1.00000e+00 7.00000e+00 0.00000e+00
+  5.00000e+00]
+ [9.46000e+02 3.48000e+02 6.00000e+00 3.50000e+01 5.50000e+01 3.20000e+01
+  9.75000e+02]]
+
+
+P
+0.9615	0.2518	0.1031	0.1619	0.1707	0.0	0.4068
+
+R
+0.9923	0.0534	0.1455	0.1279	0.3019	0.0	0.7992
+
+F1
+0.9767	0.0881	0.1207	0.1429	0.2181	-	0.5391	绘制误差与测试集准确率变化曲线
+Epochs: 100%|██████████| 30/30 [1:52:14<00:00, 224.50s/it]
+
+Process finished with exit code 0

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="be14d96b-5e17-4031-8dd6-be2cc8e643bd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/事件关系抽取.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/事件关系抽取.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_model/transformers/trainer_pt_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/language_model/transformers/trainer_pt_utils.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kXlEdMn6SNksTH9pSbzuM09zO6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\data\bio_data" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\checkpoint" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\nn" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\config" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\checkpoint\relation\context" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\checkpoint\relation\base" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\useless" />
+      <recent name="D:\事件要素识别和事件关系识别流水线或联合模型\checkpoint\event_element\30,12,1e-5,5e-5" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.event_element_train">
+    <configuration name="event_element_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="事件关系抽取" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/event_element_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="relation_con_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="事件关系抽取" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/relation_con_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="relation_ee_pp_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="事件关系抽取" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/relation_ee_pp_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="relation_element_eb_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="事件关系抽取" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/relation_element_eb_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="relation_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="事件关系抽取" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/relation_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.relation_train" />
+      <item itemvalue="Python.relation_con_train" />
+      <item itemvalue="Python.relation_element_eb_train" />
+      <item itemvalue="Python.relation_ee_pp_train" />
+      <item itemvalue="Python.event_element_train" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.event_element_train" />
+        <item itemvalue="Python.relation_element_eb_train" />
+        <item itemvalue="Python.relation_ee_pp_train" />
+        <item itemvalue="Python.relation_con_train" />
+        <item itemvalue="Python.relation_train" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="be14d96b-5e17-4031-8dd6-be2cc8e643bd" name="Default Changelist" comment="" />
+      <created>1605854707273</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605854707273</updated>
+      <workItem from="1605854712808" duration="3866000" />
+      <workItem from="1605859540164" duration="1030000" />
+      <workItem from="1605932188847" duration="6478000" />
+      <workItem from="1605938969844" duration="3928000" />
+      <workItem from="1605949759713" duration="18079000" />
+      <workItem from="1606018186410" duration="8727000" />
+      <workItem from="1606103715209" duration="18261000" />
+      <workItem from="1606184646072" duration="29917000" />
+      <workItem from="1606284594701" duration="20803000" />
+      <workItem from="1606358453684" duration="28307000" />
+      <workItem from="1606475775266" duration="8123000" />
+      <workItem from="1606531153248" duration="20510000" />
+      <workItem from="1606630014241" duration="6225000" />
+      <workItem from="1606638264136" duration="797000" />
+      <workItem from="1606715221242" duration="277000" />
+      <workItem from="1606790149174" duration="1713000" />
+      <workItem from="1606798060204" duration="3578000" />
+      <workItem from="1607073145342" duration="884000" />
+      <workItem from="1607483444377" duration="31815000" />
+      <workItem from="1607949463712" duration="5160000" />
+      <workItem from="1607991150330" duration="2512000" />
+      <workItem from="1607994722516" duration="7019000" />
+      <workItem from="1608088186184" duration="35000" />
+      <workItem from="1608347456697" duration="42000" />
+      <workItem from="1608354143979" duration="14000" />
+      <workItem from="1608518202872" duration="649000" />
+      <workItem from="1608530780428" duration="15000" />
+      <workItem from="1608784284514" duration="3000" />
+      <workItem from="1608792980811" duration="16000" />
+      <workItem from="1609476415564" duration="105000" />
+      <workItem from="1609583664877" duration="499000" />
+      <workItem from="1616048740653" duration="12786000" />
+      <workItem from="1616122849102" duration="2673000" />
+      <workItem from="1617001228000" duration="6825000" />
+      <workItem from="1617855017347" duration="4602000" />
+      <workItem from="1618306844393" duration="1378000" />
+      <workItem from="1620888783129" duration="2349000" />
+      <workItem from="1620976702084" duration="12930000" />
+      <workItem from="1621048780824" duration="1672000" />
+      <workItem from="1621221209750" duration="35472000" />
+      <workItem from="1621817937106" duration="22513000" />
+      <workItem from="1621902364685" duration="9080000" />
+      <workItem from="1624959447167" duration="1964000" />
+      <workItem from="1625380899004" duration="599000" />
+      <workItem from="1625449941656" duration="12304000" />
+      <workItem from="1625532502877" duration="1852000" />
+      <workItem from="1626827118002" duration="36000" />
+      <workItem from="1627087278134" duration="3651000" />
+      <workItem from="1627198138377" duration="3776000" />
+      <workItem from="1627370162292" duration="6452000" />
+      <workItem from="1627430616749" duration="3385000" />
+      <workItem from="1627462070150" duration="1360000" />
+      <workItem from="1627881351573" duration="74000" />
+      <workItem from="1628036762534" duration="3252000" />
+      <workItem from="1628059464266" duration="4555000" />
+      <workItem from="1628324081781" duration="60000" />
+      <workItem from="1629259659061" duration="1054000" />
+      <workItem from="1629862164865" duration="703000" />
+      <workItem from="1632285430717" duration="25000" />
+      <workItem from="1632286073684" duration="12000" />
+      <workItem from="1632286218410" duration="45000" />
+      <workItem from="1632286371275" duration="97000" />
+      <workItem from="1632812030173" duration="2026000" />
+      <workItem from="1633267410263" duration="1821000" />
+      <workItem from="1633272453872" duration="2048000" />
+      <workItem from="1633279668350" duration="477000" />
+      <workItem from="1633280882907" duration="740000" />
+      <workItem from="1633283505274" duration="222000" />
+      <workItem from="1633438535140" duration="1912000" />
+      <workItem from="1634706094610" duration="581000" />
+      <workItem from="1634966140400" duration="23000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="input_ft1" />
+        <watch expression="y" />
+        <watch expression="x" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_cnn_train.coverage" NAME="relation_classify_rnn_cnn_train Coverage Results" MODIFIED="1606220201759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$demo.coverage" NAME="demo Coverage Results" MODIFIED="1606630330694" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$ner_train.coverage" NAME="ner_train Coverage Results" MODIFIED="1616067284866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_mask_train.coverage" NAME="relation_classify_rnn_role_pos_mask_train Coverage Results" MODIFIED="1606291733117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$joint_classify_train.coverage" NAME="joint_classify_train Coverage Results" MODIFIED="1616124759672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_base_train.coverage" NAME="relation_classify_base_train Coverage Results" MODIFIED="1606373584819" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_very_small_train.coverage" NAME="relation_classify_very_small_train Coverage Results" MODIFIED="1606295203326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_train.coverage" NAME="relation_classify_train Coverage Results" MODIFIED="1606188971273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_bh_train.coverage" NAME="relation_classify_rnn_role_pos_con_bh_train Coverage Results" MODIFIED="1609583882994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_train.coverage" NAME="relation_classify_rnn_role_train Coverage Results" MODIFIED="1606550783671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_4att_train.coverage" NAME="relation_classify_rnn_role_pos_con_4att_train Coverage Results" MODIFIED="1606558904629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_con_train.coverage" NAME="relation_con_train Coverage Results" MODIFIED="1627373317068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$get_relation_from_xml.coverage" NAME="get_relation_from_xml Coverage Results" MODIFIED="1606381895586" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_blackhole_train.coverage" NAME="relation_classify_rnn_role_pos_blackhole_train Coverage Results" MODIFIED="1607953070423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_4gru_train__1_.coverage" NAME="relation_classify_rnn_role_pos_con_4gru_train (1) Coverage Results" MODIFIED="1606557233760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$event_element_bb_train.coverage" NAME="event_element_bb_train Coverage Results" MODIFIED="1621854599449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_cnn_role_train.coverage" NAME="relation_classify_cnn_role_train Coverage Results" MODIFIED="1606216477218" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_train2.coverage" NAME="relation_classify_rnn_role_pos_train2 Coverage Results" MODIFIED="1607952531091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_ee_pp_train.coverage" NAME="relation_ee_pp_train Coverage Results" MODIFIED="1627468380100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$.coverage" NAME="参考文献 Coverage Results" MODIFIED="1617007259852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/相关文档" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_blackhole_train.coverage" NAME="relation_classify_rnn_role_pos_con_blackhole_train Coverage Results" MODIFIED="1607954225417" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$my_embeddings.coverage" NAME="my_embeddings Coverage Results" MODIFIED="1606104275478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nn" />
+    <SUITE FILE_PATH="coverage/$relation_train.coverage" NAME="relation_train Coverage Results" MODIFIED="1627370207654" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_4gru_train.coverage" NAME="relation_classify_rnn_role_pos_con_4gru_train Coverage Results" MODIFIED="1608000968485" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_1att_train.coverage" NAME="relation_classify_rnn_role_pos_con_1att_train Coverage Results" MODIFIED="1617857130558" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$event_element_bg_train.coverage" NAME="event_element_bg_train Coverage Results" MODIFIED="1621832621984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_cnn_role_train.coverage" NAME="relation_classify_rnn_cnn_role_train Coverage Results" MODIFIED="1606218922136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_with_role_classify_train.coverage" NAME="relation_with_role_classify_train Coverage Results" MODIFIED="1606121189680" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_train.coverage" NAME="relation_classify_rnn_train Coverage Results" MODIFIED="1609583724522" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$calculator.coverage" NAME="calculator Coverage Results" MODIFIED="1605954305013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_cnn_train.coverage" NAME="relation_classify_cnn_train Coverage Results" MODIFIED="1606217742960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_base_role_train.coverage" NAME="relation_classify_base_role_train Coverage Results" MODIFIED="1606382024908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_train.coverage" NAME="relation_classify_rnn_role_pos_con_train Coverage Results" MODIFIED="1608001245112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$event_element_ba_train__1_.coverage" NAME="event_element_ba_train (1) Coverage Results" MODIFIED="1621824999060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$data_get.coverage" NAME="data_get Coverage Results" MODIFIED="1621258329816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data" />
+    <SUITE FILE_PATH="coverage/$rnn_pos_model.coverage" NAME="rnn_pos_model Coverage Results" MODIFIED="1607497351929" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
+    <SUITE FILE_PATH="coverage/$encoder.coverage" NAME="encoder Coverage Results" MODIFIED="1607504359366" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/nn" />
+    <SUITE FILE_PATH="coverage/$event_element_train.coverage" NAME="event_element_train Coverage Results" MODIFIED="1633283559315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_small_train.coverage" NAME="relation_classify_small_train Coverage Results" MODIFIED="1606294306877" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_element_eb_train.coverage" NAME="relation_element_eb_train Coverage Results" MODIFIED="1628066767167" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_train.coverage" NAME="relation_classify_rnn_role_pos_train Coverage Results" MODIFIED="1607996027506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_con_2gru_train.coverage" NAME="relation_classify_rnn_role_pos_con_2gru_train Coverage Results" MODIFIED="1618307010708" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$relation_classify_rnn_role_pos_ML_train.coverage" NAME="relation_classify_rnn_role_pos_ML_train Coverage Results" MODIFIED="1606375458005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/$process_control.coverage" NAME="process_control Coverage Results" MODIFIED="1606391095750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+  </component>
+</project>

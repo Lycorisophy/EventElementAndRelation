@@ -1,0 +1,862 @@
+C:\Anaconda3\python.exe D:/事件要素识别和事件关系识别流水线或联合模型/relation_con_train.py
+07/05/2021 11:51:44 - INFO - utils.file_utils -   PyTorch version 1.5.0+cu101 available.
+2021-07-05 11:51:45.191101: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found
+2021-07-05 11:51:45.191244: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+07/05/2021 11:51:53 - INFO - utils.process_control -   device: cuda n_gpu: 1, distributed training: False, 16-bits training: False
+Calling ElectraTokenizer.from_pretrained() with the path to a single file or url is deprecated
+Arguments:
+    train_epochs:                  30
+    seed:                          10
+    embeddings_lr:                 0.0005
+    encoder_lr:                    0.0005
+    learning_rate:                 0.0005
+    mymodel_save_dir:              checkpoint/relation/context/
+    embedding_name:                con_embedding.bin
+    model_name:                    con_model.bin
+    weight_decay:                  0
+    train_batch_size:              4
+    max_sent_len:                  128
+    num_attention_heads:           4
+    test_size:                     0.2
+    all_data_dir:                  data/RRC_data/all/
+    mymodel_config_dir:            config/relation_base_config.json
+    pretrained_model_dir:          pretrained_model/pytorch_electra_180g_large/
+    vocab_dir:                     pretrained_model/pytorch_electra_180g_large/vocab.txt
+    rel2label:                     {'Causal': 0, 'Follow': 1, 'Accompany': 2, 'Concurrency': 3}
+    tag_to_score:                  {0: 6, 1: 6, 2: 6, 3: 6}
+    do_train:                      True
+    do_eval:                       True
+    no_gpu:                        False
+    gradient_accumulation_steps:   1
+    optimize_on_cpu:               False
+    fp16:                          False
+    loss_scale:                    128
+    local_rank:                    -1
+    no_cuda:                       False
+
+07/05/2021 11:52:03 - INFO - utils.configuration_utils -   loading configuration file config/relation_base_config.json
+07/05/2021 11:52:03 - INFO - utils.configuration_utils -   Model config ElectraConfig {
+  "attention_probs_dropout_prob": 0.1,
+  "embedding_size": 1024,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "electra",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 4,
+  "pad_token_id": 0,
+  "rnn_num_layers": 2,
+  "summary_activation": "gelu",
+  "summary_last_dropout": 0.1,
+  "summary_type": "first",
+  "summary_use_proj": true,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+{'return_dict': False, 'output_hidden_states': False, 'output_attentions': False, 'use_cache': True, 'torchscript': False, 'use_bfloat16': False, 'pruned_heads': {}, 'tie_word_embeddings': True, 'is_encoder_decoder': False, 'is_decoder': False, 'add_cross_attention': False, 'tie_encoder_decoder': False, 'max_length': 20, 'min_length': 0, 'do_sample': False, 'early_stopping': False, 'num_beams': 1, 'temperature': 1.0, 'top_k': 50, 'top_p': 1.0, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'no_repeat_ngram_size': 0, 'bad_words_ids': None, 'num_return_sequences': 1, 'chunk_size_feed_forward': 0, 'architectures': None, 'finetuning_task': None, 'id2label': {0: 'LABEL_0', 1: 'LABEL_1'}, 'label2id': {'LABEL_0': 0, 'LABEL_1': 1}, 'tokenizer_class': None, 'prefix': None, 'bos_token_id': None, 'pad_token_id': 0, 'eos_token_id': None, 'sep_token_id': None, 'decoder_start_token_id': None, 'task_specific_params': None, 'xla_device': None, '_name_or_path': '', 'rnn_num_layers': 2, 'model_type': 'electra', 'vocab_size': 21128, 'embedding_size': 1024, 'hidden_size': 1024, 'num_hidden_layers': 4, 'num_attention_heads': 16, 'intermediate_size': 4096, 'hidden_act': 'gelu', 'hidden_dropout_prob': 0.1, 'attention_probs_dropout_prob': 0.1, 'max_position_embeddings': 512, 'type_vocab_size': 2, 'initializer_range': 0.02, 'layer_norm_eps': 1e-12, 'summary_type': 'first', 'summary_use_proj': True, 'summary_activation': 'gelu', 'summary_last_dropout': 0.1}
+07/05/2021 11:52:36 - INFO - utils.modeling_utils -   loading weights file pretrained_model/pytorch_electra_180g_large/pytorch_model.bin
+07/05/2021 11:52:38 - WARNING - utils.modeling_utils -   Some weights of the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin were not used when initializing MyElectraModel: ['electra.encoder.layer.0.attention.self.query.weight', 'electra.encoder.layer.0.attention.self.query.bias', 'electra.encoder.layer.0.attention.self.key.weight', 'electra.encoder.layer.0.attention.self.key.bias', 'electra.encoder.layer.0.attention.self.value.weight', 'electra.encoder.layer.0.attention.self.value.bias', 'electra.encoder.layer.0.attention.output.dense.weight', 'electra.encoder.layer.0.attention.output.dense.bias', 'electra.encoder.layer.0.attention.output.LayerNorm.weight', 'electra.encoder.layer.0.attention.output.LayerNorm.bias', 'electra.encoder.layer.0.intermediate.dense.weight', 'electra.encoder.layer.0.intermediate.dense.bias', 'electra.encoder.layer.0.output.dense.weight', 'electra.encoder.layer.0.output.dense.bias', 'electra.encoder.layer.0.output.LayerNorm.weight', 'electra.encoder.layer.0.output.LayerNorm.bias', 'electra.encoder.layer.1.attention.self.query.weight', 'electra.encoder.layer.1.attention.self.query.bias', 'electra.encoder.layer.1.attention.self.key.weight', 'electra.encoder.layer.1.attention.self.key.bias', 'electra.encoder.layer.1.attention.self.value.weight', 'electra.encoder.layer.1.attention.self.value.bias', 'electra.encoder.layer.1.attention.output.dense.weight', 'electra.encoder.layer.1.attention.output.dense.bias', 'electra.encoder.layer.1.attention.output.LayerNorm.weight', 'electra.encoder.layer.1.attention.output.LayerNorm.bias', 'electra.encoder.layer.1.intermediate.dense.weight', 'electra.encoder.layer.1.intermediate.dense.bias', 'electra.encoder.layer.1.output.dense.weight', 'electra.encoder.layer.1.output.dense.bias', 'electra.encoder.layer.1.output.LayerNorm.weight', 'electra.encoder.layer.1.output.LayerNorm.bias', 'electra.encoder.layer.2.attention.self.query.weight', 'electra.encoder.layer.2.attention.self.query.bias', 'electra.encoder.layer.2.attention.self.key.weight', 'electra.encoder.layer.2.attention.self.key.bias', 'electra.encoder.layer.2.attention.self.value.weight', 'electra.encoder.layer.2.attention.self.value.bias', 'electra.encoder.layer.2.attention.output.dense.weight', 'electra.encoder.layer.2.attention.output.dense.bias', 'electra.encoder.layer.2.attention.output.LayerNorm.weight', 'electra.encoder.layer.2.attention.output.LayerNorm.bias', 'electra.encoder.layer.2.intermediate.dense.weight', 'electra.encoder.layer.2.intermediate.dense.bias', 'electra.encoder.layer.2.output.dense.weight', 'electra.encoder.layer.2.output.dense.bias', 'electra.encoder.layer.2.output.LayerNorm.weight', 'electra.encoder.layer.2.output.LayerNorm.bias', 'electra.encoder.layer.3.attention.self.query.weight', 'electra.encoder.layer.3.attention.self.query.bias', 'electra.encoder.layer.3.attention.self.key.weight', 'electra.encoder.layer.3.attention.self.key.bias', 'electra.encoder.layer.3.attention.self.value.weight', 'electra.encoder.layer.3.attention.self.value.bias', 'electra.encoder.layer.3.attention.output.dense.weight', 'electra.encoder.layer.3.attention.output.dense.bias', 'electra.encoder.layer.3.attention.output.LayerNorm.weight', 'electra.encoder.layer.3.attention.output.LayerNorm.bias', 'electra.encoder.layer.3.intermediate.dense.weight', 'electra.encoder.layer.3.intermediate.dense.bias', 'electra.encoder.layer.3.output.dense.weight', 'electra.encoder.layer.3.output.dense.bias', 'electra.encoder.layer.3.output.LayerNorm.weight', 'electra.encoder.layer.3.output.LayerNorm.bias', 'electra.encoder.layer.4.attention.self.query.weight', 'electra.encoder.layer.4.attention.self.query.bias', 'electra.encoder.layer.4.attention.self.key.weight', 'electra.encoder.layer.4.attention.self.key.bias', 'electra.encoder.layer.4.attention.self.value.weight', 'electra.encoder.layer.4.attention.self.value.bias', 'electra.encoder.layer.4.attention.output.dense.weight', 'electra.encoder.layer.4.attention.output.dense.bias', 'electra.encoder.layer.4.attention.output.LayerNorm.weight', 'electra.encoder.layer.4.attention.output.LayerNorm.bias', 'electra.encoder.layer.4.intermediate.dense.weight', 'electra.encoder.layer.4.intermediate.dense.bias', 'electra.encoder.layer.4.output.dense.weight', 'electra.encoder.layer.4.output.dense.bias', 'electra.encoder.layer.4.output.LayerNorm.weight', 'electra.encoder.layer.4.output.LayerNorm.bias', 'electra.encoder.layer.5.attention.self.query.weight', 'electra.encoder.layer.5.attention.self.query.bias', 'electra.encoder.layer.5.attention.self.key.weight', 'electra.encoder.layer.5.attention.self.key.bias', 'electra.encoder.layer.5.attention.self.value.weight', 'electra.encoder.layer.5.attention.self.value.bias', 'electra.encoder.layer.5.attention.output.dense.weight', 'electra.encoder.layer.5.attention.output.dense.bias', 'electra.encoder.layer.5.attention.output.LayerNorm.weight', 'electra.encoder.layer.5.attention.output.LayerNorm.bias', 'electra.encoder.layer.5.intermediate.dense.weight', 'electra.encoder.layer.5.intermediate.dense.bias', 'electra.encoder.layer.5.output.dense.weight', 'electra.encoder.layer.5.output.dense.bias', 'electra.encoder.layer.5.output.LayerNorm.weight', 'electra.encoder.layer.5.output.LayerNorm.bias', 'electra.encoder.layer.6.attention.self.query.weight', 'electra.encoder.layer.6.attention.self.query.bias', 'electra.encoder.layer.6.attention.self.key.weight', 'electra.encoder.layer.6.attention.self.key.bias', 'electra.encoder.layer.6.attention.self.value.weight', 'electra.encoder.layer.6.attention.self.value.bias', 'electra.encoder.layer.6.attention.output.dense.weight', 'electra.encoder.layer.6.attention.output.dense.bias', 'electra.encoder.layer.6.attention.output.LayerNorm.weight', 'electra.encoder.layer.6.attention.output.LayerNorm.bias', 'electra.encoder.layer.6.intermediate.dense.weight', 'electra.encoder.layer.6.intermediate.dense.bias', 'electra.encoder.layer.6.output.dense.weight', 'electra.encoder.layer.6.output.dense.bias', 'electra.encoder.layer.6.output.LayerNorm.weight', 'electra.encoder.layer.6.output.LayerNorm.bias', 'electra.encoder.layer.7.attention.self.query.weight', 'electra.encoder.layer.7.attention.self.query.bias', 'electra.encoder.layer.7.attention.self.key.weight', 'electra.encoder.layer.7.attention.self.key.bias', 'electra.encoder.layer.7.attention.self.value.weight', 'electra.encoder.layer.7.attention.self.value.bias', 'electra.encoder.layer.7.attention.output.dense.weight', 'electra.encoder.layer.7.attention.output.dense.bias', 'electra.encoder.layer.7.attention.output.LayerNorm.weight', 'electra.encoder.layer.7.attention.output.LayerNorm.bias', 'electra.encoder.layer.7.intermediate.dense.weight', 'electra.encoder.layer.7.intermediate.dense.bias', 'electra.encoder.layer.7.output.dense.weight', 'electra.encoder.layer.7.output.dense.bias', 'electra.encoder.layer.7.output.LayerNorm.weight', 'electra.encoder.layer.7.output.LayerNorm.bias', 'electra.encoder.layer.8.attention.self.query.weight', 'electra.encoder.layer.8.attention.self.query.bias', 'electra.encoder.layer.8.attention.self.key.weight', 'electra.encoder.layer.8.attention.self.key.bias', 'electra.encoder.layer.8.attention.self.value.weight', 'electra.encoder.layer.8.attention.self.value.bias', 'electra.encoder.layer.8.attention.output.dense.weight', 'electra.encoder.layer.8.attention.output.dense.bias', 'electra.encoder.layer.8.attention.output.LayerNorm.weight', 'electra.encoder.layer.8.attention.output.LayerNorm.bias', 'electra.encoder.layer.8.intermediate.dense.weight', 'electra.encoder.layer.8.intermediate.dense.bias', 'electra.encoder.layer.8.output.dense.weight', 'electra.encoder.layer.8.output.dense.bias', 'electra.encoder.layer.8.output.LayerNorm.weight', 'electra.encoder.layer.8.output.LayerNorm.bias', 'electra.encoder.layer.9.attention.self.query.weight', 'electra.encoder.layer.9.attention.self.query.bias', 'electra.encoder.layer.9.attention.self.key.weight', 'electra.encoder.layer.9.attention.self.key.bias', 'electra.encoder.layer.9.attention.self.value.weight', 'electra.encoder.layer.9.attention.self.value.bias', 'electra.encoder.layer.9.attention.output.dense.weight', 'electra.encoder.layer.9.attention.output.dense.bias', 'electra.encoder.layer.9.attention.output.LayerNorm.weight', 'electra.encoder.layer.9.attention.output.LayerNorm.bias', 'electra.encoder.layer.9.intermediate.dense.weight', 'electra.encoder.layer.9.intermediate.dense.bias', 'electra.encoder.layer.9.output.dense.weight', 'electra.encoder.layer.9.output.dense.bias', 'electra.encoder.layer.9.output.LayerNorm.weight', 'electra.encoder.layer.9.output.LayerNorm.bias', 'electra.encoder.layer.10.attention.self.query.weight', 'electra.encoder.layer.10.attention.self.query.bias', 'electra.encoder.layer.10.attention.self.key.weight', 'electra.encoder.layer.10.attention.self.key.bias', 'electra.encoder.layer.10.attention.self.value.weight', 'electra.encoder.layer.10.attention.self.value.bias', 'electra.encoder.layer.10.attention.output.dense.weight', 'electra.encoder.layer.10.attention.output.dense.bias', 'electra.encoder.layer.10.attention.output.LayerNorm.weight', 'electra.encoder.layer.10.attention.output.LayerNorm.bias', 'electra.encoder.layer.10.intermediate.dense.weight', 'electra.encoder.layer.10.intermediate.dense.bias', 'electra.encoder.layer.10.output.dense.weight', 'electra.encoder.layer.10.output.dense.bias', 'electra.encoder.layer.10.output.LayerNorm.weight', 'electra.encoder.layer.10.output.LayerNorm.bias', 'electra.encoder.layer.11.attention.self.query.weight', 'electra.encoder.layer.11.attention.self.query.bias', 'electra.encoder.layer.11.attention.self.key.weight', 'electra.encoder.layer.11.attention.self.key.bias', 'electra.encoder.layer.11.attention.self.value.weight', 'electra.encoder.layer.11.attention.self.value.bias', 'electra.encoder.layer.11.attention.output.dense.weight', 'electra.encoder.layer.11.attention.output.dense.bias', 'electra.encoder.layer.11.attention.output.LayerNorm.weight', 'electra.encoder.layer.11.attention.output.LayerNorm.bias', 'electra.encoder.layer.11.intermediate.dense.weight', 'electra.encoder.layer.11.intermediate.dense.bias', 'electra.encoder.layer.11.output.dense.weight', 'electra.encoder.layer.11.output.dense.bias', 'electra.encoder.layer.11.output.LayerNorm.weight', 'electra.encoder.layer.11.output.LayerNorm.bias', 'electra.encoder.layer.12.attention.self.query.weight', 'electra.encoder.layer.12.attention.self.query.bias', 'electra.encoder.layer.12.attention.self.key.weight', 'electra.encoder.layer.12.attention.self.key.bias', 'electra.encoder.layer.12.attention.self.value.weight', 'electra.encoder.layer.12.attention.self.value.bias', 'electra.encoder.layer.12.attention.output.dense.weight', 'electra.encoder.layer.12.attention.output.dense.bias', 'electra.encoder.layer.12.attention.output.LayerNorm.weight', 'electra.encoder.layer.12.attention.output.LayerNorm.bias', 'electra.encoder.layer.12.intermediate.dense.weight', 'electra.encoder.layer.12.intermediate.dense.bias', 'electra.encoder.layer.12.output.dense.weight', 'electra.encoder.layer.12.output.dense.bias', 'electra.encoder.layer.12.output.LayerNorm.weight', 'electra.encoder.layer.12.output.LayerNorm.bias', 'electra.encoder.layer.13.attention.self.query.weight', 'electra.encoder.layer.13.attention.self.query.bias', 'electra.encoder.layer.13.attention.self.key.weight', 'electra.encoder.layer.13.attention.self.key.bias', 'electra.encoder.layer.13.attention.self.value.weight', 'electra.encoder.layer.13.attention.self.value.bias', 'electra.encoder.layer.13.attention.output.dense.weight', 'electra.encoder.layer.13.attention.output.dense.bias', 'electra.encoder.layer.13.attention.output.LayerNorm.weight', 'electra.encoder.layer.13.attention.output.LayerNorm.bias', 'electra.encoder.layer.13.intermediate.dense.weight', 'electra.encoder.layer.13.intermediate.dense.bias', 'electra.encoder.layer.13.output.dense.weight', 'electra.encoder.layer.13.output.dense.bias', 'electra.encoder.layer.13.output.LayerNorm.weight', 'electra.encoder.layer.13.output.LayerNorm.bias', 'electra.encoder.layer.14.attention.self.query.weight', 'electra.encoder.layer.14.attention.self.query.bias', 'electra.encoder.layer.14.attention.self.key.weight', 'electra.encoder.layer.14.attention.self.key.bias', 'electra.encoder.layer.14.attention.self.value.weight', 'electra.encoder.layer.14.attention.self.value.bias', 'electra.encoder.layer.14.attention.output.dense.weight', 'electra.encoder.layer.14.attention.output.dense.bias', 'electra.encoder.layer.14.attention.output.LayerNorm.weight', 'electra.encoder.layer.14.attention.output.LayerNorm.bias', 'electra.encoder.layer.14.intermediate.dense.weight', 'electra.encoder.layer.14.intermediate.dense.bias', 'electra.encoder.layer.14.output.dense.weight', 'electra.encoder.layer.14.output.dense.bias', 'electra.encoder.layer.14.output.LayerNorm.weight', 'electra.encoder.layer.14.output.LayerNorm.bias', 'electra.encoder.layer.15.attention.self.query.weight', 'electra.encoder.layer.15.attention.self.query.bias', 'electra.encoder.layer.15.attention.self.key.weight', 'electra.encoder.layer.15.attention.self.key.bias', 'electra.encoder.layer.15.attention.self.value.weight', 'electra.encoder.layer.15.attention.self.value.bias', 'electra.encoder.layer.15.attention.output.dense.weight', 'electra.encoder.layer.15.attention.output.dense.bias', 'electra.encoder.layer.15.attention.output.LayerNorm.weight', 'electra.encoder.layer.15.attention.output.LayerNorm.bias', 'electra.encoder.layer.15.intermediate.dense.weight', 'electra.encoder.layer.15.intermediate.dense.bias', 'electra.encoder.layer.15.output.dense.weight', 'electra.encoder.layer.15.output.dense.bias', 'electra.encoder.layer.15.output.LayerNorm.weight', 'electra.encoder.layer.15.output.LayerNorm.bias', 'electra.encoder.layer.16.attention.self.query.weight', 'electra.encoder.layer.16.attention.self.query.bias', 'electra.encoder.layer.16.attention.self.key.weight', 'electra.encoder.layer.16.attention.self.key.bias', 'electra.encoder.layer.16.attention.self.value.weight', 'electra.encoder.layer.16.attention.self.value.bias', 'electra.encoder.layer.16.attention.output.dense.weight', 'electra.encoder.layer.16.attention.output.dense.bias', 'electra.encoder.layer.16.attention.output.LayerNorm.weight', 'electra.encoder.layer.16.attention.output.LayerNorm.bias', 'electra.encoder.layer.16.intermediate.dense.weight', 'electra.encoder.layer.16.intermediate.dense.bias', 'electra.encoder.layer.16.output.dense.weight', 'electra.encoder.layer.16.output.dense.bias', 'electra.encoder.layer.16.output.LayerNorm.weight', 'electra.encoder.layer.16.output.LayerNorm.bias', 'electra.encoder.layer.17.attention.self.query.weight', 'electra.encoder.layer.17.attention.self.query.bias', 'electra.encoder.layer.17.attention.self.key.weight', 'electra.encoder.layer.17.attention.self.key.bias', 'electra.encoder.layer.17.attention.self.value.weight', 'electra.encoder.layer.17.attention.self.value.bias', 'electra.encoder.layer.17.attention.output.dense.weight', 'electra.encoder.layer.17.attention.output.dense.bias', 'electra.encoder.layer.17.attention.output.LayerNorm.weight', 'electra.encoder.layer.17.attention.output.LayerNorm.bias', 'electra.encoder.layer.17.intermediate.dense.weight', 'electra.encoder.layer.17.intermediate.dense.bias', 'electra.encoder.layer.17.output.dense.weight', 'electra.encoder.layer.17.output.dense.bias', 'electra.encoder.layer.17.output.LayerNorm.weight', 'electra.encoder.layer.17.output.LayerNorm.bias', 'electra.encoder.layer.18.attention.self.query.weight', 'electra.encoder.layer.18.attention.self.query.bias', 'electra.encoder.layer.18.attention.self.key.weight', 'electra.encoder.layer.18.attention.self.key.bias', 'electra.encoder.layer.18.attention.self.value.weight', 'electra.encoder.layer.18.attention.self.value.bias', 'electra.encoder.layer.18.attention.output.dense.weight', 'electra.encoder.layer.18.attention.output.dense.bias', 'electra.encoder.layer.18.attention.output.LayerNorm.weight', 'electra.encoder.layer.18.attention.output.LayerNorm.bias', 'electra.encoder.layer.18.intermediate.dense.weight', 'electra.encoder.layer.18.intermediate.dense.bias', 'electra.encoder.layer.18.output.dense.weight', 'electra.encoder.layer.18.output.dense.bias', 'electra.encoder.layer.18.output.LayerNorm.weight', 'electra.encoder.layer.18.output.LayerNorm.bias', 'electra.encoder.layer.19.attention.self.query.weight', 'electra.encoder.layer.19.attention.self.query.bias', 'electra.encoder.layer.19.attention.self.key.weight', 'electra.encoder.layer.19.attention.self.key.bias', 'electra.encoder.layer.19.attention.self.value.weight', 'electra.encoder.layer.19.attention.self.value.bias', 'electra.encoder.layer.19.attention.output.dense.weight', 'electra.encoder.layer.19.attention.output.dense.bias', 'electra.encoder.layer.19.attention.output.LayerNorm.weight', 'electra.encoder.layer.19.attention.output.LayerNorm.bias', 'electra.encoder.layer.19.intermediate.dense.weight', 'electra.encoder.layer.19.intermediate.dense.bias', 'electra.encoder.layer.19.output.dense.weight', 'electra.encoder.layer.19.output.dense.bias', 'electra.encoder.layer.19.output.LayerNorm.weight', 'electra.encoder.layer.19.output.LayerNorm.bias', 'electra.encoder.layer.20.attention.self.query.weight', 'electra.encoder.layer.20.attention.self.query.bias', 'electra.encoder.layer.20.attention.self.key.weight', 'electra.encoder.layer.20.attention.self.key.bias', 'electra.encoder.layer.20.attention.self.value.weight', 'electra.encoder.layer.20.attention.self.value.bias', 'electra.encoder.layer.20.attention.output.dense.weight', 'electra.encoder.layer.20.attention.output.dense.bias', 'electra.encoder.layer.20.attention.output.LayerNorm.weight', 'electra.encoder.layer.20.attention.output.LayerNorm.bias', 'electra.encoder.layer.20.intermediate.dense.weight', 'electra.encoder.layer.20.intermediate.dense.bias', 'electra.encoder.layer.20.output.dense.weight', 'electra.encoder.layer.20.output.dense.bias', 'electra.encoder.layer.20.output.LayerNorm.weight', 'electra.encoder.layer.20.output.LayerNorm.bias', 'electra.encoder.layer.21.attention.self.query.weight', 'electra.encoder.layer.21.attention.self.query.bias', 'electra.encoder.layer.21.attention.self.key.weight', 'electra.encoder.layer.21.attention.self.key.bias', 'electra.encoder.layer.21.attention.self.value.weight', 'electra.encoder.layer.21.attention.self.value.bias', 'electra.encoder.layer.21.attention.output.dense.weight', 'electra.encoder.layer.21.attention.output.dense.bias', 'electra.encoder.layer.21.attention.output.LayerNorm.weight', 'electra.encoder.layer.21.attention.output.LayerNorm.bias', 'electra.encoder.layer.21.intermediate.dense.weight', 'electra.encoder.layer.21.intermediate.dense.bias', 'electra.encoder.layer.21.output.dense.weight', 'electra.encoder.layer.21.output.dense.bias', 'electra.encoder.layer.21.output.LayerNorm.weight', 'electra.encoder.layer.21.output.LayerNorm.bias', 'electra.encoder.layer.22.attention.self.query.weight', 'electra.encoder.layer.22.attention.self.query.bias', 'electra.encoder.layer.22.attention.self.key.weight', 'electra.encoder.layer.22.attention.self.key.bias', 'electra.encoder.layer.22.attention.self.value.weight', 'electra.encoder.layer.22.attention.self.value.bias', 'electra.encoder.layer.22.attention.output.dense.weight', 'electra.encoder.layer.22.attention.output.dense.bias', 'electra.encoder.layer.22.attention.output.LayerNorm.weight', 'electra.encoder.layer.22.attention.output.LayerNorm.bias', 'electra.encoder.layer.22.intermediate.dense.weight', 'electra.encoder.layer.22.intermediate.dense.bias', 'electra.encoder.layer.22.output.dense.weight', 'electra.encoder.layer.22.output.dense.bias', 'electra.encoder.layer.22.output.LayerNorm.weight', 'electra.encoder.layer.22.output.LayerNorm.bias', 'electra.encoder.layer.23.attention.self.query.weight', 'electra.encoder.layer.23.attention.self.query.bias', 'electra.encoder.layer.23.attention.self.key.weight', 'electra.encoder.layer.23.attention.self.key.bias', 'electra.encoder.layer.23.attention.self.value.weight', 'electra.encoder.layer.23.attention.self.value.bias', 'electra.encoder.layer.23.attention.output.dense.weight', 'electra.encoder.layer.23.attention.output.dense.bias', 'electra.encoder.layer.23.attention.output.LayerNorm.weight', 'electra.encoder.layer.23.attention.output.LayerNorm.bias', 'electra.encoder.layer.23.intermediate.dense.weight', 'electra.encoder.layer.23.intermediate.dense.bias', 'electra.encoder.layer.23.output.dense.weight', 'electra.encoder.layer.23.output.dense.bias', 'electra.encoder.layer.23.output.LayerNorm.weight', 'electra.encoder.layer.23.output.LayerNorm.bias', 'electra.embeddings.position_ids', 'electra.embeddings.LayerNorm.weight', 'electra.embeddings.LayerNorm.bias']
+- This IS expected if you are initializing MyElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing MyElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+07/05/2021 11:52:38 - WARNING - utils.modeling_utils -   Some weights of MyElectraModel were not initialized from the model checkpoint at pretrained_model/pytorch_electra_180g_large/pytorch_model.bin and are newly initialized: ['electra.LayerNorm.weight', 'electra.LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+Epochs:   0%|          | 0/30 [00:00<?, ?it/s]..\torch\csrc\utils\python_arg_parser.cpp:756: UserWarning: This overload of addcmul_ is deprecated:
+	addcmul_(Number value, Tensor tensor1, Tensor tensor2)
+Consider using one of the following signatures instead:
+	addcmul_(Tensor tensor1, Tensor tensor2, *, Number value)
+07/05/2021 11:56:10 - INFO - utils.process_control -   mymodel训练损失:5.3831,准确率为：39.89%,测试集准确率为：49.78%,测试集f1为：36.36%
+[[103.  33.  37.   0.]
+ [ 47.  76.  46.   0.]
+ [ 24.  38.  45.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.5954	0.4497	0.4206	0.0
+
+R
+0.5886	0.5135	0.3516	-
+
+F1
+Epochs:   3%|▎         | 1/30 [03:35<1:43:57, 215.08s/it]07/05/2021 11:59:49 - INFO - utils.process_control -   mymodel训练损失:4.9034,准确率为：48.78%,测试集准确率为：49.12%,测试集f1为：31.71%
+0.592	0.4795	0.383	-	[[130.   4.  39.   0.]
+ [ 41.   6. 122.   0.]
+ [ 17.   4.  86.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7514	0.0355	0.8037	0.0
+
+R
+0.6878	0.4286	0.3468	-
+
+F1
+Epochs:   7%|▋         | 2/30 [07:11<1:40:33, 215.49s/it]07/05/2021 12:03:25 - INFO - utils.process_control -   mymodel训练损失:4.4638,准确率为：54.56%,测试集准确率为：44.62%,测试集f1为：29.57%
+0.7182	0.0656	0.4845	-	[[ 95.   4.  74.   0.]
+ [ 15.   5. 149.   0.]
+ [  4.   2. 101.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.5491	0.0296	0.9439	0.0
+
+R
+0.8261	0.4545	0.3108	-
+
+F1
+Epochs:  10%|█         | 3/30 [10:47<1:37:04, 215.71s/it]07/05/2021 12:07:01 - INFO - utils.process_control -   mymodel训练损失:4.3380,准确率为：55.39%,测试集准确率为：51.40%,测试集f1为：36.24%
+0.6597	0.0556	0.4676	-	[[129.  17.  27.   0.]
+ [ 46.  33.  90.   0.]
+ [ 26.  11.  70.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7457	0.1953	0.6542	0.0
+
+R
+0.6386	0.541	0.3723	-
+
+F1
+Epochs:  13%|█▎        | 4/30 [14:24<1:33:32, 215.88s/it]07/05/2021 12:10:38 - INFO - utils.process_control -   mymodel训练损失:3.8082,准确率为：60.83%,测试集准确率为：49.26%,测试集f1为：32.65%
+0.688	0.287	0.4746	-	[[127.   8.  38.   0.]
+ [ 44.  11. 114.   0.]
+ [ 15.   8.  84.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7341	0.0651	0.785	0.0
+
+R
+0.6791	0.4074	0.3544	-
+
+F1
+Epochs:  17%|█▋        | 5/30 [18:00<1:30:01, 216.06s/it]07/05/2021 12:14:14 - INFO - utils.process_control -   mymodel训练损失:3.4149,准确率为：65.00%,测试集准确率为：55.68%,测试集f1为：40.37%
+0.7056	0.1122	0.4884	-	[[123.  11.  39.   0.]
+ [ 23.  42. 104.   0.]
+ [ 12.   9.  86.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.711	0.2485	0.8037	0.0
+
+R
+0.7736	0.6774	0.3739	-
+
+F1
+Epochs:  20%|██        | 6/30 [21:36<1:26:27, 216.15s/it]07/05/2021 12:17:50 - INFO - utils.process_control -   mymodel训练损失:3.1822,准确率为：68.17%,测试集准确率为：53.54%,测试集f1为：38.32%
+0.741	0.3636	0.5104	-	[[124.  12.  37.   0.]
+ [ 53.  37.  79.   0.]
+ [ 13.  13.  81.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7168	0.2189	0.757	0.0
+
+R
+0.6492	0.5968	0.4091	-
+
+F1
+Epochs:  23%|██▎       | 7/30 [25:13<1:22:53, 216.22s/it]07/05/2021 12:21:27 - INFO - utils.process_control -   mymodel训练损失:2.9095,准确率为：70.39%,测试集准确率为：55.31%,测试集f1为：39.88%
+0.6813	0.3203	0.5311	-	[[130.  12.  31.   0.]
+ [ 48.  45.  76.   0.]
+ [ 17.  15.  75.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7514	0.2663	0.7009	0.0
+
+R
+0.6633	0.625	0.4098	-
+
+F1
+Epochs:  27%|██▋       | 8/30 [28:49<1:19:16, 216.20s/it]07/05/2021 12:25:03 - INFO - utils.process_control -   mymodel训练损失:2.9587,准确率为：69.78%,测试集准确率为：53.61%,测试集f1为：37.53%
+0.7046	0.3734	0.5172	-	[[150.   9.  14.   0.]
+ [103.  36.  30.   0.]
+ [ 32.  19.  56.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8671	0.213	0.5234	0.0
+
+R
+0.5245	0.5625	0.5545	-
+
+F1
+Epochs:  30%|███       | 9/30 [32:25<1:15:40, 216.24s/it]07/05/2021 12:28:39 - INFO - utils.process_control -   mymodel训练损失:3.6090,准确率为：63.22%,测试集准确率为：52.73%,测试集f1为：38.37%
+0.6536	0.309	0.5385	-	[[108.  48.  17.   0.]
+ [ 48.  90.  31.   0.]
+ [ 17.  50.  40.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.6243	0.5325	0.3738	0.0
+
+R
+0.6207	0.4787	0.4494	-
+
+F1
+Epochs:  33%|███▎      | 10/30 [36:01<1:12:04, 216.24s/it]07/05/2021 12:32:14 - INFO - utils.process_control -   mymodel训练损失:4.5650,准确率为：49.72%,测试集准确率为：37.46%,测试集f1为：13.63%
+0.6225	0.5042	0.4082	-	[[  0. 173.   0.   0.]
+ [  0. 169.   0.   0.]
+ [  0. 107.   0.   0.]
+ [  0.   2.   0.   0.]]
+
+
+P
+0.0	1.0	0.0	0.0
+
+R
+-	0.3747	-	-
+
+F1
+Epochs:  37%|███▋      | 11/30 [39:37<1:08:22, 215.91s/it]07/05/2021 12:35:48 - INFO - utils.process_control -   mymodel训练损失:5.0203,准确率为：35.50%,测试集准确率为：37.46%,测试集f1为：13.63%
+-	0.5452	-	-	[[  0. 173.   0.   0.]
+ [  0. 169.   0.   0.]
+ [  0. 107.   0.   0.]
+ [  0.   2.   0.   0.]]
+
+
+P
+0.0	1.0	0.0	0.0
+
+R
+-	0.3747	-	-
+
+F1
+Epochs:  40%|████      | 12/30 [43:12<1:04:41, 215.63s/it]07/05/2021 12:39:24 - INFO - utils.process_control -   mymodel训练损失:4.7173,准确率为：47.06%,测试集准确率为：52.80%,测试集f1为：37.36%
+-	0.5452	-	-	[[117.  42.  14.   0.]
+ [ 55.  90.  24.   0.]
+ [ 20.  56.  31.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.6763	0.5325	0.2897	0.0
+
+R
+0.6062	0.4762	0.4493	-
+
+F1
+Epochs:  43%|████▎     | 13/30 [46:46<1:00:59, 215.29s/it]07/05/2021 12:42:58 - INFO - utils.process_control -   mymodel训练损失:4.1779,准确率为：56.00%,测试集准确率为：51.33%,测试集f1为：36.74%
+0.6393	0.5028	0.3523	-	[[126.  28.  19.   0.]
+ [ 60.  41.  68.   0.]
+ [ 24.  19.  64.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7283	0.2426	0.5981	0.0
+
+R
+0.5972	0.4659	0.4211	-
+
+F1
+Epochs:  47%|████▋     | 14/30 [50:21<57:20, 215.05s/it]  07/05/2021 12:46:32 - INFO - utils.process_control -   mymodel训练损失:3.9008,准确率为：60.94%,测试集准确率为：54.28%,测试集f1为：39.91%
+0.6562	0.3191	0.4942	-	[[115.  18.  40.   0.]
+ [ 29.  50.  90.   0.]
+ [ 13.  14.  80.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.6647	0.2959	0.7477	0.0
+
+R
+0.7278	0.6098	0.3791	-
+
+F1
+Epochs:  50%|█████     | 15/30 [53:55<53:43, 214.90s/it]07/05/2021 12:50:07 - INFO - utils.process_control -   mymodel训练损失:3.6368,准确率为：63.61%,测试集准确率为：51.84%,测试集f1为：36.86%
+0.6949	0.3984	0.5031	-	[[134.  20.  19.   0.]
+ [ 66.  42.  61.   0.]
+ [ 21.  28.  58.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7746	0.2485	0.5421	0.0
+
+R
+0.6036	0.4667	0.4173	-
+
+F1
+Epochs:  53%|█████▎    | 16/30 [57:30<50:08, 214.90s/it]07/05/2021 12:53:42 - INFO - utils.process_control -   mymodel训练损失:3.3575,准确率为：66.06%,测试集准确率为：53.02%,测试集f1为：38.02%
+0.6785	0.3243	0.4715	-	[[129.  22.  22.   0.]
+ [ 48.  40.  81.   0.]
+ [ 13.  24.  70.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7457	0.2367	0.6542	0.0
+
+R
+0.6754	0.4651	0.4023	-
+
+F1
+Epochs:  57%|█████▋    | 17/30 [1:01:04<46:31, 214.74s/it]07/05/2021 12:57:16 - INFO - utils.process_control -   mymodel训练损失:3.2741,准确率为：66.50%,测试集准确率为：52.14%,测试集f1为：36.53%
+0.7088	0.3137	0.4982	-	[[139.  17.  17.   0.]
+ [ 71.  36.  62.   0.]
+ [ 24.  23.  60.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8035	0.213	0.5607	0.0
+
+R
+0.5915	0.4737	0.4286	-
+
+F1
+Epochs:  60%|██████    | 18/30 [1:04:39<42:57, 214.78s/it]07/05/2021 13:00:51 - INFO - utils.process_control -   mymodel训练损失:3.1631,准确率为：67.67%,测试集准确率为：55.46%,测试集f1为：39.46%
+0.6814	0.2939	0.4858	-	[[134.  15.  24.   0.]
+ [ 43.  38.  88.   0.]
+ [ 14.  15.  78.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7746	0.2249	0.729	0.0
+
+R
+0.6979	0.5588	0.4084	-
+
+F1
+Epochs:  63%|██████▎   | 19/30 [1:08:14<39:22, 214.77s/it]07/05/2021 13:04:28 - INFO - utils.process_control -   mymodel训练损失:3.1001,准确率为：69.11%,测试集准确率为：52.65%,测试集f1为：36.24%
+0.7342	0.3207	0.5235	-	[[148.  11.  14.   0.]
+ [ 79.  31.  59.   0.]
+ [ 29.  19.  59.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8555	0.1834	0.5514	0.0
+
+R
+0.5759	0.5082	0.4436	-
+
+F1
+Epochs:  67%|██████▋   | 20/30 [1:11:50<35:51, 215.18s/it]07/05/2021 13:08:06 - INFO - utils.process_control -   mymodel训练损失:2.9884,准确率为：69.17%,测试集准确率为：53.47%,测试集f1为：37.39%
+0.6884	0.2696	0.4917	-	[[142.  13.  18.   0.]
+ [ 65.  37.  67.   0.]
+ [ 25.  20.  62.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8208	0.2189	0.5794	0.0
+
+R
+0.6094	0.5286	0.4189	-
+
+F1
+Epochs:  70%|███████   | 21/30 [1:15:29<32:26, 216.32s/it]07/05/2021 13:11:43 - INFO - utils.process_control -   mymodel训练损失:2.8809,准确率为：70.89%,测试集准确率为：52.88%,测试集f1为：37.27%
+0.6995	0.3096	0.4863	-	[[136.  21.  16.   0.]
+ [ 64.  36.  69.   0.]
+ [ 21.  20.  66.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7861	0.213	0.6168	0.0
+
+R
+0.6126	0.4675	0.4342	-
+
+F1
+Epochs:  73%|███████▎  | 22/30 [1:19:06<28:52, 216.51s/it]07/05/2021 13:15:20 - INFO - utils.process_control -   mymodel训练损失:2.8180,准确率为：71.22%,测试集准确率为：51.55%,测试集f1为：35.12%
+0.6886	0.2927	0.5097	-	[[150.  14.   9.   0.]
+ [ 93.  26.  50.   0.]
+ [ 35.  15.  57.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8671	0.1538	0.5327	0.0
+
+R
+0.5376	0.4727	0.4872	-
+
+F1
+Epochs:  77%|███████▋  | 23/30 [1:22:42<25:15, 216.48s/it]07/05/2021 13:18:57 - INFO - utils.process_control -   mymodel训练损失:2.7681,准确率为：71.89%,测试集准确率为：53.98%,测试集f1为：37.95%
+0.6637	0.2321	0.5089	-	[[144.  16.  13.   0.]
+ [ 73.  38.  58.   0.]
+ [ 30.  15.  62.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8324	0.2249	0.5794	0.0
+
+R
+0.5806	0.5507	0.4627	-
+
+F1
+Epochs:  80%|████████  | 24/30 [1:26:20<21:40, 216.78s/it]07/05/2021 13:22:34 - INFO - utils.process_control -   mymodel训练损失:2.7284,准确率为：73.22%,测试集准确率为：56.34%,测试集f1为：41.02%
+0.6841	0.3193	0.5145	-	[[130.  24.  19.   0.]
+ [ 44.  57.  68.   0.]
+ [ 18.  22.  67.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7514	0.3373	0.6262	0.0
+
+R
+0.6736	0.5534	0.4323	-
+
+F1
+Epochs:  83%|████████▎ | 25/30 [1:29:57<18:03, 216.75s/it]07/05/2021 13:26:11 - INFO - utils.process_control -   mymodel训练损失:2.6437,准确率为：73.11%,测试集准确率为：53.91%,测试集f1为：37.53%
+0.7104	0.4191	0.5115	-	[[140.  14.  19.   0.]
+ [ 58.  31.  80.   0.]
+ [ 20.  15.  72.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8092	0.1834	0.6729	0.0
+
+R
+0.6393	0.5167	0.4186	-
+
+F1
+Epochs:  87%|████████▋ | 26/30 [1:33:34<14:27, 216.83s/it]07/05/2021 13:29:48 - INFO - utils.process_control -   mymodel训练损失:2.6334,准确率为：73.72%,测试集准确率为：53.76%,测试集f1为：37.74%
+0.7143	0.2707	0.5161	-	[[141.  17.  15.   0.]
+ [ 63.  38.  68.   0.]
+ [ 23.  21.  63.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.815	0.2249	0.5888	0.0
+
+R
+0.6184	0.5	0.4286	-
+
+F1
+Epochs:  90%|█████████ | 27/30 [1:37:11<10:51, 217.10s/it]07/05/2021 13:33:25 - INFO - utils.process_control -   mymodel训练损失:2.5521,准确率为：76.28%,测试集准确率为：51.92%,测试集f1为：35.36%
+0.7032	0.3102	0.4961	-	[[151.   8.  14.   0.]
+ [ 93.  32.  44.   0.]
+ [ 37.  19.  51.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8728	0.1893	0.4766	0.0
+
+R
+0.5355	0.5424	0.4636	-
+
+F1
+Epochs:  93%|█████████▎| 28/30 [1:40:48<07:13, 216.81s/it]07/05/2021 13:37:02 - INFO - utils.process_control -   mymodel训练损失:2.5259,准确率为：74.28%,测试集准确率为：51.70%,测试集f1为：36.17%
+0.6637	0.2807	0.47	-	[[137.  17.  19.   0.]
+ [ 62.  33.  74.   0.]
+ [ 19.  25.  63.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.7919	0.1953	0.5888	0.0
+
+R
+0.6256	0.44	0.4013	-
+
+F1
+Epochs:  97%|█████████▋| 29/30 [1:44:25<03:37, 217.01s/it]07/05/2021 13:40:39 - INFO - utils.process_control -   mymodel训练损失:2.4658,准确率为：75.61%,测试集准确率为：55.53%,测试集f1为：39.53%
+0.699	0.2705	0.4773	-	[[139.  13.  21.   0.]
+ [ 57.  46.  66.   0.]
+ [ 19.  23.  65.   0.]
+ [  1.   0.   1.   0.]]
+
+
+P
+0.8035	0.2722	0.6075	0.0
+
+R
+0.6435	0.561	0.4248	-
+
+F1
+Epochs: 100%|██████████| 30/30 [1:48:02<00:00, 216.09s/it]
+0.7147	0.3665	0.5	-	绘制误差与测试集准确率变化曲线
+
+Process finished with exit code 0
+C:\Anaconda3\python.exe D:/事件要素识别和事件关系识别流水线或联合模型/relation_element_eb_train.py
+07/05/2021 16:51:33 - INFO - utils.file_utils -   PyTorch version 1.5.0+cu101 available.
+2021-07-05 16:51:33.634423: W tensorflow/stream_executor/platform/default/dso_loader.cc:55] Could not load dynamic library 'cudart64_100.dll'; dlerror: cudart64_100.dll not found
+2021-07-05 16:51:33.634547: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+07/05/2021 16:51:39 - INFO - utils.process_control -   device: cuda n_gpu: 1, distributed training: False, 16-bits training: False
+Calling ElectraTokenizer.from_pretrained() with the path to a single file or url is deprecated
+Arguments:
+    train_epochs:                  20
+    seed:                          10
+    embeddings_lr:                 0.0005
+    encoder_lr:                    0.0005
+    learning_rate:                 0.0005
+    mymodel_save_dir:              checkpoint/relation/element_eb/
+    embedding_name:                base_embedding.bin
+    model_name:                    base_model.bin
+    weight_decay:                  0
+    train_batch_size:              8
+    max_sent_len:                  128
+    num_attention_heads:           4
+    test_size:                     0.2
+    all_data_dir:                  data/RRC_data/all/
+    mymodel_config_dir:            config/relation_base_config.json
+    pretrained_model_dir:          checkpoint/event_element/
+    vocab_dir:                     pretrained_model/pytorch_electra_180g_large/vocab.txt
+    rel2label:                     {'Causal': 0, 'Follow': 1, 'Accompany': 2, 'Concurrency': 3}
+    tag_to_score:                  {0: 6, 1: 6, 2: 6, 3: 6}
+    do_train:                      True
+    do_eval:                       True
+    no_gpu:                        False
+    gradient_accumulation_steps:   1
+    optimize_on_cpu:               False
+    fp16:                          False
+    loss_scale:                    128
+    local_rank:                    -1
+    no_cuda:                       False
+
+07/05/2021 16:51:44 - INFO - utils.configuration_utils -   loading configuration file config/relation_base_config.json
+07/05/2021 16:51:44 - INFO - utils.configuration_utils -   Model config ElectraConfig {
+  "attention_probs_dropout_prob": 0.1,
+  "embedding_size": 1024,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "electra",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 4,
+  "pad_token_id": 0,
+  "rnn_num_layers": 2,
+  "summary_activation": "gelu",
+  "summary_last_dropout": 0.1,
+  "summary_type": "first",
+  "summary_use_proj": true,
+  "type_vocab_size": 2,
+  "vocab_size": 21128
+}
+
+{'return_dict': False, 'output_hidden_states': False, 'output_attentions': False, 'use_cache': True, 'torchscript': False, 'use_bfloat16': False, 'pruned_heads': {}, 'tie_word_embeddings': True, 'is_encoder_decoder': False, 'is_decoder': False, 'add_cross_attention': False, 'tie_encoder_decoder': False, 'max_length': 20, 'min_length': 0, 'do_sample': False, 'early_stopping': False, 'num_beams': 1, 'temperature': 1.0, 'top_k': 50, 'top_p': 1.0, 'repetition_penalty': 1.0, 'length_penalty': 1.0, 'no_repeat_ngram_size': 0, 'bad_words_ids': None, 'num_return_sequences': 1, 'chunk_size_feed_forward': 0, 'architectures': None, 'finetuning_task': None, 'id2label': {0: 'LABEL_0', 1: 'LABEL_1'}, 'label2id': {'LABEL_0': 0, 'LABEL_1': 1}, 'tokenizer_class': None, 'prefix': None, 'bos_token_id': None, 'pad_token_id': 0, 'eos_token_id': None, 'sep_token_id': None, 'decoder_start_token_id': None, 'task_specific_params': None, 'xla_device': None, '_name_or_path': '', 'rnn_num_layers': 2, 'model_type': 'electra', 'vocab_size': 21128, 'embedding_size': 1024, 'hidden_size': 1024, 'num_hidden_layers': 4, 'num_attention_heads': 16, 'intermediate_size': 4096, 'hidden_act': 'gelu', 'hidden_dropout_prob': 0.1, 'attention_probs_dropout_prob': 0.1, 'max_position_embeddings': 512, 'type_vocab_size': 2, 'initializer_range': 0.02, 'layer_norm_eps': 1e-12, 'summary_type': 'first', 'summary_use_proj': True, 'summary_activation': 'gelu', 'summary_last_dropout': 0.1}
+07/05/2021 16:51:47 - INFO - utils.modeling_utils -   loading weights file checkpoint/event_element/2021-5-24bb_embedding.bin
+07/05/2021 16:51:47 - WARNING - utils.modeling_utils -   Some weights of the model checkpoint at checkpoint/event_element/2021-5-24bb_embedding.bin were not used when initializing MyElectraModel: ['embedding.embeddings.word_embeddings.weight', 'embedding.embeddings.position_embeddings.weight', 'embedding.embeddings.token_type_embeddings.weight', 'embedding.LayerNorm.weight', 'embedding.LayerNorm.bias', 'self_encoder1.weight_ih_l0', 'self_encoder1.weight_hh_l0', 'self_encoder1.bias_ih_l0', 'self_encoder1.bias_hh_l0', 'self_encoder1.weight_ih_l0_reverse', 'self_encoder1.weight_hh_l0_reverse', 'self_encoder1.bias_ih_l0_reverse', 'self_encoder1.bias_hh_l0_reverse', 'self_encoder1.weight_ih_l1', 'self_encoder1.weight_hh_l1', 'self_encoder1.bias_ih_l1', 'self_encoder1.bias_hh_l1', 'self_encoder1.weight_ih_l1_reverse', 'self_encoder1.weight_hh_l1_reverse', 'self_encoder1.bias_ih_l1_reverse', 'self_encoder1.bias_hh_l1_reverse', 'self_encoder2.output.intermediate1.weight', 'self_encoder2.output.intermediate1.bias', 'self_encoder2.output.dense1.weight', 'self_encoder2.output.dense1.bias', 'self_encoder2.output.intermediate2.weight', 'self_encoder2.output.intermediate2.bias', 'self_encoder2.output.dense2.weight', 'self_encoder2.output.dense2.bias', 'self_encoder2.layer_shared1.0.attention.self.query.weight', 'self_encoder2.layer_shared1.0.attention.self.query.bias', 'self_encoder2.layer_shared1.0.attention.self.key.weight', 'self_encoder2.layer_shared1.0.attention.self.key.bias', 'self_encoder2.layer_shared1.0.attention.self.value.weight', 'self_encoder2.layer_shared1.0.attention.self.value.bias', 'self_encoder2.layer_shared1.0.attention.output.dense.weight', 'self_encoder2.layer_shared1.0.attention.output.dense.bias', 'self_encoder2.layer_shared1.0.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared1.0.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared1.0.intermediate.dense.weight', 'self_encoder2.layer_shared1.0.intermediate.dense.bias', 'self_encoder2.layer_shared1.0.output.dense.weight', 'self_encoder2.layer_shared1.0.output.dense.bias', 'self_encoder2.layer_shared1.0.output.LayerNorm.weight', 'self_encoder2.layer_shared1.0.output.LayerNorm.bias', 'self_encoder2.layer_shared1.1.attention.self.query.weight', 'self_encoder2.layer_shared1.1.attention.self.query.bias', 'self_encoder2.layer_shared1.1.attention.self.key.weight', 'self_encoder2.layer_shared1.1.attention.self.key.bias', 'self_encoder2.layer_shared1.1.attention.self.value.weight', 'self_encoder2.layer_shared1.1.attention.self.value.bias', 'self_encoder2.layer_shared1.1.attention.output.dense.weight', 'self_encoder2.layer_shared1.1.attention.output.dense.bias', 'self_encoder2.layer_shared1.1.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared1.1.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared1.1.intermediate.dense.weight', 'self_encoder2.layer_shared1.1.intermediate.dense.bias', 'self_encoder2.layer_shared1.1.output.dense.weight', 'self_encoder2.layer_shared1.1.output.dense.bias', 'self_encoder2.layer_shared1.1.output.LayerNorm.weight', 'self_encoder2.layer_shared1.1.output.LayerNorm.bias', 'self_encoder2.layer_shared1.2.attention.self.query.weight', 'self_encoder2.layer_shared1.2.attention.self.query.bias', 'self_encoder2.layer_shared1.2.attention.self.key.weight', 'self_encoder2.layer_shared1.2.attention.self.key.bias', 'self_encoder2.layer_shared1.2.attention.self.value.weight', 'self_encoder2.layer_shared1.2.attention.self.value.bias', 'self_encoder2.layer_shared1.2.attention.output.dense.weight', 'self_encoder2.layer_shared1.2.attention.output.dense.bias', 'self_encoder2.layer_shared1.2.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared1.2.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared1.2.intermediate.dense.weight', 'self_encoder2.layer_shared1.2.intermediate.dense.bias', 'self_encoder2.layer_shared1.2.output.dense.weight', 'self_encoder2.layer_shared1.2.output.dense.bias', 'self_encoder2.layer_shared1.2.output.LayerNorm.weight', 'self_encoder2.layer_shared1.2.output.LayerNorm.bias', 'self_encoder2.layer_shared1.3.attention.self.query.weight', 'self_encoder2.layer_shared1.3.attention.self.query.bias', 'self_encoder2.layer_shared1.3.attention.self.key.weight', 'self_encoder2.layer_shared1.3.attention.self.key.bias', 'self_encoder2.layer_shared1.3.attention.self.value.weight', 'self_encoder2.layer_shared1.3.attention.self.value.bias', 'self_encoder2.layer_shared1.3.attention.output.dense.weight', 'self_encoder2.layer_shared1.3.attention.output.dense.bias', 'self_encoder2.layer_shared1.3.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared1.3.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared1.3.intermediate.dense.weight', 'self_encoder2.layer_shared1.3.intermediate.dense.bias', 'self_encoder2.layer_shared1.3.output.dense.weight', 'self_encoder2.layer_shared1.3.output.dense.bias', 'self_encoder2.layer_shared1.3.output.LayerNorm.weight', 'self_encoder2.layer_shared1.3.output.LayerNorm.bias', 'self_encoder2.layer_shared2.0.attention.self.query.weight', 'self_encoder2.layer_shared2.0.attention.self.query.bias', 'self_encoder2.layer_shared2.0.attention.self.key.weight', 'self_encoder2.layer_shared2.0.attention.self.key.bias', 'self_encoder2.layer_shared2.0.attention.self.value.weight', 'self_encoder2.layer_shared2.0.attention.self.value.bias', 'self_encoder2.layer_shared2.0.attention.output.dense.weight', 'self_encoder2.layer_shared2.0.attention.output.dense.bias', 'self_encoder2.layer_shared2.0.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared2.0.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared2.0.intermediate.dense.weight', 'self_encoder2.layer_shared2.0.intermediate.dense.bias', 'self_encoder2.layer_shared2.0.output.dense.weight', 'self_encoder2.layer_shared2.0.output.dense.bias', 'self_encoder2.layer_shared2.0.output.LayerNorm.weight', 'self_encoder2.layer_shared2.0.output.LayerNorm.bias', 'self_encoder2.layer_shared2.1.attention.self.query.weight', 'self_encoder2.layer_shared2.1.attention.self.query.bias', 'self_encoder2.layer_shared2.1.attention.self.key.weight', 'self_encoder2.layer_shared2.1.attention.self.key.bias', 'self_encoder2.layer_shared2.1.attention.self.value.weight', 'self_encoder2.layer_shared2.1.attention.self.value.bias', 'self_encoder2.layer_shared2.1.attention.output.dense.weight', 'self_encoder2.layer_shared2.1.attention.output.dense.bias', 'self_encoder2.layer_shared2.1.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared2.1.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared2.1.intermediate.dense.weight', 'self_encoder2.layer_shared2.1.intermediate.dense.bias', 'self_encoder2.layer_shared2.1.output.dense.weight', 'self_encoder2.layer_shared2.1.output.dense.bias', 'self_encoder2.layer_shared2.1.output.LayerNorm.weight', 'self_encoder2.layer_shared2.1.output.LayerNorm.bias', 'self_encoder2.layer_shared2.2.attention.self.query.weight', 'self_encoder2.layer_shared2.2.attention.self.query.bias', 'self_encoder2.layer_shared2.2.attention.self.key.weight', 'self_encoder2.layer_shared2.2.attention.self.key.bias', 'self_encoder2.layer_shared2.2.attention.self.value.weight', 'self_encoder2.layer_shared2.2.attention.self.value.bias', 'self_encoder2.layer_shared2.2.attention.output.dense.weight', 'self_encoder2.layer_shared2.2.attention.output.dense.bias', 'self_encoder2.layer_shared2.2.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared2.2.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared2.2.intermediate.dense.weight', 'self_encoder2.layer_shared2.2.intermediate.dense.bias', 'self_encoder2.layer_shared2.2.output.dense.weight', 'self_encoder2.layer_shared2.2.output.dense.bias', 'self_encoder2.layer_shared2.2.output.LayerNorm.weight', 'self_encoder2.layer_shared2.2.output.LayerNorm.bias', 'self_encoder2.layer_shared2.3.attention.self.query.weight', 'self_encoder2.layer_shared2.3.attention.self.query.bias', 'self_encoder2.layer_shared2.3.attention.self.key.weight', 'self_encoder2.layer_shared2.3.attention.self.key.bias', 'self_encoder2.layer_shared2.3.attention.self.value.weight', 'self_encoder2.layer_shared2.3.attention.self.value.bias', 'self_encoder2.layer_shared2.3.attention.output.dense.weight', 'self_encoder2.layer_shared2.3.attention.output.dense.bias', 'self_encoder2.layer_shared2.3.attention.output.LayerNorm.weight', 'self_encoder2.layer_shared2.3.attention.output.LayerNorm.bias', 'self_encoder2.layer_shared2.3.intermediate.dense.weight', 'self_encoder2.layer_shared2.3.intermediate.dense.bias', 'self_encoder2.layer_shared2.3.output.dense.weight', 'self_encoder2.layer_shared2.3.output.dense.bias', 'self_encoder2.layer_shared2.3.output.LayerNorm.weight', 'self_encoder2.layer_shared2.3.output.LayerNorm.bias']
+- This IS expected if you are initializing MyElectraModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing MyElectraModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+07/05/2021 16:51:47 - WARNING - utils.modeling_utils -   Some weights of MyElectraModel were not initialized from the model checkpoint at checkpoint/event_element/2021-5-24bb_embedding.bin and are newly initialized: ['embeddings.word_embeddings.weight', 'embeddings.position_embeddings.weight', 'embeddings.token_type_embeddings.weight', 'LayerNorm.weight', 'LayerNorm.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+Ranger optimizer loaded.
+Gradient Centralization usage = True
+GC applied to both conv and fc layers
+Epochs:   0%|          | 0/20 [00:00<?, ?it/s]..\torch\csrc\utils\python_arg_parser.cpp:756: UserWarning: This overload of addcmul_ is deprecated:
+	addcmul_(Number value, Tensor tensor1, Tensor tensor2)
+Consider using one of the following signatures instead:
+	addcmul_(Tensor tensor1, Tensor tensor2, *, Number value)
+07/05/2021 16:53:27 - INFO - utils.process_control -   mymodel训练损失:10.9714,准确率为：37.78%,测试集准确率为：56.51%,测试集f1为：33.54%
+[[114.  50.   0.   9.]
+ [ 21. 142.   0.   6.]
+ [  7.  96.   0.   4.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.659	0.8402	0.0	0.0
+
+R
+0.7972	0.4913	-	0.0
+
+F1
+Epochs:   5%|▌         | 1/20 [01:40<31:53, 100.71s/it]07/05/2021 16:55:09 - INFO - utils.process_control -   mymodel训练损失:9.3414,准确率为：55.44%,测试集准确率为：61.62%,测试集f1为：35.39%
+0.7215	0.6201	-	-	[[130.  41.   0.   2.]
+ [ 21. 146.   0.   2.]
+ [ 18.  87.   0.   2.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7514	0.8639	0.0	0.0
+
+R
+0.7647	0.5309	-	0.0
+
+F1
+Epochs:  10%|█         | 2/20 [03:22<30:18, 101.03s/it]07/05/2021 16:56:52 - INFO - utils.process_control -   mymodel训练损失:7.5888,准确率为：63.67%,测试集准确率为：59.94%,测试集f1为：34.68%
+0.758	0.6577	-	-	[[119.  53.   1.   0.]
+ [ 17. 151.   1.   0.]
+ [  9.  97.   0.   1.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.6879	0.8935	0.0	0.0
+
+R
+0.8151	0.5	0.0	0.0
+
+F1
+Epochs:  15%|█▌        | 3/20 [05:04<28:43, 101.41s/it]07/05/2021 16:58:34 - INFO - utils.process_control -   mymodel训练损失:6.3999,准确率为：69.11%,测试集准确率为：67.18%,测试集f1为：39.74%
+0.7461	0.6412	-	-	[[150.  22.   1.   0.]
+ [ 16. 150.   3.   0.]
+ [ 21.  83.   3.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.8671	0.8876	0.028	0.0
+
+R
+0.7979	0.5859	0.4286	-
+
+F1
+Epochs:  20%|██        | 4/20 [06:47<27:06, 101.67s/it]07/05/2021 17:00:17 - INFO - utils.process_control -   mymodel训练损失:5.3646,准确率为：72.50%,测试集准确率为：66.45%,测试集f1为：41.90%
+0.831	0.7059	0.0526	-	[[149.  23.   1.   0.]
+ [ 22. 144.   3.   0.]
+ [ 23.  74.  10.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.8613	0.8521	0.0935	0.0
+
+R
+0.7641	0.595	0.7143	-
+
+F1
+Epochs:  25%|██▌       | 5/20 [08:29<25:28, 101.93s/it]07/05/2021 17:01:59 - INFO - utils.process_control -   mymodel训练损失:4.8736,准确率为：73.56%,测试集准确率为：64.55%,测试集f1为：37.87%
+0.8098	0.7007	0.1653	-	[[138.  29.   6.   0.]
+ [ 13. 152.   4.   0.]
+ [ 17.  89.   1.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7977	0.8994	0.0093	0.0
+
+R
+0.8166	0.5609	0.0909	-
+
+F1
+Epochs:  30%|███       | 6/20 [10:11<23:49, 102.07s/it]07/05/2021 17:03:41 - INFO - utils.process_control -   mymodel训练损失:4.2563,准确率为：74.72%,测试集准确率为：66.30%,测试集f1为：40.66%
+0.807	0.6909	0.0169	-	[[133.  35.   5.   0.]
+ [  5. 160.   4.   0.]
+ [ 10.  91.   6.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7688	0.9467	0.0561	0.0
+
+R
+0.8926	0.5575	0.4	-
+
+F1
+Epochs:  35%|███▌      | 7/20 [11:54<22:08, 102.19s/it]07/05/2021 17:05:24 - INFO - utils.process_control -   mymodel训练损失:3.9057,准确率为：74.78%,测试集准确率为：65.57%,测试集f1为：39.25%
+0.8261	0.7018	0.0984	-	[[135.  36.   2.   0.]
+ [ 10. 155.   4.   0.]
+ [ 12.  91.   4.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7803	0.9172	0.0374	0.0
+
+R
+0.8544	0.5477	0.4	-
+
+F1
+Epochs:  40%|████      | 8/20 [13:36<20:27, 102.28s/it]07/05/2021 17:07:06 - INFO - utils.process_control -   mymodel训练损失:3.7909,准确率为：75.61%,测试集准确率为：64.40%,测试集f1为：38.84%
+0.8157	0.6858	0.0684	-	[[132.  34.   7.   0.]
+ [  9. 157.   3.   0.]
+ [  9.  95.   3.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.763	0.929	0.028	0.0
+
+R
+0.8742	0.547	0.2308	-
+
+F1
+Epochs:  45%|████▌     | 9/20 [15:19<18:46, 102.37s/it]07/05/2021 17:08:49 - INFO - utils.process_control -   mymodel训练损失:3.6635,准确率为：74.67%,测试集准确率为：66.08%,测试集f1为：40.57%
+0.8148	0.6886	0.05	-	[[143.  24.   6.   0.]
+ [ 17. 148.   4.   0.]
+ [ 19.  81.   7.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.8266	0.8757	0.0654	0.0
+
+R
+0.7944	0.5827	0.4118	-
+
+F1
+Epochs:  50%|█████     | 10/20 [17:02<17:04, 102.41s/it]07/05/2021 17:10:32 - INFO - utils.process_control -   mymodel训练损失:3.5379,准确率为：75.33%,测试集准确率为：66.52%,测试集f1为：42.03%
+0.8102	0.6998	0.1129	-	[[140.  28.   5.   0.]
+ [ 15. 149.   5.   0.]
+ [ 16.  80.  11.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.8092	0.8817	0.1028	0.0
+
+R
+0.814	0.5775	0.5238	-
+
+F1
+Epochs:  55%|█████▌    | 11/20 [18:44<15:22, 102.46s/it]07/05/2021 17:12:14 - INFO - utils.process_control -   mymodel训练损失:3.4296,准确率为：74.39%,测试集准确率为：67.32%,测试集f1为：42.60%
+0.8116	0.6979	0.1719	-	[[140.  28.   5.   0.]
+ [ 15. 150.   4.   0.]
+ [ 13.  82.  12.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.8092	0.8876	0.1121	0.0
+
+R
+0.8284	0.5747	0.5714	-
+
+F1
+Epochs:  60%|██████    | 12/20 [20:27<13:40, 102.54s/it]07/05/2021 17:13:57 - INFO - utils.process_control -   mymodel训练损失:3.4563,准确率为：75.17%,测试集准确率为：66.52%,测试集f1为：43.27%
+0.8187	0.6977	0.1875	-	[[128.  33.  12.   0.]
+ [  7. 157.   5.   0.]
+ [  8.  84.  15.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7399	0.929	0.1402	0.0
+
+R
+0.8889	0.5709	0.4688	-
+
+F1
+Epochs:  65%|██████▌   | 13/20 [22:10<11:59, 102.73s/it]07/05/2021 17:15:40 - INFO - utils.process_control -   mymodel训练损失:3.3974,准确率为：75.78%,测试集准确率为：64.04%,测试集f1为：40.01%
+0.8076	0.7072	0.2158	-	[[132.  33.   8.   0.]
+ [ 13. 153.   3.   0.]
+ [ 10.  90.   7.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.763	0.9053	0.0654	0.0
+
+R
+0.8462	0.5523	0.3889	-
+
+F1
+Epochs:  70%|███████   | 14/20 [23:53<10:16, 102.68s/it]07/05/2021 17:17:23 - INFO - utils.process_control -   mymodel训练损失:3.3091,准确率为：74.78%,测试集准确率为：65.57%,测试集f1为：43.04%
+0.8024	0.6861	0.112	-	[[136.  30.   7.   0.]
+ [ 14. 148.   7.   0.]
+ [ 12.  80.  15.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7861	0.8757	0.1402	0.0
+
+R
+0.8344	0.5714	0.5172	-
+
+F1
+Epochs:  75%|███████▌  | 15/20 [25:35<08:33, 102.67s/it]07/05/2021 17:19:05 - INFO - utils.process_control -   mymodel训练损失:3.2712,准确率为：75.33%,测试集准确率为：65.42%,测试集f1为：42.09%
+0.8095	0.6916	0.2206	-	[[128.  36.   9.   0.]
+ [ 10. 154.   5.   0.]
+ [  9.  85.  13.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7399	0.9112	0.1215	0.0
+
+R
+0.8649	0.558	0.4815	-
+
+F1
+Epochs:  80%|████████  | 16/20 [27:18<06:50, 102.58s/it]07/05/2021 17:20:48 - INFO - utils.process_control -   mymodel训练损失:3.2255,准确率为：75.89%,测试集准确率为：64.69%,测试集f1为：42.04%
+0.7975	0.6921	0.194	-	[[117.  38.  18.   0.]
+ [  5. 158.   6.   0.]
+ [  4.  88.  15.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.6763	0.9349	0.1402	0.0
+
+R
+0.9213	0.5544	0.3846	-
+
+F1
+Epochs:  85%|████████▌ | 17/20 [29:00<05:07, 102.59s/it]07/05/2021 17:22:31 - INFO - utils.process_control -   mymodel训练损失:3.1958,准确率为：76.94%,测试集准确率为：65.64%,测试集f1为：42.99%
+0.78	0.696	0.2055	-	[[128.  34.  11.   0.]
+ [ 11. 152.   6.   0.]
+ [  7.  84.  16.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7399	0.8994	0.1495	0.0
+
+R
+0.8707	0.5609	0.4848	-
+
+F1
+Epochs:  90%|█████████ | 18/20 [30:44<03:26, 103.08s/it]07/05/2021 17:24:15 - INFO - utils.process_control -   mymodel训练损失:3.1735,准确率为：76.44%,测试集准确率为：64.91%,测试集f1为：41.87%
+0.8	0.6909	0.2286	-	[[125.  36.  12.   0.]
+ [ 10. 152.   7.   0.]
+ [  8.  85.  14.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.7225	0.8994	0.1308	0.0
+
+R
+0.8681	0.5547	0.4242	-
+
+F1
+Epochs:  95%|█████████▌| 19/20 [32:27<01:42, 102.94s/it]07/05/2021 17:25:57 - INFO - utils.process_control -   mymodel训练损失:3.1559,准确率为：77.44%,测试集准确率为：65.42%,测试集f1为：43.96%
+0.7886	0.6862	0.2	-	[[121.  37.  15.   0.]
+ [  7. 153.   9.   0.]
+ [  5.  81.  21.   0.]
+ [  1.   1.   0.   0.]]
+
+
+P
+0.6994	0.9053	0.1963	0.0
+
+R
+0.903	0.5625	0.4667	-
+
+F1
+Epochs: 100%|██████████| 20/20 [34:11<00:00, 102.56s/it]
+0.7883	0.6939	0.2763	-	绘制误差与测试集准确率变化曲线
+
+Process finished with exit code 0
